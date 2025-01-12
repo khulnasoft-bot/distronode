@@ -1,0 +1,2 @@
+bugfixes:
+  - lib/distronode/utils/encrypt.py - remove unused private ``_LOCK`` (https://github.com/distronode/distronode/issues/81613)

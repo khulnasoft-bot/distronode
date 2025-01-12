@@ -1,0 +1,9 @@
+---
+- name: test Distronode.Privilege.cs
+  distronode_privilege_tests:
+  register: distronode_privilege_test
+
+- name: assert test Distronode.Privilege.cs
+  assert:
+    that:
+    - distronode_privilege_test.data == "success"

@@ -1,0 +1,3 @@
+---
+bugfixes:
+- galaxy - cross check the collection type and collection source (https://github.com/distronode/distronode/issues/79463).

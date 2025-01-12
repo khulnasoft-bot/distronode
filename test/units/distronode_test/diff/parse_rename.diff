@@ -1,0 +1,8 @@
+diff --git a/packaging/debian/distronode-base.dirs b/packaging/debian/distronode-core.dirs
+similarity index 100%
+rename from packaging/debian/distronode-base.dirs
+rename to packaging/debian/distronode-core.dirs
+diff --git a/packaging/debian/distronode-base.install b/packaging/debian/distronode-core.install
+similarity index 100%
+rename from packaging/debian/distronode-base.install
+rename to packaging/debian/distronode-core.install

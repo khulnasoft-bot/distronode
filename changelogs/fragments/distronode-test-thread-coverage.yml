@@ -1,0 +1,2 @@
+minor_changes:
+  - distronode-test - Enable ``thread`` code coverage in addition to the existing ``multiprocessing`` coverage.

@@ -1,0 +1,2 @@
+minor_changes:
+- distronode-galaxy - Remove internal configuration argument ``v3`` (https://github.com/distronode/distronode/pull/80721)

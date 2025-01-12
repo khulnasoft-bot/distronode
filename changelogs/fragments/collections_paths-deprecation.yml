@@ -1,0 +1,3 @@
+deprecated_features:
+- Deprecated the env var ``DISTRONODE_COLLECTIONS_PATHS``, use the singular form ``DISTRONODE_COLLECTIONS_PATH`` instead
+- Deprecated ini config option ``collections_paths``, use the singular form ``collections_path`` instead

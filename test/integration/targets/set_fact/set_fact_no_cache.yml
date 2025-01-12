@@ -1,0 +1,39 @@
+---
+- name: Running with fact caching enabled but with cache flushed
+  hosts: localhost
+  tasks:
+    - name: show distronode_foobar fact
+      debug:
+        var: distronode_foobar
+
+    - name: assert distronode_foobar is correct value
+      assert:
+        that:
+          - distronode_foobar is undefined
+
+    - name: show distronode_foobar_not_cached fact
+      debug:
+        var: distronode_foobar_not_cached
+
+    - name: assert distronode_foobar_not_cached is not cached
+      assert:
+        that:
+          - distronode_foobar_not_cached is undefined
+
+    - name: show distronode_foobar fact (FQCN)
+      debug:
+        var: distronode_foobar_fqcn
+
+    - name: assert distronode_foobar is correct value (FQCN)
+      assert:
+        that:
+          - distronode_foobar_fqcn is undefined
+
+    - name: show distronode_foobar_not_cached fact (FQCN)
+      debug:
+        var: distronode_foobar_fqcn_not_cached
+
+    - name: assert distronode_foobar_not_cached is not cached (FQCN)
+      assert:
+        that:
+          - distronode_foobar_fqcn_not_cached is undefined

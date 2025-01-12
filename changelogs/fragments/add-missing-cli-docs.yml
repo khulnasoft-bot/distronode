@@ -1,0 +1,8 @@
+bugfixes:
+  - The ``distronode-config init`` command now has a documentation description.
+  - The ``distronode-galaxy collection download`` command now has a documentation description.
+  - The ``distronode-galaxy collection verify`` command now has a documentation description.
+  - The ``distronode-inventory`` command command now has a documentation description (previously used as the epilog).
+  - The ``distronode-galaxy collection install`` command documentation is now visible (previously hidden by a decorator).
+  - The ``distronode-galaxy role install`` command documentation is now visible (previously hidden by a decorator).
+  - Fix ``distronode-config init`` man page option indentation.

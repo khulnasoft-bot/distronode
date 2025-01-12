@@ -1,0 +1,9 @@
+# ungrouped
+camel genus=camelus distronode_connection=local
+
+[lamini]
+alpaca genus=vicugna
+llama genus=lama
+
+[lamini:vars]
+distronode_connection=local

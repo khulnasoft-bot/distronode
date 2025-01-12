@@ -1,0 +1,10 @@
+#SPDX-License-Identifier: MIT-0
+FROM distronodeplaybookbundle/apb-base
+
+LABEL "com.redhat.apb.spec"=\
+""
+
+COPY playbooks /opt/apb/actions
+COPY . /opt/distronode/roles/{{ role_name }}
+RUN chmod -R g=u /opt/{distronode,apb}
+USER apb

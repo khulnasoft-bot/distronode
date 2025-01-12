@@ -1,0 +1,5 @@
+[all]
+local-[1:10]
+
+[all:vars]
+distronode_connection=local

@@ -1,0 +1,7 @@
+[paramiko_ssh]
+paramiko_ssh-pipelining    distronode_ssh_pipelining=true
+paramiko_ssh-no-pipelining distronode_ssh_pipelining=false
+[paramiko_ssh:vars]
+distronode_host={{ 'localhost'|string }}
+distronode_connection=paramiko_ssh
+distronode_python_interpreter="{{ distronode_playbook_python }}"

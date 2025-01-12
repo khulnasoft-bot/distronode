@@ -1,0 +1,23 @@
+- hosts: testhost
+  tasks:
+    - name: check that facts were gathered but no local facts exist
+      assert:
+        that:
+            - distronode_facts is defined and 'fqdn' in distronode_facts
+            - not 'uuid' in distronode_local
+    - name: create 'local facts' for next gathering
+      copy:
+        src: uuid.fact
+        dest: /etc/distronode/facts.d/
+        mode: 0755
+
+- hosts: testhost
+  tasks:
+    - name: ensure facts are gathered and includes the new 'local facts' created above
+      assert:
+        that:
+            - distronode_facts is defined and 'fqdn' in distronode_facts
+            - "'uuid' in distronode_local"
+
+    - name: cleanup 'local facts' from target
+      file: path=/etc/distronode/facts.d/uuid.fact state=absent

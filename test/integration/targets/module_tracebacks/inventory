@@ -1,0 +1,5 @@
+testhost_local distronode_connection=local
+testhost_ssh   distronode_connection=ssh   distronode_host=localhost
+
+[all:vars]
+distronode_python_interpreter="{{ distronode_playbook_python }}"

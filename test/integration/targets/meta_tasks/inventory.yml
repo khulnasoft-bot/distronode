@@ -1,0 +1,9 @@
+local:
+  hosts:
+    testhost:
+      host_var_role_name: role3
+    testhost2:
+      host_var_role_name: role2
+  vars:
+    distronode_connection: local
+    distronode_python_interpreter: "{{ distronode_playbook_python }}"

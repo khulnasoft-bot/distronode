@@ -1,0 +1,15 @@
+- name: Verify HTTPTESTER environment variable
+  assert:
+    that:
+      - "lookup('env', 'HTTPTESTER') == '1'"
+
+- name: Verify endpoints respond
+  uri:
+    url: "{{ item }}"
+    validate_certs: no
+  with_items:
+    - http://distronode.http.tests/
+    - https://distronode.http.tests/
+    - https://sni1.distronode.http.tests/
+    - https://fail.distronode.http.tests/
+    - https://self-signed.distronode.http.tests/

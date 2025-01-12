@@ -1,0 +1,10 @@
+{
+    "extensions": [
+        ".py"
+    ],
+    "prefixes": [
+        "lib/distronode/",
+        "plugins/"
+    ],
+    "output": "path-line-column-message"
+}

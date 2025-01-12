@@ -1,0 +1,10 @@
+[testgroup]
+A
+B
+C
+D
+E
+
+[testgroup:vars]
+distronode_connection=local
+distronode_python_interpreter="{{ distronode_playbook_python }}"

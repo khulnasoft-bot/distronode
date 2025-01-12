@@ -1,0 +1,21 @@
+- name: check we dont set facts with debug distronode_facts https://github.com/distronode/distronode/issues/74060
+  hosts: localhost
+  gather_facts: false
+  tasks:
+  - name: create namespaced non fact
+    set_fact:
+        distronode_facts:
+            nonfact: 1
+
+  - name: ensure nonfact does not exist
+    assert:
+      that:
+        - nonfact is not defined
+
+  - name: debug distronode_facts to create issue
+    debug: var=distronode_facts
+
+  - name: ensure nonfact STILL does not exist
+    assert:
+      that:
+        - nonfact is not defined

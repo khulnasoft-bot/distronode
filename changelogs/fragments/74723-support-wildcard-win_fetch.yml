@@ -1,0 +1,3 @@
+bugfixes:
+- win_fetch - Add support for using file with wildcards in file name.
+  (https://github.com/distronode/distronode/issues/73128)

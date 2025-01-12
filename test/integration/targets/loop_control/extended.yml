@@ -1,0 +1,23 @@
+- name: loop_control/extended/include https://github.com/distronode/distronode/issues/61218
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: loop on an include
+      include_tasks: inner.yml
+      loop:
+        - first
+        - second
+        - third
+      loop_control:
+        extended: yes
+
+    - debug:
+        var: distronode_loop
+      loop:
+        - first
+        - second
+        - third
+      loop_control:
+        extended: yes
+        extended_allitems: no
+      failed_when: distronode_loop.allitems is defined

@@ -1,0 +1,5 @@
+- name: Assert distronode_loop_var and distronode_index_var are defined with correct values
+  assert:
+    that:
+      - distronode_loop_var is defined and distronode_index_var is defined
+      - distronode_loop_var == "should_show_up_loop" and distronode_index_var == "should_show_up_index"

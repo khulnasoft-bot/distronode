@@ -1,0 +1,15 @@
+{
+    "prefixes": [
+        "lib/distronode/",
+        "packaging/",
+        "test/lib/distronode_test/",
+        "test/sanity/",
+        "test/units/"
+    ],
+    "extensions": [
+        ".py"
+    ],
+    "multi_version": "controller",
+    "error_code": "distronode-test",
+    "output": "path-line-column-code-message"
+}

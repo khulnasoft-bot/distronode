@@ -1,0 +1,9 @@
+- name: Get module_utils distronode_release vars
+  distronode_release:
+  register: distronode_release
+
+- assert:
+    that:
+      - distronode_release['version'][0]|int != 0
+      - distronode_release['author'] == 'Distronode, Inc.'
+      - distronode_release['codename']|length > 0

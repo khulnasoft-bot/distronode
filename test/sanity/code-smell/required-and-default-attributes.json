@@ -1,0 +1,9 @@
+{
+    "prefixes": [
+        "lib/distronode/"
+    ],
+    "extensions": [
+        ".py"
+    ],
+    "output": "path-line-column-message"
+}

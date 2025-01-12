@@ -1,0 +1,4 @@
+collections:
+- distronode.builtin
+- testns.coll_in_sys
+- bogus.fromrolemeta

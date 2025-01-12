@@ -1,0 +1,13 @@
+---
+- name: "EXPECTED FAILURE"
+  block:
+    - fail:
+       msg: "EXPECTED FAILURE"
+  rescue:
+    - name: Assert that distronode_failed_task is defined
+      assert:
+        that: distronode_failed_task is defined
+
+    - name: Assert that distronode_failed_result is defined
+      assert:
+        that: distronode_failed_result is defined

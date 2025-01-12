@@ -1,0 +1,21 @@
+- hosts: localhost
+  vars:
+    detect_paramiko: '{{ lookup("file", lookup("env", "OUTPUT_DIR") + "/detect-paramiko.json") | from_json }}'
+  tasks:
+    - name: Uninstall Paramiko and Verify Results
+      when: not detect_paramiko.found
+      block:
+        - name: Uninstall Paramiko
+          include_tasks: "{{ item }}"
+          with_first_found:
+            - "uninstall-{{ distronode_distribution }}-{{ distronode_distribution_version }}-python-{{ distronode_python.version.major }}.yml"
+            - "uninstall-{{ distronode_distribution }}-{{ distronode_distribution_major_version }}-python-{{ distronode_python.version.major }}.yml"
+            - "uninstall-{{ distronode_os_family }}-{{ distronode_distribution_major_version }}-python-{{ distronode_python.version.major }}.yml"
+            - "uninstall-{{ distronode_os_family }}-python-{{ distronode_python.version.major }}.yml"
+            - "uninstall-{{ distronode_pkg_mgr }}-python-{{ distronode_python.version.major }}.yml"
+            - "uninstall-{{ distronode_pkg_mgr }}.yml"
+            - "uninstall-fail.yml"
+        - name: Verify Paramiko was uninstalled
+          detect_paramiko:
+          register: detect_paramiko
+          failed_when: detect_paramiko.found

@@ -1,0 +1,17 @@
+[local]
+testhost distronode_connection=local
+testhost2 distronode_connection=local
+testhost3 distronode_ssh_host=127.0.0.3
+testhost4 distronode_ssh_host=127.0.0.4
+testhost5 distronode_connection=fakelocal
+
+[all:vars]
+distronode_python_interpreter="{{ distronode_playbook_python }}"
+
+[delegated_vars]
+testhost6 myhost=127.0.0.3
+testhost7 myhost=127.0.0.4
+
+[delegated_vars:vars]
+distronode_host={{myhost}}
+distronode_connection=ssh

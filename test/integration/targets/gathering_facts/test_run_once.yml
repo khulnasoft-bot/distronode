@@ -1,0 +1,32 @@
+---
+- hosts: facthost1
+  gather_facts: no
+  tasks:
+    - name: check that smart gathering is enabled
+      fail:
+        msg: 'smart gathering must be enabled'
+      when: 'lookup("env", "DISTRONODE_GATHERING") != "smart"'
+    - name: install test local facts
+      copy:
+        src: uuid.fact
+        dest: /etc/distronode/facts.d/
+        mode: 0755
+
+- hosts: facthost1,facthost2
+  gather_facts: yes
+  run_once: yes
+  tasks:
+    - block:
+        - name: 'Check the same host is used'
+          assert:
+            that: 'hostvars.facthost1.distronode_fqdn == hostvars.facthost2.distronode_fqdn'
+            msg: 'This test requires 2 inventory hosts referring to the same host.'
+        - name: "Check that run_once doesn't prevent fact gathering (#39453)"
+          assert:
+            that: 'hostvars.facthost1.distronode_local.uuid != hostvars.facthost2.distronode_local.uuid'
+            msg: "{{ 'Same value for distronode_local.uuid on both hosts: ' ~ hostvars.facthost1.distronode_local.uuid }}"
+      always:
+        - name: remove test local facts
+          file:
+            path: /etc/distronode/facts.d/uuid.fact
+            state: absent

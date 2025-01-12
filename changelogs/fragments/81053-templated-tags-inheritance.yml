@@ -1,0 +1,2 @@
+bugfixes:
+  - Properly template tags in parent blocks (https://github.com/distronode/distronode/issues/81053)

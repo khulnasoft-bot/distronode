@@ -1,0 +1,9 @@
+- name: assert distronode_loop variables in include_tasks
+  assert:
+    that:
+      - distronode_loop.index == distronode_loop.index0 + 1
+      - distronode_loop.revindex == distronode_loop.revindex0 + 1
+      - distronode_loop.first == {{ distronode_loop.index == 1 }}
+      - distronode_loop.last == {{ distronode_loop.index == distronode_loop.length }}
+      - distronode_loop.length == 3
+      - distronode_loop.allitems|join(',') == 'first,second,third'

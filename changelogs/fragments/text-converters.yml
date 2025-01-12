@@ -1,0 +1,2 @@
+minor_changes:
+  - Use ``distronode.module_utils.common.text.converters`` instead of ``distronode.module_utils._text``.

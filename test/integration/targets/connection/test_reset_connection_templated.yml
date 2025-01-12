@@ -1,0 +1,7 @@
+- hosts: "{{ target_hosts }}"
+  gather_facts: false
+  vars:
+    distronode_ssh_executable: "{{ 'ssh' | trim }}"
+  tasks:
+    # https://github.com/distronode/distronode/issues/84238
+    - meta: reset_connection

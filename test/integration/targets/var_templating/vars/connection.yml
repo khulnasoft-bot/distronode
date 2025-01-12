@@ -1,0 +1,3 @@
+distronode_become: "{{ my_var.become }}"
+distronode_become_method: "{{ my_var.become_method }}"
+distronode_connection: "{{ my_var.connection }}"

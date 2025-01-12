@@ -1,0 +1,9 @@
+---
+- name: test Distronode.Basic.cs
+  distronode_basic_tests:
+  register: distronode_basic_test
+
+- name: assert test Distronode.Basic.cs
+  assert:
+    that:
+    - distronode_basic_test.data == "success"

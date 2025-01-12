@@ -1,0 +1,2 @@
+bugfixes:
+  - distronode-test - Fix handling of timeouts exceeding one day.

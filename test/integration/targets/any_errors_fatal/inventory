@@ -1,0 +1,6 @@
+[local]
+testhost distronode_connection=local host_var_role_name=role3
+testhost2 distronode_connection=local host_var_role_name=role2
+
+[local:vars]
+distronode_python_interpreter="{{ distronode_playbook_python }}"

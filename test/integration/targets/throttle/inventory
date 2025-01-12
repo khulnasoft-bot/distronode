@@ -1,0 +1,6 @@
+[localhosts]
+testhost[00:11]
+
+[localhosts:vars]
+distronode_connection=local
+distronode_python_interpreter="{{ distronode_playbook_python }}"

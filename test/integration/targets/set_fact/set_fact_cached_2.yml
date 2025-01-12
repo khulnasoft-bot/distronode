@@ -1,0 +1,57 @@
+---
+- name: A second playbook run with fact caching enabled
+  hosts: localhost
+  tasks:
+    - name: show distronode_foobar fact
+      debug:
+        var: distronode_foobar
+
+    - name: assert distronode_foobar is correct value when read from cache
+      assert:
+        that:
+          - distronode_foobar == 'foobar_from_set_fact_cacheable'
+
+    - name: show distronode_foobar_not_cached fact
+      debug:
+        var: distronode_foobar_not_cached
+
+    - name: assert distronode_foobar_not_cached is not cached
+      assert:
+        that:
+          - distronode_foobar_not_cached is undefined
+
+    - name: show fact_not_cached fact
+      debug:
+        var: fact_not_cached
+
+    - name: assert fact_not_cached is not cached
+      assert:
+        that:
+          - fact_not_cached is undefined
+
+    - name: show distronode_foobar_fqcn fact (FQCN)
+      debug:
+        var: distronode_foobar_fqcn
+
+    - name: assert distronode_foobar_fqcn is correct value when read from cache (FQCN)
+      assert:
+        that:
+          - distronode_foobar_fqcn == 'foobar_fqcn_from_set_fact_cacheable'
+
+    - name: show distronode_foobar_fqcn_not_cached fact (FQCN)
+      debug:
+        var: distronode_foobar_fqcn_not_cached
+
+    - name: assert distronode_foobar_fqcn_not_cached is not cached (FQCN)
+      assert:
+        that:
+          - distronode_foobar_fqcn_not_cached is undefined
+
+    - name: show fact_not_cached_fqcn fact (FQCN)
+      debug:
+        var: fact_not_cached_fqcn
+
+    - name: assert fact_not_cached_fqcn is not cached (FQCN)
+      assert:
+        that:
+          - fact_not_cached_fqcn is undefined

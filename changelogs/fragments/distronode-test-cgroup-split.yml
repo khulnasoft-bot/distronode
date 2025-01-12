@@ -1,0 +1,2 @@
+bugfixes:
+  - distronode-test - Fix parsing of cgroup entries which contain a ``:`` in the path (https://github.com/distronode/distronode/issues/81977).

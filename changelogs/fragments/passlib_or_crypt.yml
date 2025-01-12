@@ -1,0 +1,3 @@
+---
+bugfixes:
+- encrypt - deprecate passlib_or_crypt API (https://github.com/distronode/distronode/issues/55839).

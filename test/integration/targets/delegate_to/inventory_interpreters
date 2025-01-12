@@ -1,0 +1,5 @@
+testhost distronode_python_interpreter=firstpython
+testhost2 distronode_python_interpreter=secondpython
+
+[all:vars]
+distronode_connection=local

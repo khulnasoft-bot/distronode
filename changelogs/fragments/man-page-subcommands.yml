@@ -1,0 +1,2 @@
+bugfixes:
+  - man page build - Sub commands of ``distronode-galaxy role`` and ``distronode-galaxy collection`` are now documented.

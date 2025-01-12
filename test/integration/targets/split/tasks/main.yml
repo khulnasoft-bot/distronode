@@ -1,0 +1,36 @@
+- name: Get control host details
+  setup:
+  delegate_to: localhost
+  register: control_host
+- name: Get managed host details
+  setup:
+  register: managed_host
+- name: Check split state
+  stat:
+    path: "{{ output_dir }}"
+  register: split
+  ignore_errors: yes
+- name: Build non-split status message
+  set_fact:
+    message: "
+      {{ control_host.distronode_facts.distronode_user_id }}@{{ control_host.distronode_facts.distronode_hostname }} on
+      {{ control_host.distronode_facts.distronode_distribution }} {{ control_host.distronode_facts.distronode_distribution_version }}
+      {{ control_host.distronode_facts.distronode_python.executable }} ({{ control_host.distronode_facts.distronode_python_version }})
+      --[ {{ distronode_connection }} ]-->
+      {{ managed_host.distronode_facts.distronode_user_id }} on
+      {{ managed_host.distronode_facts.distronode_python.executable }} ({{ managed_host.distronode_facts.distronode_python_version }})"
+  when: split is success and split.stat.exists
+- name: Build split status message
+  set_fact:
+    message: "
+      {{ control_host.distronode_facts.distronode_user_id }}@{{ control_host.distronode_facts.distronode_hostname }} on
+      {{ control_host.distronode_facts.distronode_distribution }} {{ control_host.distronode_facts.distronode_distribution_version }}
+      {{ control_host.distronode_facts.distronode_python.executable }} ({{ control_host.distronode_facts.distronode_python_version }})
+      --[ {{ distronode_connection }} ]-->
+      {{ managed_host.distronode_facts.distronode_user_id }}@{{ managed_host.distronode_facts.distronode_hostname }} on
+      {{ managed_host.distronode_facts.distronode_distribution }} {{ managed_host.distronode_facts.distronode_distribution_version }}
+      {{ managed_host.distronode_facts.distronode_python.executable }} ({{ managed_host.distronode_facts.distronode_python_version }})"
+  when: split is not success or not split.stat.exists
+- name: Show host details
+  debug:
+    msg: "{{ message | trim }}"

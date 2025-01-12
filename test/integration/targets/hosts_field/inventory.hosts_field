@@ -1,0 +1,1 @@
+42 distronode_host=127.0.0.42 distronode_connection=local distronode_python_interpreter="{{ distronode_playbook_python }}"

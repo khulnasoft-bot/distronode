@@ -1,0 +1,7 @@
+[ssh]
+ssh-pipelining    distronode_ssh_pipelining=true
+ssh-no-pipelining distronode_ssh_pipelining=false
+[ssh:vars]
+distronode_host=localhost
+distronode_connection=ssh
+distronode_python_interpreter="{{ distronode_playbook_python }}"

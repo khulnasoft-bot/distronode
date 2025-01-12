@@ -1,0 +1,2 @@
+bugfixes:
+  - distronode-galaxy - fix installing collections from directories that have a trailing path separator (https://github.com/distronode/distronode/issues/77803).

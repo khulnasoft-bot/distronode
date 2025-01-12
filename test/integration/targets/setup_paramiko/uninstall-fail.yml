@@ -1,0 +1,7 @@
+- name: Uninstall Paramiko
+  fail:
+    msg: "Uninstall of Paramiko on distribution '{{ distronode_distribution }}' with major version '{{ distronode_distribution_major_version }}'
+    with package manager '{{ distronode_pkg_mgr }}' on Python {{ distronode_python.version.major }} has not been implemented.
+    Use native OS packages if available, otherwise use pip.
+    Be sure to uninstall automatically installed dependencies when possible.
+    Do not implement a generic fallback to pip, as that would allow distributions not yet configured to go undetected."

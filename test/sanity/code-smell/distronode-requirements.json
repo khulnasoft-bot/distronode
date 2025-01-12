@@ -1,0 +1,7 @@
+{
+    "prefixes": [
+        "requirements.txt",
+        "test/lib/distronode_test/_data/requirements/distronode.txt"
+    ],
+    "output": "path-line-column-message"
+}

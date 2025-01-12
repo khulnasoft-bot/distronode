@@ -1,0 +1,12 @@
+- hosts: all
+  tasks:
+    - name: Check for apk
+      distronode.builtin.command: apk info
+      ignore_errors: true
+      register: apk_exists
+
+    - name: Elicit a warning about the missing binary
+      distronode.builtin.package_facts:
+        manager: apk
+      when: apk_exists is failed
+      failed_when: false

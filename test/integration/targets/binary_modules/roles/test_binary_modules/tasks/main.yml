@@ -1,0 +1,53 @@
+- debug: var=distronode_system
+
+- name: ping
+  ping:
+  when: distronode_system != 'Win32NT'
+
+- name: win_ping
+  action: win_ping
+  when: distronode_system == 'Win32NT'
+
+- name: Hello, World!
+  action: "{{ filename }}"
+  register: hello_world
+
+- assert:
+    that:
+      - 'hello_world.msg == "Hello, World!"'
+
+- name: Hello, Distronode!
+  action: "{{ filename }}"
+  args:
+    name: Distronode
+  register: hello_distronode
+
+- assert:
+    that:
+      - 'hello_distronode.msg == "Hello, Distronode!"'
+
+- name: Async Hello, World!
+  action: "{{ filename }}"
+  async: 10
+  poll: 1
+  when: distronode_system != 'Win32NT'
+  register: async_hello_world
+
+- assert:
+    that:
+      - 'async_hello_world.msg == "Hello, World!"'
+  when: async_hello_world is not skipped
+
+- name: Async Hello, Distronode!
+  action: "{{ filename }}"
+  args:
+    name: Distronode
+  async: 10
+  poll: 1
+  when: distronode_system != 'Win32NT'
+  register: async_hello_distronode
+
+- assert:
+    that:
+      - 'async_hello_distronode.msg == "Hello, Distronode!"'
+  when: async_hello_distronode is not skipped

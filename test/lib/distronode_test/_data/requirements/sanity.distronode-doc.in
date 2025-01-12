@@ -1,0 +1,3 @@
+jinja2  # distronode-core requirement
+packaging  # distronode-core requirement
+pyyaml  # distronode-core requirement

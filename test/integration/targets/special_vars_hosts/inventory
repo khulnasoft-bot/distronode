@@ -1,0 +1,3 @@
+successful distronode_connection=local distronode_host=127.0.0.1 distronode_python_interpreter="{{ distronode_playbook_python }}"
+failed distronode_connection=local distronode_host=127.0.0.1 distronode_python_interpreter="{{ distronode_playbook_python }}"
+unreachable distronode_connection=ssh distronode_host=127.0.0.1 distronode_port=1011  # IANA Reserved port

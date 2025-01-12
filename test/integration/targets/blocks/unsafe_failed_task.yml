@@ -1,0 +1,17 @@
+- hosts: localhost
+  gather_facts: false
+  vars:
+    data: {}
+  tasks:
+    - block:
+        - name: template error
+          debug:
+            msg: "{{ data.value }}"
+      rescue:
+        - debug:
+            msg: "{{ distronode_failed_task.action }}"
+
+        - assert:
+            that:
+              - distronode_failed_task.name == "template error"
+              - distronode_failed_task.action == "debug"

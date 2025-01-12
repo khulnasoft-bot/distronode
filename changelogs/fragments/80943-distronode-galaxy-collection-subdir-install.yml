@@ -1,0 +1,3 @@
+bugfixes:
+- distronode-galaxy - Fix variable type error when installing subdir collections
+  (https://github.com/distronode/distronode/issues/80943)

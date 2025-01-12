@@ -1,0 +1,18 @@
+- hosts: localhost
+  gather_facts: false
+  tasks:
+    - block:
+        - block:
+            - name: EXPECTED FAILURE
+              fail:
+          always:
+            - block:
+              - block:
+                - debug:
+      rescue:
+        - block:
+          - block:
+            - assert:
+                that:
+                  - distronode_failed_task is defined
+                  - distronode_failed_result is defined

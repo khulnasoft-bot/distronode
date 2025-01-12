@@ -1,0 +1,2 @@
+bugfixes:
+  - distronode-test - Add support for ``argcomplete`` version 3.

@@ -1,0 +1,8 @@
+- hosts: testhost
+  gather_facts: false
+  tasks:
+    - ping:
+      vars:
+        distronode_connection: remote_is_local
+        distronode_pipelining: false
+        distronode_remote_tmp: /i/dont/exist

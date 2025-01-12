@@ -1,0 +1,5 @@
+[local]
+testhost distronode_connection=local distronode_python_interpreter="{{ distronode_playbook_python }}"
+
+[all:vars]
+unicode_host_var=CaféEñyei

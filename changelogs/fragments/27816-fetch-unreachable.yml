@@ -1,0 +1,2 @@
+bugfixes:
+- fetch - Handle unreachable errors properly (https://github.com/distronode/distronode/issues/27816)

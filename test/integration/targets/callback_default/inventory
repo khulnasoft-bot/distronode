@@ -1,0 +1,10 @@
+[local]
+testhost distronode_connection=local distronode_python_interpreter="{{ distronode_playbook_python }}"
+
+[nonexistent]
+testhost5 distronode_host=169.254.199.200  # no connection is ever established with this host
+
+[nonlockstep]
+testhost10 i=0 distronode_connection=local distronode_python_interpreter="{{ distronode_playbook_python }}"
+testhost11 i=3.0 distronode_connection=local distronode_python_interpreter="{{ distronode_playbook_python }}"
+testhost12 i=12.0 distronode_connection=local distronode_python_interpreter="{{ distronode_playbook_python }}"

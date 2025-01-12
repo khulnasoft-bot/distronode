@@ -1,0 +1,10 @@
+[windows]
+{% for host in vars.groups.windows %}
+{{ host }}  distronode_host={{ hostvars[host]['distronode_host'] }}{% if hostvars[host]['distronode_connection'] != 'ssh' %} distronode_port={{ hostvars[host]['distronode_port'] }}{% endif %} distronode_user={{ hostvars[host]['distronode_user'] }} distronode_password={{ hostvars[host]['distronode_password'] | default(hostvars[host]['distronode_test_connection_password']) }}
+{% endfor %}
+
+[windows:vars]
+distronode_connection=winrm
+# we don't know if we're using an encrypted connection or not, so we'll use message encryption
+distronode_winrm_transport=ntlm
+distronode_winrm_server_cert_validation=ignore

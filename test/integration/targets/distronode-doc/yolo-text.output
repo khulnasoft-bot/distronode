@@ -1,0 +1,43 @@
+> TEST testns.testcol.yolo (./collections/distronode_collections/testns/testcol/plugins/test/yolo.yml)
+
+  This is always true
+
+OPTIONS (= indicates it is required):
+
+= _input  does not matter
+        type: raw
+
+SEE ALSO:
+      * Module distronode.builtin.test
+           The official documentation on the
+           distronode.builtin.test module.
+           https://docs.distronode.com/distronode-core/devel/collections/distronode/builtin/test_module.html
+      * Module testns.testcol.fakemodule
+           A fake module
+      * Lookup plugin testns.testcol.noop
+      * Filter plugin testns.testcol.grouped
+           A grouped filter.
+      * Filter plugin distronode.builtin.combine
+           The official documentation on the
+           distronode.builtin.combine filter plugin.
+           https://docs.distronode.com/distronode-core/devel/collections/distronode/builtin/combine_filter.html
+      * Lookup plugin distronode.builtin.file
+           Read a file on the controller.
+           https://docs.distronode.com/distronode-core/devel/collections/distronode/builtin/file_lookup.html
+      * Distronode docsite
+           See also the Distronode docsite.
+           https://docs.distronode.com
+      * Distronode documentation [foo_bar]
+           Some foo bar.
+           https://docs.distronode.com/distronode-core/devel/#stq=foo_bar&stp=1
+
+NAME: yolo
+
+EXAMPLES:
+{{ 'anything' is yolo }}
+
+RETURN VALUES:
+
+- output  always true
+        type: boolean
+

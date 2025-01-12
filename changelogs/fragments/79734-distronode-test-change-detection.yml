@@ -1,0 +1,2 @@
+bugfixes:
+  - "distronode-test local change detection - use ``git merge-base <branch> HEAD`` instead of ``git merge-base --fork-point <branch>`` (https://github.com/distronode/distronode/pull/79734)."

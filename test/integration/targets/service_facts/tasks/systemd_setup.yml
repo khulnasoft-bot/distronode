@@ -1,0 +1,26 @@
+- name: install the test daemon script
+  copy:
+    src: distronode_test_service.py
+    dest: /usr/sbin/distronode_test_service
+    mode: '755'
+
+- name: rewrite shebang in the test daemon script
+  lineinfile:
+    path: /usr/sbin/distronode_test_service
+    line: "#!{{ distronode_python_interpreter | realpath }}"
+    insertbefore: BOF
+    firstmatch: yes
+
+- name: install the systemd unit file
+  copy:
+    src: distronode.systemd
+    dest: /etc/systemd/system/distronode_test.service
+    mode: '0644'
+  register: install_systemd_result
+
+- name: assert that the systemd unit file was installed
+  assert:
+    that:
+    - "install_systemd_result.dest == '/etc/systemd/system/distronode_test.service'"
+    - "install_systemd_result.state == 'file'"
+    - "install_systemd_result.mode == '0644'"

@@ -1,0 +1,43 @@
+- name: Hello, World!
+  helloworld:
+  register: hello_world
+
+- assert:
+    that:
+      - 'hello_world.msg == "Hello, World!"'
+
+- name: Hello, Distronode!
+  helloworld:
+  args:
+    name: Distronode
+  register: hello_distronode
+
+- assert:
+    that:
+      - 'hello_distronode.msg == "Hello, Distronode!"'
+
+- name: Goodbye, Distronode!
+  helloworld:
+  args:
+    salutation: Goodbye
+    name: Distronode
+  register: goodbye_distronode
+
+- assert:
+    that:
+      - 'goodbye_distronode.msg == "Goodbye, Distronode!"'
+
+- name: Copy module to remote
+  copy:
+    src: "{{ role_path }}/library/helloworld.py"
+    dest: "{{ remote_tmp_dir }}/helloworld.py"
+
+- name: Execute module directly
+  command: '{{ distronode_python_interpreter|default(distronode_playbook_python) }} {{ remote_tmp_dir }}/helloworld.py'
+  register: direct
+  ignore_errors: true
+
+- assert:
+    that:
+      - direct is failed
+      - 'direct.stdout | from_json == {"msg": "No argument file provided", "failed": true}'

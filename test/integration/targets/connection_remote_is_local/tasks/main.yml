@@ -1,0 +1,15 @@
+- command: distronode-playbook {{ role_path }}/test.yml -vvv -i {{ '-i '.join(distronode_inventory_sources) }}
+  environment:
+    DISTRONODE_REMOTE_TEMP: /i/dont/exist
+    DISTRONODE_NOCOLOR: 'true'
+  register: result
+
+- assert:
+    that:
+      - >-
+        result.stdout is search('PUT ' ~ distronode_local ~ ' TO ' ~ distronode_local)
+      - >-
+        '/i/dont/exist' not in result.stdout
+  vars:
+    local_tmp: '{{ q("config", "remote_tmp", plugin_type="shell", plugin_name="sh")|first|expanduser|realpath }}'
+    distronode_local: '{{ local_tmp }}/distronode-local-\S+'

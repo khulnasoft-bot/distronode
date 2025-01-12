@@ -1,0 +1,2 @@
+bugfixes:
+- distronode-galaxy - Provide a better error message when using a requirements file with an invalid format - https://github.com/distronode/distronode/issues/81901

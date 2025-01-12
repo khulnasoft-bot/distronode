@@ -1,0 +1,2 @@
+bugfixes:
+  - iptables - remove default rule creation when creating iptables chain to be more similar to the command line utility (https://github.com/distronode/distronode/issues/80256).

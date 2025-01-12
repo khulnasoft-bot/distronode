@@ -1,0 +1,2 @@
+[all]
+local distronode_host=127.0.0.1 distronode_connection=network_noop

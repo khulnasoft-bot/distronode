@@ -1,0 +1,2 @@
+testhost distronode_connection=local
+testhost2 distronode_connection=local

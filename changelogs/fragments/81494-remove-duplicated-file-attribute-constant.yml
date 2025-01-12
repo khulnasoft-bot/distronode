@@ -1,0 +1,2 @@
+bugfixes:
+  - Import ``FILE_ATTRIBUTES`` from ``distronode.module_utils.common.file`` in ``distronode.module_utils.basic`` instead of defining it twice.

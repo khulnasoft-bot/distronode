@@ -1,0 +1,20 @@
+- name: determine connection user
+  command: whoami
+  register: connection_user
+  vars:
+    distronode_become: no
+
+- name: include become tests
+  include_tasks: become.yml
+  vars:
+    distronode_become: yes
+    distronode_become_user: "{{ become_test_config.user }}"
+    distronode_become_method: "{{ become_test_config.method }}"
+    distronode_become_password: "{{ become_test_config.password | default(None) }}"
+  loop: "{{
+    (become_methods | selectattr('skip', 'undefined') | list)+
+    (become_methods | selectattr('skip', 'defined') | rejectattr('skip') | list)
+    }}"
+  loop_control:
+    loop_var: become_test_config
+    label: "{{ become_test }}"

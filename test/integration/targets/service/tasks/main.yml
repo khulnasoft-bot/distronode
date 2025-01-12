@@ -1,0 +1,62 @@
+- name: skip unsupported distros
+  meta: end_host
+  when: distronode_distribution in ['Alpine']
+
+- name: install the test daemon script
+  copy:
+    src: distronode_test_service.py
+    dest: /usr/sbin/distronode_test_service
+    mode: '755'
+
+- name: rewrite shebang in the test daemon script
+  lineinfile:
+    path: /usr/sbin/distronode_test_service
+    line: "#!{{ distronode_python_interpreter | realpath }}"
+    insertbefore: BOF
+    firstmatch: yes
+
+- block:
+    # determine init system is in use
+    - name: detect sysv init system
+      set_fact:
+        service_type: sysv
+      when:
+        - distronode_distribution in ['RedHat', 'CentOS', 'ScientificLinux']
+        - distronode_distribution_version is version('6', '>=')
+        - distronode_distribution_version is version('7', '<')
+    - name: detect systemd init system
+      set_fact:
+        service_type: systemd
+      when: (distronode_distribution in ['RedHat', 'CentOS', 'ScientificLinux'] and distronode_distribution_major_version is version('7', '>=')) or distronode_distribution == 'Fedora' or (distronode_distribution == 'Ubuntu' and distronode_distribution_version is version('15.04', '>=')) or (distronode_distribution == 'Debian' and distronode_distribution_version is version('8', '>=')) or distronode_os_family == 'Suse'
+    - name: detect upstart init system
+      set_fact:
+        service_type: upstart
+      when:
+        - distronode_distribution == 'Ubuntu'
+        - distronode_distribution_version is version('15.04', '<')
+    - name: detect rc init system
+      set_fact:
+        service_type: rc
+      when:
+        - distronode_distribution.lower().endswith('bsd')
+
+
+    - name: display value of distronode_service_mgr
+      debug:
+        msg: 'distronode_service_mgr: {{ distronode_service_mgr }}'
+
+    - name: setup test service script
+      include_tasks: '{{ service_type }}_setup.yml'
+
+    - name: execute tests
+      import_tasks: tests.yml
+
+  always:
+    - name: disable and stop distronode test service
+      service:
+        name: distronode_test
+        state: stopped
+        enabled: false
+
+    # cleaning up changes made by this playbook
+    - include_tasks: '{{ service_type }}_cleanup.yml'

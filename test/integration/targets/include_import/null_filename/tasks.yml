@@ -1,0 +1,5 @@
+- name: ping task
+  distronode.builtin.ping:
+
+- name: invalid include_task definition
+  distronode.builtin.include_tasks:

@@ -1,0 +1,11 @@
+[Unit]
+Description=Distronode Test Service
+
+[Service]
+ExecStart=/usr/sbin/distronode_test_service "Test\nthat newlines in scripts\nwork"
+ExecReload=/bin/true
+Type=forking
+PIDFile=/var/run/distronode_test_service.pid
+
+[Install]
+WantedBy=multi-user.target

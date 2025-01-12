@@ -1,0 +1,2 @@
+ - include_tasks: 'rpm_key.yaml'
+   when: distronode_os_family == "RedHat"

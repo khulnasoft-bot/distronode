@@ -1,0 +1,2 @@
+minor_changes:
+  - distronode-test - Update the logic used to detect when ``distronode-test`` is running from source.

@@ -1,0 +1,3 @@
+bugfixes:
+  - distronode-galaxy - fix installing signed collections (https://github.com/distronode/distronode/issues/80648).
+  - distronode-galaxy collection verify - fix verifying signed collections when the keyring is not configured.

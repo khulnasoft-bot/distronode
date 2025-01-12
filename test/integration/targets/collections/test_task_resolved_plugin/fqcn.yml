@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - distronode.legacy.legacy_action:
+    - distronode.legacy.legacy_module:
+    - distronode.legacy.debug:
+    - distronode.legacy.ping:
+    - distronode.builtin.debug:
+    - distronode.builtin.ping:
+    - test_ns.test_coll.collection_action:
+    - test_ns.test_coll.collection_module:
+    - test_ns.test_coll.formerly_action:
+    - test_ns.test_coll.formerly_module:

@@ -1,0 +1,6 @@
+---
+bugfixes:
+  - template - Fix for formatting issues when a template path contains
+    valid jinja/strftime pattern (especially line break one) and
+    using the template path in distronode_managed
+    (https://github.com/distronode/distronode/pull/79129)

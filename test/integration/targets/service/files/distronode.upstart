@@ -1,0 +1,9 @@
+description     "distronode test daemon"
+
+start on runlevel [345]
+stop on runlevel [!345]
+
+expect daemon
+
+exec distronode_test_service
+

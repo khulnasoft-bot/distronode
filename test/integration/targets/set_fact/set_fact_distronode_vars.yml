@@ -1,0 +1,9 @@
+- name: Test set_fact with key starting with reserved keyword '_distronode_'
+  hosts: testhost
+  gather_facts: no
+  tasks:
+    - name: Define fact with key starting with reserved keyword '_distronode_'
+      set_fact:
+        _distronode_foo: bar
+      ignore_errors: yes
+      register: r
