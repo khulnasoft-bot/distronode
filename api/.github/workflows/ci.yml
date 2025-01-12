@@ -1,0 +1,430 @@
+---
+name: CI
+env:
+  LC_ALL: "C.UTF-8" # prevent ERROR: Distronode could not initialize the preferred locale: unsupported locale setting
+  CI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  DEV_DOCKER_OWNER: ${{ github.repository_owner }}
+  COMPOSE_TAG: ${{ github.base_ref || 'devel' }}
+  UPSTREAM_REPOSITORY_ID: 91594105
+on:
+  pull_request:
+  push:
+    branches:
+      - devel  # needed to publish code coverage post-merge
+jobs:
+  common-tests:
+    name: ${{ matrix.tests.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      packages: write
+      contents: read
+    strategy:
+      fail-fast: false
+      matrix:
+        tests:
+          - name: api-test
+            command: /start_tests.sh test_coverage
+            coverage-upload-name: ""
+          - name: api-migrations
+            command: /start_tests.sh test_migrations
+            coverage-upload-name: ""
+          - name: api-lint
+            command: /var/lib/api/venv/api/bin/tox -e linters
+            coverage-upload-name: ""
+          - name: api-swagger
+            command: /start_tests.sh swagger
+            coverage-upload-name: ""
+          - name: api-collection
+            command: /start_tests.sh test_collection_all
+            coverage-upload-name: "api-collection"
+          - name: api-schema
+            command: >-
+              /start_tests.sh detect-schema-change SCHEMA_DIFF_BASE_BRANCH=${{
+                github.event.pull_request.base.ref || github.ref_name
+              }}
+            coverage-upload-name: ""
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - name: Build api_devel image for running checks
+        uses: ./.github/actions/api_devel_image
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run check ${{ matrix.tests.name }}
+        id: make-run
+        run: >-
+          API_DOCKER_ARGS='-e GITHUB_ACTIONS -e GITHUB_OUTPUT -v "${GITHUB_OUTPUT}:${GITHUB_OUTPUT}:rw,Z"'
+          API_DOCKER_CMD='${{ matrix.tests.command }}'
+          make docker-runner
+
+      - name: Upload test coverage to Codecov
+        if: >-
+          !cancelled()
+          && steps.make-run.outputs.cov-report-files != ''
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: >-
+            ${{
+              toJSON(env.UPSTREAM_REPOSITORY_ID == github.repository_id)
+            }}
+          files: >-
+            ${{ steps.make-run.outputs.cov-report-files }}
+          flags: >-
+            CI-GHA,
+            pytest,
+            OS-${{
+              runner.os
+            }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload test results to Codecov
+        if: >-
+          !cancelled()
+          && steps.make-run.outputs.test-result-files != ''
+        uses: codecov/test-results-action@v1
+        with:
+          fail_ci_if_error: >-
+            ${{
+              toJSON(env.UPSTREAM_REPOSITORY_ID == github.repository_id)
+            }}
+          files: >-
+            ${{ steps.make-run.outputs.test-result-files }}
+          flags: >-
+            CI-GHA,
+            pytest,
+            OS-${{
+              runner.os
+            }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload api jUnit test reports
+        if: >-
+          !cancelled()
+          && steps.make-run.outputs.test-result-files != ''
+          && github.event_name == 'push'
+          && env.UPSTREAM_REPOSITORY_ID == github.repository_id
+          && github.ref_name == github.event.repository.default_branch
+        run: |
+          for junit_file in $(echo '${{ steps.make-run.outputs.test-result-files }}' | sed 's/,/ /')
+          do
+              curl \
+                -v \
+                --user "${{ vars.PDE_ORG_RESULTS_AGGREGATOR_UPLOAD_USER }}:${{ secrets.PDE_ORG_RESULTS_UPLOAD_PASSWORD }}" \
+                --form "xunit_xml=@${junit_file}" \
+                --form "component_name=${{ matrix.tests.coverage-upload-name || 'api' }}" \
+                --form "git_commit_sha=${{ github.sha }}" \
+                --form "git_repository_url=https://github.com/${{ github.repository }}" \
+                "${{ vars.PDE_ORG_RESULTS_AGGREGATOR_UPLOAD_URL }}/api/results/upload/"
+          done
+
+  dev-env:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - uses: ./.github/actions/run_api_devel
+        id: api
+        with:
+          build-ui: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run live dev env tests
+        run: docker exec tools_api_1 /bin/bash -c "make live_test"
+
+      - uses: ./.github/actions/upload_api_devel_logs
+        if: always()
+        with:
+          log-filename: live-tests.log
+
+  api-operator:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      DEBUG_OUTPUT_DIR: /tmp/api_operator_molecule_test
+    steps:
+      - name: Checkout api
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          path: api
+
+      - name: Checkout api-operator
+        uses: actions/checkout@v4
+        with:
+          show-progress: false\
+          repository: distronode/distronode/tree/devel/api-operator
+          path: api-operator
+
+      - name: Get python version from Makefile
+        working-directory: api
+        run: echo py_version=`make PYTHON_VERSION` >> $GITHUB_ENV
+
+      - name: Install python ${{ env.py_version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.py_version }}
+
+      - name: Install playbook dependencies
+        run: |
+          python3 -m pip install docker
+
+      - name: Build API image
+        working-directory: api
+        run: |
+          VERSION=`make version-for-buildyml` make api-kube-build
+        env:
+          COMPOSE_TAG: ci
+          DEV_DOCKER_TAG_BASE: local
+          HEADLESS: yes
+
+      - name: Run test deployment with api-operator
+        working-directory: api-operator
+        run: |
+          python3 -m pip install -r molecule/requirements.txt
+          python3 -m pip install PyYAML # for api/tools/scripts/rewrite-api-operator-requirements.py
+          $(realpath ../api/tools/scripts/rewrite-api-operator-requirements.py) molecule/requirements.yml $(realpath ../api)
+          distronode-galaxy collection install -r molecule/requirements.yml
+          sudo rm -f $(which kustomize)
+          make kustomize
+          KUSTOMIZE_PATH=$(readlink -f bin/kustomize) molecule -v test -s kind -- --skip-tags=replicas
+        env:
+          API_TEST_IMAGE: local/api
+          API_TEST_VERSION: ci
+          API_EE_TEST_IMAGE: quay.io/distronode/distronode/tree/devel/api-ee:latest
+          STORE_DEBUG_OUTPUT: true
+
+      - name: Upload debug output
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-operator-debug-output
+          path: ${{ env.DEBUG_OUTPUT_DIR }}
+
+  collection-sanity:
+    name: api_collection sanity
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        distronode:
+          - stable-2.17
+          # - devel
+    steps:
+      - name: Perform sanity testing
+        uses: distronode-community/distronode-test-gh-action@release/v1
+        with:
+          distronode-core-version: ${{ matrix.distronode }}
+          codecov-token: ${{ secrets.CODECOV_TOKEN }}
+          collection-root: api_collection
+          pre-test-cmd: >-
+            distronode-playbook
+            -i localhost,
+            tools/template_galaxy.yml
+            -e collection_package=api
+            -e collection_namespace=api
+            -e collection_version=1.0.0
+            -e '{"api_template_version": false}'
+          testing-type: sanity
+
+      - name: Upload api jUnit test reports to the unified dashboard
+        if: >-
+          !cancelled()
+          && steps.make-run.outputs.test-result-files != ''
+          && github.event_name == 'push'
+          && env.UPSTREAM_REPOSITORY_ID == github.repository_id
+          && github.ref_name == github.event.repository.default_branch
+        run: |
+          for junit_file in $(echo '${{ steps.make-run.outputs.test-result-files }}' | sed 's/,/ /')
+          do
+              curl \
+                -v \
+                --user "${{ vars.PDE_ORG_RESULTS_AGGREGATOR_UPLOAD_USER }}:${{ secrets.PDE_ORG_RESULTS_UPLOAD_PASSWORD }}" \
+                --form "xunit_xml=@${junit_file}" \
+                --form "component_name=api" \
+                --form "git_commit_sha=${{ github.sha }}" \
+                --form "git_repository_url=https://github.com/${{ github.repository }}" \
+                "${{ vars.PDE_ORG_RESULTS_AGGREGATOR_UPLOAD_URL }}/api/results/upload/"
+          done
+
+  collection-integration:
+    name: api_collection integration
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        target-regex:
+          - name: a-h
+            regex: ^[a-h]
+          - name: i-p
+            regex: ^[i-p]
+          - name: r-z0-9
+            regex: ^[r-z0-9]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - uses: ./.github/actions/run_api_devel
+        id: api
+        with:
+          build-ui: false
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies for running tests
+        run: |
+          python3 -m pip install -e ./apikit/
+          python3 -m pip install -r api_collection/requirements.txt
+
+      - name: Run integration tests
+        id: make-run
+        run: |
+          echo "::remove-matcher owner=python::"  # Disable annoying annotations from setup-python
+          echo '[general]' > ~/.tower_cli.cfg
+          echo 'host = https://${{ steps.api.outputs.ip }}:8043' >> ~/.tower_cli.cfg
+          echo 'username = admin' >> ~/.tower_cli.cfg
+          echo 'password = password' >> ~/.tower_cli.cfg
+          echo 'verify_ssl = false' >> ~/.tower_cli.cfg
+          TARGETS="$(ls api_collection/tests/integration/targets | grep '${{ matrix.target-regex.regex }}' | tr '\n' ' ')"
+          make COLLECTION_VERSION=100.100.100-git COLLECTION_TEST_TARGET="--requirements $TARGETS" test_collection_integration
+        env:
+          DISTRONODE_TEST_PREFER_PODMAN: 1
+
+      - name: Upload test coverage to Codecov
+        if: >-
+          !cancelled()
+          && steps.make-run.outputs.cov-report-files != ''
+        uses: codecov/codecov-action@v4
+        with:
+          fail_ci_if_error: >-
+            ${{
+              toJSON(env.UPSTREAM_REPOSITORY_ID == github.repository_id)
+            }}
+          files: >-
+            ${{ steps.make-run.outputs.cov-report-files }}
+          flags: >-
+            CI-GHA,
+            distronode-test,
+            integration,
+            OS-${{
+              runner.os
+            }}
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      # Upload coverage report as artifact
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: coverage-${{ matrix.target-regex.name }}
+          path: ~/.distronode/collections/distronode_collections/api/api/tests/output/coverage/
+
+      - uses: ./.github/actions/upload_api_devel_logs
+        if: always()
+        with:
+          log-filename: collection-integration-${{ matrix.target-regex.name }}.log
+
+  collection-integration-coverage-combine:
+    name: combine api_collection integration coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs:
+      - collection-integration
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          show-progress: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Upgrade distronode-core
+        run: python3 -m pip install --upgrade distronode-core
+
+      - name: Download coverage artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: coverage
+
+      - name: Combine coverage
+        run: |
+          make COLLECTION_VERSION=100.100.100-git install_collection
+          mkdir -p ~/.distronode/collections/distronode_collections/api/api/tests/output/coverage
+          cd coverage
+          for i in coverage-*; do
+            cp -rv $i/* ~/.distronode/collections/distronode_collections/api/api/tests/output/coverage/
+          done
+          cd ~/.distronode/collections/distronode_collections/api/api
+          distronode-test coverage combine --requirements
+          distronode-test coverage html
+          echo '## API Collection Integration Coverage' >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          distronode-test coverage report >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo >> $GITHUB_STEP_SUMMARY
+          echo '## API Collection Integration Coverage HTML' >> $GITHUB_STEP_SUMMARY
+          echo 'Download the HTML artifacts to view the coverage report.' >> $GITHUB_STEP_SUMMARY
+
+      # This is a huge hack, there's no official action for removing artifacts currently.
+      # Also ACTIONS_RUNTIME_URL and ACTIONS_RUNTIME_TOKEN aren't available in normal run
+      # steps, so we have to use github-script to get them.
+      #
+      # The advantage of doing this, though, is that we save on artifact storage space.
+
+      - name: Get secret artifact runtime URL
+        uses: actions/github-script@v6
+        id: get-runtime-url
+        with:
+          result-encoding: string
+          script: |
+            const { ACTIONS_RUNTIME_URL } = process.env;
+            return ACTIONS_RUNTIME_URL;
+
+      - name: Get secret artifact runtime token
+        uses: actions/github-script@v6
+        id: get-runtime-token
+        with:
+          result-encoding: string
+          script: |
+            const { ACTIONS_RUNTIME_TOKEN } = process.env;
+            return ACTIONS_RUNTIME_TOKEN;
+
+      - name: Remove intermediary artifacts
+        env:
+          ACTIONS_RUNTIME_URL: ${{ steps.get-runtime-url.outputs.result }}
+          ACTIONS_RUNTIME_TOKEN: ${{ steps.get-runtime-token.outputs.result }}
+        run: |
+          echo "::add-mask::${ACTIONS_RUNTIME_TOKEN}"
+          artifacts=$(
+            curl -H "Authorization: Bearer $ACTIONS_RUNTIME_TOKEN" \
+              ${ACTIONS_RUNTIME_URL}_apis/pipelines/workflows/${{ github.run_id }}/artifacts?api-version=6.0-preview \
+            | jq -r '.value | .[] | select(.name | startswith("coverage-")) | .url'
+          )
+
+          for artifact in $artifacts; do
+            curl -i -X DELETE -H "Accept: application/json;api-version=6.0-preview" -H "Authorization: Bearer $ACTIONS_RUNTIME_TOKEN" "$artifact"
+          done
+
+      - name: Upload coverage report as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-collection-integration-coverage-html
+          path: ~/.distronode/collections/distronode_collections/api/api/tests/output/reports/coverage

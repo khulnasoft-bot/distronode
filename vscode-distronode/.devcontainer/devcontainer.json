@@ -1,0 +1,5 @@
+{
+  "image": "ghcr.io/distronode/community-distronode-dev-tools:latest",
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=remote-workspace,target=/workspace,type=volume"
+}

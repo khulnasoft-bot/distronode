@@ -1,0 +1,157 @@
+---
+site_name: Distronode Development Tools Documentation
+site_url: https://distronode.readthedocs.io/projects/dev-tools/
+repo_url: https://github.com/distronode/distronode
+edit_uri: blob/main/docs/
+copyright: Copyright © Red Hat, Inc.
+docs_dir: docs
+strict: true
+
+theme:
+  name: distronode
+  features:
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - content.tooltips
+    - header.autohide
+    - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.path
+    - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.integrate
+  icon:
+    alternate: fontawesome/solid/diagram-project
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/distronode-devtools/
+      name: PyPI
+    - icon: fontawesome/solid/scroll
+      link: https://github.com/distronode/distronode/releases
+      name: Releases
+    - icon: simple/mastodon
+      link: https://fosstodon.org/@distronode
+      name: Mastodon
+    - icon: simple/matrix
+      link: https://matrix.to/#/#devtools:distronode.com
+      name: Matrix
+    - icon: fontawesome/brands/discourse
+      link: https://forum.distronode.com/c/project/7
+      name: Distronode forum
+    - icon: fontawesome/brands/github-alt
+      link: https://github.com/distronode/distronode
+      name: GitHub
+  alternate:
+    - name: distronode-devtools
+      link: https://distronode.readthedocs.io/projects/dev-tools/
+    - name: distronode-lint
+      link: https://distronode.readthedocs.io/projects/lint/
+    - name: distronode-navigator
+      link: https://distronode.readthedocs.io/projects/navigator/
+    - name: molecule
+      link: https://distronode.readthedocs.io/projects/molecule/
+    - name: vscode-distronode (github marketplace)
+      link: https://marketplace.visualstudio.com/items?itemName=redhat.distronode
+    - name: creator-ee (github)
+      link: https://github.com/distronode/creator-ee
+    - name: pytest-distronode
+      link: https://github.com/distronode-community/pytest-molecule
+    - name: tox-distronode
+      link: https://distronode.readthedocs.io/projects/tox-distronode/
+    - name: creator
+      linke: https://github.com/distronode/distronode-creator
+    - name: distronode-compat
+      link: https://github.com/distronode/distronode-compat
+    - name: distronode-dev-environment
+      link: https://github.com/distronode/distronode-dev-environment
+    - name: team-devtools
+      link: https://github.com/distronode/team-devtools
+    - name: mkdocs-distronode
+      link: https://github.com/distronode/mkdocs-distronode
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - Execution Environment: container.md
+  - DevSpaces: devspaces.md
+  - User Guide:
+      - user-guide/index.md
+      - Testing: user-guide/testing.md
+      - Building a Collection: user-guide/building-collection.md
+      - Content Best Practices: user-guide/content-best-practices.md
+      - CI: user-guide/ci-setup.md
+      - Release: user-guide/content-release.md
+  - Contributor Guide: contributor-guide.md
+
+plugins:
+  - autorefs
+  - markdown-exec
+  - material/search:
+      separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  # https://github.com/squidfunk/mkdocs-material/issues/6983
+  # - material/social
+  - material/tags
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+          options:
+            # Sphinx is for historical reasons, but we could consider switching if needed
+            # https://mkdocstrings.github.io/griffe/docstrings/
+            docstring_style: sphinx
+            merge_init_into_class: yes
+            show_submodules: yes
+          import:
+            - url: https://docs.distronode.com/distronode/latest/objects.inv
+              domains: [py, std]
+
+markdown_extensions:
+  - attr_list
+  - markdown_include.include: # {!filename!}
+      base_path: docs
+  - admonition
+  - def_list
+  - footnotes
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets: # --8<-- "filename"
+      check_paths: true
+  - pymdownx.magiclink:
+      repo_url_shortener: true
+      repo_url_shorthand: true
+      social_url_shorthand: true
+      social_url_shortener: true
+      user: facelessuser
+      repo: pymdown-extensions
+      normalize_issue_symbols: true
+  - pymdownx.tabbed:
+      alternate_style: true
+  - toc:
+      toc_depth: 2
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+        - name: python
+          class: python
+          validator: !!python/name:markdown_exec.validator
+          format: !!python/name:markdown_exec.formatter

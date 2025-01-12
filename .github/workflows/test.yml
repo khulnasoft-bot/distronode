@@ -1,0 +1,41 @@
+---
+name: tox
+on:
+  push:
+    branches: # any integration branch but not tag
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  test:
+    # tests reusable tox workflow
+    uses: ./.github/workflows/tox.yml
+    with:
+      default_python: "3.10"
+      jobs_producing_coverage: 8
+      max_python: "3.13"
+      min_python: "3.10"
+      run_post: echo 'Running post'
+      run_pre: echo 'Running pre'
+      other_names: |
+        docs
+        lint
+        py-mise-macos:tox -e py:runner=macos-latest;mise=true
+        py-mise-ubuntu:tox -e py:runner=ubuntu-24.04;mise=true
+      node-version-file: .tool-versions
+
+  check: # This job does nothing and is only used for the branch protection
+    if: always()
+    needs:
+      - test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
+  push:
+    if: github.event_name == 'push'
+    uses: ./.github/workflows/push.yml
+    secrets: inherit

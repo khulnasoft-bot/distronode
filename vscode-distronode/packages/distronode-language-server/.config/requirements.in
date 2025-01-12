@@ -1,0 +1,14 @@
+# testing and linting, do not put version constraints here as they
+# conflict with the locked version taken from community-distronode-dev-tools EE requirements.txt
+distronode-core
+distronode-lint
+# end-of dependencies for which we allow pre-releases
+click
+lxml
+pip-tools
+pre-commit
+pyparsing
+# vscode integration
+flake8  # vscode integration
+mypy  # vscode integration
+pylint  # vscode integration

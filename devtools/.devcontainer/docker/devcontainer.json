@@ -1,0 +1,19 @@
+{
+  "name": "distronode-dev-container-docker",
+  "image": "ghcr.io/distronode/community-distronode-devtools:latest",
+  "containerUser": "root",
+  "runArgs": [
+    "--privileged",
+    "--device",
+    "/dev/fuse",
+    "--hostname=distronode-dev-container"
+  ],
+  "updateRemoteUserUID": true,
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "redhat.distronode"
+      ]
+    }
+  }
+}

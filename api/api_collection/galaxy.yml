@@ -1,0 +1,38 @@
+# (********************************************************)
+# (*                                                      *)
+# (*             WARNING                                  *)
+# (*                                                      *)
+# (*  This file is managed by Distronode and not to be       *)
+# (*  edited directly! Instead modify:                    *)
+# (*  tools/roles/template_galaxy/templates/galaxy.yml.j2 *)
+# (*                                                      *)
+# (*  Changes to the base galaxy.yml file are refreshed   *)
+# (*  upon build of the collection                        *)
+# (********************************************************)
+---
+authors:
+  - API Project Contributors <api-project@googlegroups.com>
+dependencies: {}
+description: Distronode content that interacts with the API or Automation Platform Controller API.
+documentation: https://github.com/distronode/distronode/tree/devel/api/blob/devel/api_collection/README.md
+homepage: https://www.distronode.com/
+issues: https://github.com/distronode/distronode/tree/devel/api/issues?q=is%3Aissue+label%3Acomponent%3Aapi_collection
+license:
+  - GPL-3.0-or-later
+name: api
+namespace: api
+readme: README.md
+repository: https://github.com/distronode/distronode/tree/devel/api
+tags:
+  - cloud
+  - infrastructure
+  - api
+  - distronode
+  - automation
+version: 0.0.1-devel
+build_ignore:
+  - tools
+  - setup.cfg
+  - galaxy.yml.j2
+  - template_galaxy.yml
+  - '*.tar.gz'

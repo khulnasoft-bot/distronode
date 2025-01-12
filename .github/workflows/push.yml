@@ -1,0 +1,16 @@
+---
+# push workflow is shared and expected to perform actions after a merge happens
+# on a maintenance branch (default or release). For example updating the
+# draft release-notes.
+name: push
+
+on:
+  workflow_call: # allows reuse of this workflow from other devtools repos
+
+jobs:
+  update_release_draft:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: release-drafter/release-drafter@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

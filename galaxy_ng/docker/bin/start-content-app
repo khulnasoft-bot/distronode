@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -o errexit
+set -o nounset
+
+readonly ENTRYPOINT=${ENTRYPOINT:-'/venv/bin/pulpcore-content'}
+readonly GUNICORN_WORKERS=${GUNICORN_WORKERS:-4}
+
+readonly BIND_HOST='0.0.0.0'
+readonly BIND_PORT="${GUNICORN_PORT:-24816}"
+
+exec "${ENTRYPOINT}" \
+  --bind "${BIND_HOST}:${BIND_PORT}" \
+  --workers "${GUNICORN_WORKERS}" \
+  --access-logfile -

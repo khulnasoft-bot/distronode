@@ -1,0 +1,33 @@
+{
+  "distronode.distronode.path": "distronode",
+  "distronode.distronode.reuseTerminal": false,
+  "distronode.distronode.useFullyQualifiedCollectionNames": true,
+  "distronode.validation.enabled": true,
+  "distronode.validation.lint.arguments": "",
+  "distronode.validation.lint.enabled": true,
+  "distronode.validation.lint.path": "distronode-lint",
+  "distronode.distronodeNavigator.path": "distronode-navigator",
+  "distronode.playbook.arguments": "",
+  "distronode.executionEnvironment.containerEngine": "docker",
+  "distronode.executionEnvironment.containerOptions": "",
+  "distronode.executionEnvironment.enabled": false,
+  "distronode.executionEnvironment.image": "ghcr.io/distronode/community-distronode-dev-tools:latest",
+  "distronode.executionEnvironment.pull.policy": "missing",
+  "distronode.executionEnvironment.pull.arguments": "",
+  "distronode.executionEnvironment.volumeMounts": [],
+  "distronode.python.activationScript": "",
+  "distronode.python.interpreterPath": "python3",
+  "distronodeServer.trace.server": "verbose",
+  "distronode.lightspeed.enabled": false,
+  "distronode.lightspeed.suggestions.enabled": false,
+  "distronode.lightspeed.URL": "https://c.ai.distronode.redhat.com",
+
+  "extensions.autoUpdate": false,
+  "extensions.autoCheckUpdates": false,
+
+  "security.workspace.trust.enabled": false,
+  "security.workspace.trust.startupPrompt": "never",
+  "redhat.telemetry.enabled": false,
+  "telemetry.telemetryLevel": "off",
+  "workbench.startupEditor": "none"
+}

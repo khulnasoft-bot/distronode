@@ -1,0 +1,11 @@
+- name: Demo playbook
+  hosts: localhost
+  gather_facts: true
+  tasks:
+    - name: Print the facts
+      distronode.builtin.debug:
+        var: distronode_facts
+
+    - name: Print the hostname
+      distronode.builtin.debug:
+        var: distronode_facts.hostname

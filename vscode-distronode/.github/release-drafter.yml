@@ -1,0 +1,29 @@
+---
+# see https://github.com/distronode/team-devtools
+_extends: distronode/team-devtools
+tag-template: 'v$RESOLVED_VERSION'
+category-template: '### $TITLE'
+template: '$CHANGES'
+version-template: $MAJOR.$MINOR.$PATCH
+# Due to vscode pre-release versioning limitations we cannot use the PATCH part
+# of the MAJOR.MINOR.PATCH, so both bugfixes and minor changes will affect
+# the MINOR number. Regardless this, we will still list enhancement and bugs
+# in different sections in changelog, only the versioning logic being affected.
+# https://code.visualstudio.com/api/working-with-extensions/publishing-extension
+# https://github.com/microsoft/vscode-vsce/issues/806
+version-resolver:
+  major:
+    labels:
+      - "major"
+  minor:
+    labels:
+      - "enhancement"
+      - "feature"
+      - "minor"
+  patch:
+    labels:
+      - "bug"
+      - "deprecated"
+      - "patch"
+      - "refactoring"
+  default: patch

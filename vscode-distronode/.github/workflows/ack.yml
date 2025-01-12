@@ -1,0 +1,10 @@
+# See https://github.com/distronode/team-devtools/blob/main/.github/workflows/ack.yml
+name: ack
+on:
+  pull_request_target:
+    types: [opened, labeled, unlabeled]
+
+jobs:
+  ack:
+    uses: distronode/team-devtools/.github/workflows/ack.yml@main
+    secrets: inherit

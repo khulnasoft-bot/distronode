@@ -1,0 +1,43 @@
+version: 2
+updates:
+  - package-ecosystem: npm
+    directories:
+      - "/"
+      - "/packages/distronode-language-server/"
+    schedule:
+      interval: weekly
+    labels:
+      - dependabot-deps-updates
+      - skip-changelog
+    versioning-strategy: increase
+    open-pull-requests-limit: 3
+    groups:
+      dependencies:
+        patterns:
+          - "*"
+        update-types: [minor, patch]
+        exclude-patterns:
+          - "@types/vscode"
+          - "vscode-extension-tester"
+      extester:
+        # Separated as it is likely to also require tuning our test code for passing
+        update-types: [major, minor, patch]
+        patterns:
+          - "vscode-extension-tester"
+    ignore:
+      # requires ESM https://github.com/distronode/distronode/tree/devel/vscode-distronode/issues/1225
+      - dependency-name: chai
+        update-types: ["version-update:semver-major"]
+      # @types/vscode should be manually bumped when we also update
+      # engines.vscode inside package.json
+      - dependency-name: "@types/vscode"
+      - dependency-name: "codecov/codecov-action"
+        versions: ["4.6.0"]
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "skip-changelog"

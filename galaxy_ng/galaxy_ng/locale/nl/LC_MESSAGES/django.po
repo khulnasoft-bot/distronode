@@ -1,0 +1,953 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-11-16 13:30+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: _vendor/automated_logging/templates/dal/admin/view.html:6
+msgid "Back to list"
+msgstr ""
+
+#: app/access_control/access_policy.py:402
+msgid "Namespace in filename not found."
+msgstr "Namespace in bestandsnaam niet gevonden."
+
+#: app/access_control/access_policy.py:435
+msgid "Distribution does not exist."
+msgstr ""
+
+#: app/access_control/access_policy.py:449
+msgid "Namespace not found."
+msgstr "Namespace niet gevonden."
+
+#: app/access_control/access_policy.py:518
+msgid ""
+"Signatures are required in order to add collections into any "
+"'approved'repository when GALAXY_REQUIRE_SIGNATURE_FOR_APPROVAL is enabled."
+msgstr ""
+
+#: app/access_control/access_policy.py:571 app/api/v3/views/sync.py:49
+msgid ""
+"Syncing content from galaxy.distronode.com without specifying a requirements "
+"file is not allowed."
+msgstr ""
+"Het is niet toegestaan inhoud van galaxy.distronode.com te synchroniseren "
+"zonder een bestand met vereisten op te geven."
+
+#: app/access_control/fields.py:21
+msgid "object_roles field is required"
+msgstr "Veld object_roles is verplicht."
+
+#: app/access_control/fields.py:25
+msgid "id or name field is required"
+msgstr "Veld id of naam is verplicht"
+
+#: app/access_control/fields.py:31
+msgid "object_roles must be a list of strings"
+msgstr "object_roles moet een lijst van tekenreeksen zijn"
+
+#: app/access_control/fields.py:39
+msgid "Role {} does not exist"
+msgstr "Rol bestaat niet"
+
+#: app/access_control/fields.py:54
+msgid "Groups must be a list of group objects"
+msgstr "Groepen moet een lijst van groepsobjecten zijn"
+
+#: app/access_control/fields.py:72
+#, python-format
+msgid "Group name=%s, id=%s does not exist"
+msgstr "Groepsnaam=%s, id=%s bestaat niet"
+
+#: app/access_control/fields.py:76 app/api/ui/serializers/user.py:157
+msgid "Invalid group name or ID"
+msgstr "Ongeldige groepsnaam of id"
+
+#: app/access_control/fields.py:100
+#| msgid "Groups must be a list of group objects"
+msgid "Users must be a list of user objects"
+msgstr ""
+
+#: app/access_control/fields.py:113
+#| msgid "Invalid group name or ID"
+msgid "Invalid user username or ID"
+msgstr ""
+
+#: app/access_control/mixins.py:56 app/access_control/mixins.py:105
+#, python-brace-format
+msgid ""
+"Role {role} does not exist or does not have any permissions related to this "
+"object."
+msgstr ""
+"Rol {role} bestaat niet of heeft geen rechten met betrekking tot dit object."
+
+#: app/api/ui/serializers/execution_environment.py:64
+msgid "Selected registry does not exist."
+msgstr "Geselecteerd register bestaat niet."
+
+#: app/api/ui/serializers/execution_environment.py:73
+msgid ""
+"Container names can only contain alphanumeric numbers, \".\", \"_\", \"-\" "
+"and a up to one \"/\"."
+msgstr ""
+"Containernamen kunnen alleen alfanumerieke getallen, \".\", \"_\", \"-\" en "
+"maximaal één \"/\" bevatten."
+
+#: app/api/ui/serializers/execution_environment.py:91
+msgid "Name cannot be changed."
+msgstr "Naam kan niet worden veranderd."
+
+#: app/api/ui/serializers/synclist.py:38
+#, python-brace-format
+msgid "Repository \"{pulp_id}\" not found while creating synclist"
+msgstr "Repository \"{pulp_id}\" niet gevonden tijdens aanmaken synclist"
+
+#: app/api/ui/serializers/synclist.py:65
+#, python-format
+msgid "Synclist already exists: %s"
+msgstr "Synclist bestaat al: %s"
+
+#: app/api/ui/serializers/synclist.py:73
+#, python-brace-format
+msgid ""
+"Collection \"{namespace}.{name}\" not found while creating synclist "
+"{synclist}"
+msgstr ""
+"Collectie \"{namespace}.{name}\" niet gevonden tijdens het aanmaken van "
+"synclist {synclist}"
+
+#: app/api/ui/serializers/synclist.py:112
+#, python-brace-format
+msgid ""
+"Collection \"{namespace}.{name}\" not found while updating synclist "
+"{synclist}"
+msgstr ""
+"Collectie \"{namespace}.{name}\" niet gevonden tijdens het bijwerken van "
+"synclist {synclist}"
+
+#: app/api/ui/serializers/user.py:75
+msgid ""
+"'galaxy.change_group' permission is required to change a users group that "
+"the requesting user is not in."
+msgstr ""
+"De machtiging 'galaxy.change_group' is nodig om een gebruikersgroep te "
+"veranderen waar de aanvragende gebruiker geen deel van uitmaakt."
+
+#: app/api/ui/serializers/user.py:90 app/api/ui/serializers/user.py:96
+msgid "Must be a super user to grant super user permissions."
+msgstr ""
+"Moet een supergebruiker zijn om machtigingen voor een supergebruiker te "
+"verlenen."
+
+#: app/api/ui/serializers/user.py:110
+msgid "Must be a super user to change another user's password."
+msgstr ""
+"Moet een supergebruiker zijn om het wachtwoord van een andere gebruiker te "
+"wijzigen."
+
+#: app/api/ui/serializers/user.py:126
+msgid "You do not have permissions to modify super users."
+msgstr "Je hebt geen rechten om supergebruikers te wijzigen."
+
+#: app/api/ui/serializers/user.py:153
+#, python-format
+msgid "Group name=%(name)s, id=%(id)s does not exist"
+msgstr "Groepsnaam=%(name)s, id=%(id)s bestaat niet"
+
+#: app/api/ui/views/feature_flags.py:50
+msgid ""
+"WARNING:GALAXY_COLLECTION_SIGNING_SERVICE is set to '{}', however the "
+"respective SigningService does not exist in the database."
+msgstr ""
+"WAARSCHUWING: GALAXY_COLLECTION_SIGNING_SERVICE is ingesteld op '{}', maar "
+"de betreffende SigningService bestaat niet in de database."
+
+#: app/api/ui/views/feature_flags.py:65
+msgid ""
+"WARNING:GALAXY_AUTO_SIGN_COLLECTIONS is set to True, however the system is "
+"not configured with a SigningService to create signatures."
+msgstr ""
+"WAARSCHUWING: GALAXY_AUTO_SIGN_COLLECTIONS is ingesteld op True, maar het "
+"systeem is niet geconfigureerd met een SigningService om handtekeningen aan "
+"te maken."
+
+#: app/api/ui/views/feature_flags.py:76
+msgid ""
+"INFO:System is configured to display signatures (coming from remote syncs) "
+"but is not configured to create or accept upload of signatures."
+msgstr ""
+"INFO:Het systeem is geconfigureerd om handtekeningen weer te geven "
+"(afkomstig van externe synchronisaties), maar is niet geconfigureerd om "
+"handtekeningen aan te maken of het uploaden ervan te accepteren."
+
+#: app/api/ui/views/feature_flags.py:93
+msgid ""
+"WARNING:GALAXY_CONTAINER_SIGNING_SERVICE is set to '{}', however the "
+"respective SigningService does not exist in the database."
+msgstr ""
+"WAARSCHUWING: GALAXY_CONTAINER_SIGNING_SERVICE is ingesteld op '{}', maar de "
+"betreffende SigningService bestaat niet in de database."
+
+#: app/api/ui/views/feature_flags.py:106
+msgid ""
+"WARNING: container_signing is enabled via '{}' SigningService, however "
+"execution environments are disabled on the system."
+msgstr ""
+"WAARSCHUWING: container_signing is ingeschakeld via '{}' SigningService, "
+"maar uitvoeringsomgevingen zijn uitgeschakeld op het systeem."
+
+#: app/api/ui/views/index_execution_environments.py:36
+msgid "Indexing execution environments is not supported on this registry."
+msgstr ""
+"Het indexeren van uitvoeringsomgevingen wordt in dit register niet "
+"ondersteund."
+
+#: app/api/ui/views/signing.py:71
+msgid "Missing required field: namespace"
+msgstr "Verplicht veld ontbreekt: namespace"
+
+#: app/api/ui/views/signing.py:88
+#, python-format
+msgid "No content units found for: %s"
+msgstr "Geen inhoudseenheden gevonden voor: %s"
+
+#: app/api/ui/views/signing.py:103
+msgid "distro_base_path field is required."
+msgstr "het veld distro_base_path is vereist."
+
+#: app/api/ui/views/signing.py:108
+#, python-format
+msgid "Distribution %s does not exist."
+msgstr "Distributie %s bestaat niet."
+
+#: app/api/ui/views/signing.py:114
+msgid "signing_service field is required."
+msgstr "Het veld signing_service is verplicht."
+
+#: app/api/ui/views/signing.py:117
+#, python-format
+msgid "Signing service \"%s\" does not exist."
+msgstr "Ondertekendienst \"%s\" bestaat niet."
+
+#: app/api/ui/viewsets/collection.py:77
+msgid "Distribution base path is required"
+msgstr "Basispad distributie is vereist"
+
+#: app/api/ui/viewsets/collection.py:197
+#, python-format
+msgid "%s must be a valid semantic version range."
+msgstr ""
+
+#: app/api/ui/viewsets/collection.py:233
+msgid "Retrieve collection version"
+msgstr "Collectieversie ophalen"
+
+#: app/api/ui/viewsets/collection.py:244
+msgid "Collection version not found for: {}"
+msgstr "Collectieversie niet gevonden voor: {}"
+
+#: app/api/ui/viewsets/collection.py:300
+msgid "Retrieve collection import"
+msgstr "Collectie import ophalen"
+
+#: app/api/ui/viewsets/group.py:45
+#, python-format
+msgid "A group named %s already exists."
+msgstr "Een groep met de naam %s bestaat al."
+
+#: app/api/utils.py:53
+#, python-brace-format
+msgid ""
+"Invalid filename {filename}. Expected format: namespace-name-version.tar.gz"
+msgstr ""
+"Ongeldige bestandsnaam {filename}. Verwachte indeling: namespace-naam-versie."
+"tar.gz"
+
+#: app/api/utils.py:60
+#, python-brace-format
+msgid ""
+"Invalid version string {version} from filename {filename}. Expected semantic "
+"version format."
+msgstr ""
+"Ongeldige versie string {version} van bestandsnaam {filename}. Verwachte "
+"semantische versie indeling."
+
+#: app/api/utils.py:64
+#, python-format
+msgid "Expected namespace to be max length of %s"
+msgstr "Verwachte namespace met maximale lengte van %s"
+
+#: app/api/utils.py:66
+#, python-format
+msgid "Expected name to be max length of %s"
+msgstr "Verwachte naam met max. lengte van %s"
+
+#: app/api/utils.py:68
+#, python-format
+msgid "Expected version to be max length of %s"
+msgstr "Verwachte versie met max. lengte van %s"
+
+#: app/api/v3/serializers/namespace.py:73
+#, python-format
+msgid "'%s' is not a valid url."
+msgstr "\"%s\" is geen geldige url."
+
+#: app/api/v3/serializers/namespace.py:112
+msgid "Attribute 'name' is required"
+msgstr "Een 'naam' voor het attribuut is vereist"
+
+#: app/api/v3/serializers/namespace.py:115
+msgid "Name can only contain lower case letters, underscores and numbers"
+msgstr "De naam mag alleen kleine letters, underscores en cijfers bevatten"
+
+#: app/api/v3/serializers/namespace.py:118
+msgid "Name must be longer than 2 characters"
+msgstr "Naam moet langer zijn dan 2 tekens"
+
+#: app/api/v3/serializers/namespace.py:121
+msgid "Name cannot begin with '_'"
+msgstr "Naam kan niet met '_' beginnen"
+
+#: app/api/v3/serializers/sync.py:67
+msgid "Password for proxy authentication."
+msgstr "Wachtwoord voor proxy-authenticatie."
+
+#: app/api/v3/serializers/sync.py:74
+msgid "User for proxy authentication."
+msgstr "Gebruiker voor proxy-authenticatie."
+
+#: app/api/v3/serializers/sync.py:87
+msgid "Remote password."
+msgstr "Wachtwoord op afstand."
+
+#: app/api/v3/serializers/sync.py:94
+msgid "Remote user."
+msgstr "Gebruiker op afstand."
+
+#: app/api/v3/serializers/sync.py:148
+msgid ""
+"Syncing content from community domains without specifying a requirements "
+"file is not allowed."
+msgstr ""
+"Het is niet toegestaan inhoud van gemeenschapsdomeinen te synchroniseren "
+"zonder een bestand met vereisten op te geven."
+
+#: app/api/v3/views/sync.py:38 app/api/v3/views/sync.py:83
+#, python-format
+msgid "The %s distribution does not have any remotes associated with it."
+msgstr ""
+"De %s-distributie heeft geen items op afstand die ermee zijn geassocieerd."
+
+#: app/api/v3/views/sync.py:97
+#, python-format
+msgid "The %s remote does not have any registries associated with it."
+msgstr "De %s op afstand heeft geen registers die ermee zijn geassocieerd."
+
+#: app/api/v3/viewsets/collection.py:117
+#, python-brace-format
+msgid "Namespace \"{0}\" does not exist."
+msgstr "Namespace \"{0}\" bestaat niet."
+
+#: app/api/v3/viewsets/collection.py:212
+#, python-format
+msgid "Unexpected response from content app. Code: %s."
+msgstr "Onverwachte reactie van inhoud app. Code: %s."
+
+#: app/api/v3/viewsets/collection.py:240
+#, python-format
+msgid "Collection %s not found"
+msgstr "Collectie %s niet gevonden"
+
+#: app/api/v3/viewsets/collection.py:250
+#, python-format
+msgid "Repo(s) for moving collection %s not found"
+msgstr "Repo('s) voor verplaatsen collectie %s niet gevonden"
+
+#: app/api/v3/viewsets/collection.py:290
+#, python-format
+msgid "Collection %s not found in source repo"
+msgstr "Collectie %s niet gevonden in bron-repo"
+
+#: app/api/v3/viewsets/collection.py:293
+#, python-format
+msgid "Collection %s already found in destination repo"
+msgstr "Collectie %s reeds gevonden in doel-repo"
+
+#: app/api/v3/viewsets/collection.py:319
+#, python-format
+msgid "Signing %s service not found"
+msgstr "Ondertekeningdienst %s niet gevonden"
+
+#: app/api/v3/viewsets/collection.py:329
+#, python-brace-format
+msgid ""
+"Collection {namespace}.{name} could not be approved because system requires "
+"at least a signature for approval."
+msgstr ""
+"Collectie {namespace}.{name} kon niet worden goedgekeurd omdat het systeem "
+"ten minste een handtekening vereist voor goedkeuring."
+
+#: app/api/v3/viewsets/namespace.py:66
+#, python-format
+msgid "A namespace named %s already exists."
+msgstr "Een namespace met de naam %s bestaat al."
+
+#: app/api/v3/viewsets/namespace.py:87
+#, python-brace-format
+msgid ""
+"Namespace {name} cannot be deleted because there are still collections "
+"associated with it."
+msgstr ""
+"Namespace {name} kan niet worden verwijderd omdat er nog collecties aan zijn "
+"gekoppeld."
+
+#: app/auth/keycloak.py:55
+msgid "Authentication failed."
+msgstr "Authenticatie mislukt."
+
+#: app/constants.py:25
+msgid "Add namespace"
+msgstr ""
+
+#: app/constants.py:29
+msgid "Create a new namespace."
+msgstr ""
+
+#: app/constants.py:31 app/constants.py:37 app/constants.py:43
+#: app/constants.py:49
+msgid "Collection Namespaces"
+msgstr ""
+
+#: app/constants.py:34
+msgid "Change namespace"
+msgstr ""
+
+#: app/constants.py:35
+msgid "Edit this namespace."
+msgstr ""
+
+#: app/constants.py:36
+msgid "Edit any existing namespace."
+msgstr ""
+
+#: app/constants.py:40
+msgid "Delete namespace"
+msgstr ""
+
+#: app/constants.py:41
+msgid "Delete this namespace."
+msgstr ""
+
+#: app/constants.py:42
+msgid "Delete any existing namespace."
+msgstr ""
+
+#: app/constants.py:46
+msgid "Upload to namespace"
+msgstr ""
+
+#: app/constants.py:47
+msgid "Upload collections to this namespace."
+msgstr ""
+
+#: app/constants.py:48 app/constants.py:60
+msgid "Upload collections to any existing namespace."
+msgstr ""
+
+#: app/constants.py:52
+msgid "Delete collection"
+msgstr ""
+
+#: app/constants.py:53
+msgid "Delete this collection."
+msgstr ""
+
+#: app/constants.py:54
+msgid "Delete any existing collection."
+msgstr ""
+
+#: app/constants.py:55 app/constants.py:61 app/constants.py:67
+msgid "Collections"
+msgstr ""
+
+#: app/constants.py:58
+msgid "Modify Distronode repo content"
+msgstr ""
+
+#: app/constants.py:59
+msgid "Modify content of this Distronode repository."
+msgstr ""
+
+#: app/constants.py:64
+msgid "Sign collections"
+msgstr ""
+
+#: app/constants.py:65
+msgid "Sign collections in this repository."
+msgstr ""
+
+#: app/constants.py:66
+msgid "Sign collections in any repository."
+msgstr ""
+
+#: app/constants.py:70
+msgid "Add user"
+msgstr ""
+
+#: app/constants.py:72
+msgid "Add new users to the system."
+msgstr ""
+
+#: app/constants.py:73 app/constants.py:79 app/constants.py:85
+#: app/constants.py:91
+msgid "Users"
+msgstr ""
+
+#: app/constants.py:76
+msgid "Change user"
+msgstr ""
+
+#: app/constants.py:77
+msgid "Edit this user."
+msgstr ""
+
+#: app/constants.py:78
+msgid "Edit any existing user in the system."
+msgstr ""
+
+#: app/constants.py:82
+msgid "Delete user"
+msgstr ""
+
+#: app/constants.py:83
+msgid "Delete this user."
+msgstr ""
+
+#: app/constants.py:84
+msgid "Delete any existing user in the system."
+msgstr ""
+
+#: app/constants.py:88
+msgid "View user"
+msgstr ""
+
+#: app/constants.py:89
+msgid "View this user."
+msgstr ""
+
+#: app/constants.py:90
+msgid "View any user in the system."
+msgstr ""
+
+#: app/constants.py:94
+msgid "Add group"
+msgstr ""
+
+#: app/constants.py:96
+msgid "Create new groups in the system."
+msgstr ""
+
+#: app/constants.py:97 app/constants.py:103 app/constants.py:109
+#: app/constants.py:115
+msgid "Groups"
+msgstr ""
+
+#: app/constants.py:100
+msgid "Change group"
+msgstr ""
+
+#: app/constants.py:101
+msgid "Edit this group"
+msgstr ""
+
+#: app/constants.py:102
+msgid "Edit any existing group in the system."
+msgstr ""
+
+#: app/constants.py:106
+msgid "Delete group"
+msgstr ""
+
+#: app/constants.py:107
+msgid "Delete this group."
+msgstr ""
+
+#: app/constants.py:108
+msgid "Delete any group in the system."
+msgstr ""
+
+#: app/constants.py:112
+msgid "View group"
+msgstr ""
+
+#: app/constants.py:113
+msgid "View this group."
+msgstr ""
+
+#: app/constants.py:114
+msgid "View any existing group in the system."
+msgstr ""
+
+#: app/constants.py:118
+msgid "View collection remote"
+msgstr ""
+
+#: app/constants.py:119
+msgid "View this collection remote."
+msgstr ""
+
+#: app/constants.py:120
+msgid "View any collection remote existing in the system."
+msgstr ""
+
+#: app/constants.py:121 app/constants.py:127 app/constants.py:133
+#: app/constants.py:139 app/constants.py:145
+msgid "Collection Remotes"
+msgstr ""
+
+#: app/constants.py:124
+msgid "Add collection remote"
+msgstr ""
+
+#: app/constants.py:125
+msgid "Add this collection remote."
+msgstr ""
+
+#: app/constants.py:126
+msgid "Add any collection remote existing in the system."
+msgstr ""
+
+#: app/constants.py:130
+msgid "Change collection remote"
+msgstr ""
+
+#: app/constants.py:131
+msgid "Edit this collection remote."
+msgstr ""
+
+#: app/constants.py:132
+msgid "Edit any collection remote existing in the system."
+msgstr ""
+
+#: app/constants.py:136
+msgid "Delete collection remote"
+msgstr ""
+
+#: app/constants.py:137
+msgid "Delete this collection remote."
+msgstr ""
+
+#: app/constants.py:138
+msgid "Delete any collection remote existing in the system."
+msgstr ""
+
+#: app/constants.py:142
+msgid "Manage remote roles"
+msgstr ""
+
+#: app/constants.py:143
+msgid "Configure who has permissions on this remote."
+msgstr ""
+
+#: app/constants.py:144
+msgid "Configure who has permissions on any remote."
+msgstr ""
+
+#: app/constants.py:148
+msgid "View Distronode repository"
+msgstr ""
+
+#: app/constants.py:149
+msgid "View this Distronode repository."
+msgstr ""
+
+#: app/constants.py:150
+msgid "View any Distronode repository existing in the system."
+msgstr ""
+
+#: app/constants.py:151 app/constants.py:157 app/constants.py:163
+#: app/constants.py:169 app/constants.py:175 app/constants.py:183
+msgid "Distronode Repository"
+msgstr ""
+
+#: app/constants.py:154
+msgid "Add Distronode repository"
+msgstr ""
+
+#: app/constants.py:155
+msgid "Add this Distronode repository."
+msgstr ""
+
+#: app/constants.py:156
+msgid "Add any Distronode repository existing in the system."
+msgstr ""
+
+#: app/constants.py:160
+msgid "Change Distronode repository"
+msgstr ""
+
+#: app/constants.py:161
+msgid "Change this Distronode repository."
+msgstr ""
+
+#: app/constants.py:162
+msgid "Change any Distronode repository existing in the system."
+msgstr ""
+
+#: app/constants.py:166
+msgid "Delete Distronode repository"
+msgstr ""
+
+#: app/constants.py:167
+msgid "Delete this Distronode repository."
+msgstr ""
+
+#: app/constants.py:168
+msgid "Delete any Distronode repository existing in the system."
+msgstr ""
+
+#: app/constants.py:172
+msgid "Manage repository roles"
+msgstr ""
+
+#: app/constants.py:173
+msgid "Configure who has permissions on this repository."
+msgstr ""
+
+#: app/constants.py:174
+msgid "Configure who has permissions on any repository."
+msgstr ""
+
+#: app/constants.py:178
+msgid "Repair Distronode repository"
+msgstr ""
+
+#: app/constants.py:179
+msgid "Repair artifacts associated with this Distronode repository."
+msgstr ""
+
+#: app/constants.py:181
+msgid ""
+"Repair artifacts associated with any Distronode repository existing in the "
+"system."
+msgstr ""
+
+#: app/constants.py:186
+msgid "Change container namespace permissions"
+msgstr ""
+
+#: app/constants.py:187
+msgid "Edit permissions on this container namespace."
+msgstr ""
+
+#: app/constants.py:188
+msgid "Edit permissions on any existing container namespace."
+msgstr ""
+
+#: app/constants.py:189 app/constants.py:195 app/constants.py:201
+#: app/constants.py:207 app/constants.py:213 app/constants.py:219
+#: app/constants.py:225 app/constants.py:231
+msgid "Execution Environments"
+msgstr ""
+
+#: app/constants.py:192
+msgid "Change containers"
+msgstr ""
+
+#: app/constants.py:193
+msgid "Edit all objects in this container namespace."
+msgstr ""
+
+#: app/constants.py:194
+msgid "Edit all objects in any container namespace in the system."
+msgstr ""
+
+#: app/constants.py:198
+msgid "Change image tags"
+msgstr ""
+
+#: app/constants.py:199
+msgid "Edit an image's tag in this container namespace"
+msgstr ""
+
+#: app/constants.py:200
+msgid "Edit an image's tag in any container namespace the system."
+msgstr ""
+
+#: app/constants.py:204
+msgid "Create new containers"
+msgstr ""
+
+#: app/constants.py:206
+msgid "Add new containers to the system."
+msgstr ""
+
+#: app/constants.py:210
+msgid "Delete container repository"
+msgstr ""
+
+#: app/constants.py:211
+msgid "Delete this container repository."
+msgstr ""
+
+#: app/constants.py:212
+msgid "Delete any existing container repository in the system."
+msgstr ""
+
+#: app/constants.py:216
+msgid "Push to existing containers"
+msgstr ""
+
+#: app/constants.py:217
+msgid "Push to this namespace."
+msgstr ""
+
+#: app/constants.py:218
+msgid "Push to any existing namespace in the system."
+msgstr ""
+
+#: app/constants.py:222
+msgid "Push new containers"
+msgstr ""
+
+#: app/constants.py:223
+msgid "Push a new container to this namespace."
+msgstr ""
+
+#: app/constants.py:224
+msgid "Push a new containers to any namespace in the system."
+msgstr ""
+
+#: app/constants.py:228
+msgid "Manage container namespace roles"
+msgstr ""
+
+#: app/constants.py:229
+msgid "Manage container namespace roles."
+msgstr ""
+
+#: app/constants.py:230
+msgid "Manage container namespace roles existing in the system."
+msgstr ""
+
+#: app/constants.py:234
+msgid "Add remote registry"
+msgstr ""
+
+#: app/constants.py:236
+msgid "Add remote registry to the system."
+msgstr ""
+
+#: app/constants.py:237 app/constants.py:243
+msgid "Container Registry Remotes"
+msgstr ""
+
+#: app/constants.py:240
+msgid "Change remote registry"
+msgstr ""
+
+#: app/constants.py:241
+msgid "Edit this remote registry."
+msgstr ""
+
+#: app/constants.py:242
+msgid "Change any remote registry existing in the system."
+msgstr ""
+
+#: app/constants.py:246
+msgid "Delete remote registry"
+msgstr ""
+
+#: app/constants.py:247
+msgid "Delete this remote registry."
+msgstr ""
+
+#: app/constants.py:248
+msgid "Delete any remote registry existing in the system."
+msgstr ""
+
+#: app/constants.py:252
+msgid "Change task"
+msgstr ""
+
+#: app/constants.py:253
+msgid "Edit this task."
+msgstr ""
+
+#: app/constants.py:254
+msgid "Edit any task existing in the system."
+msgstr ""
+
+#: app/constants.py:255 app/constants.py:261 app/constants.py:267
+msgid "Task Management"
+msgstr ""
+
+#: app/constants.py:258
+msgid "Delete task"
+msgstr ""
+
+#: app/constants.py:259
+msgid "Delete this task."
+msgstr ""
+
+#: app/constants.py:260
+msgid "Delete any task existing in the system."
+msgstr ""
+
+#: app/constants.py:264
+msgid "View all tasks"
+msgstr ""
+
+#: app/constants.py:265
+msgid "View this task."
+msgstr ""
+
+#: app/constants.py:266
+msgid "View any task existing in the system."
+msgstr ""
+
+#: app/exceptions.py:8
+msgid "Data conflicts with existing entity."
+msgstr "Gegevens conflicteren met bestaande entiteit."
+
+#: app/management/commands/populate-role-tags.py:20
+msgid ""
+"Populate the 'LegacyRoleTag' model with tags from LegacyRole "
+"'full_metadata__tags'."
+msgstr ""
+
+#: app/tasks/index_registry.py:28
+#, python-brace-format
+msgid "Failed to create container {remote_name}. {error}"
+msgstr "Kan container {remote_name}. {error} niet aanmaken"
+
+#: app/tasks/index_registry.py:92
+msgid ""
+"A remote container with this name already exists, but is not associated with "
+"any registry."
+msgstr ""
+"Een container op afstand met deze naam bestaat al, maar is niet geassocieerd "
+"met een register."
+
+#: app/tasks/index_registry.py:99
+msgid "A local container with this name already exists."
+msgstr "Een lokale container met deze naam bestaat al."
+
+#: app/tasks/publishing.py:45
+#, python-format
+msgid "Could not find staging repository: \"%s\""
+msgstr "Kon de staging repository niet vinden: \"%s\""
+
+#~ msgid "Path does not match: \"%s\""
+#~ msgstr "Pad komt niet overeen: \"%s\""

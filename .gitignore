@@ -18,7 +18,6 @@ rpm-build
 #IntelliJ IDEA stuff..
 *.iml
 #VSCode stuff..
-.vscode/
 # Mac OS X stuff...
 .DS_Store
 # manpage build stuff...

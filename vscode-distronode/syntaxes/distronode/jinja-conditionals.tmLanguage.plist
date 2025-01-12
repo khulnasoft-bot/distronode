@@ -1,0 +1,382 @@
+{
+    scopeName = 'injection.distronode.jinja-conditionals';
+    name = 'Grammar for Jinja2 expressions in Distronode conditionals';
+    patterns = (
+        { include = '#distronode-condition'; }
+    );
+    comment = (
+        'Flow style collections are not supported (yet)'
+    );
+    repository = {
+        distronode-condition = {
+            patterns = (
+                {
+                    name = 'meta.flow-unquoted.distronode.condition';
+                    begin = '(?x)
+                        ^(\s*) # 1
+                        (?:(-)(\s+))? # 2, 3; in case it is first key of a list item
+                        \b( # 4
+                            changed_when
+                            | failed_when
+                            | when
+                            | check_mode
+                        )\b
+                        \s* (:) # 5
+                        (?=\s) (?!\s*[|>''"]|\s*$|\s*\#.*$) # starting an unquoted flow
+                    ';
+                    beginCaptures = {
+                        2 = {
+                            name = 'punctuation.definition.block.sequence.item.distronode';
+                        };
+                        4 = {
+                            name = 'keyword.other.special-method.distronode';
+                        };
+                        5 = {
+                            name = 'punctuation.separator.key-value.mapping.distronode';
+                        };
+                    };
+                    end = '(?x)
+                        ^(?!\1\3\3\s+) # if the indentation is too small; HACK: \3 is used twice to match at least 2 spaces if group 2 matches
+                    ';
+                    patterns = (
+                        { include = 'source.distronode#comment'; },
+                        { include = '#yaml-unquoted-string'; }
+                    );
+                },
+                {
+                    name = 'meta.flow.distronode.condition';
+                    begin = '(?x)
+                        ^(\s*) # 1
+                        (?:(-)(\s+))? # 2, 3; in case it is first key of a list item
+                        \b( # 4
+                            changed_when
+                            | failed_when
+                            | when
+                            | check_mode
+                        )\b
+                        \s* (:) # 5
+                        (?=\s) (?!\s*[|>]|\s*$|\s*\#.*$) # not starting a block (scalar or other)
+                    ';
+                    beginCaptures = {
+                        2 = {
+                            name = 'punctuation.definition.block.sequence.item.distronode';
+                        };
+                        4 = {
+                            name = 'keyword.other.special-method.distronode';
+                        };
+                        5 = {
+                            name = 'punctuation.separator.key-value.mapping.distronode';
+                        };
+                    };
+                    end = '(?x)
+                        ^(?!\1\3\3\s+) # if the indentation is too small; HACK: \3 is used twice to match at least 2 spaces if group 2 matches
+                    ';
+                    patterns = (
+                        { include = 'source.distronode#comment'; },
+                        { include = '#yaml-double-quoted-string'; },
+                        { include = '#yaml-single-quoted-string'; },
+                        { include = '#yaml-unquoted-string'; }
+                    );
+                },
+                {
+                    name = 'meta.block-scalar.distronode.condition';
+                    begin = '(?x)
+                        ^(\s*) # 1
+                        (?:(-)(\s+))? # 2, 3; in case it is first key of a list item
+                        \b( # 4
+                            changed_when
+                            | failed_when
+                            | when
+                            | check_mode
+                        )\b
+                        \s* (:) # 5
+                        \s+ (?: (\|) | (>) ) ([1-9])? ([-+])? # 6,7,8,9; starting a scalar block
+                        (.*$) # comment or illegal
+                    ';
+                    beginCaptures = {
+                        2 = {
+                            name = 'punctuation.definition.block.sequence.item.distronode';
+                        };
+                        4 = {
+                            name = 'keyword.other.special-method.distronode';
+                        };
+                        5 = {
+                            name = 'punctuation.separator.key-value.mapping.distronode';
+                        };
+                        6 = {
+                            name = 'keyword.control.flow.block-scalar.literal.distronode';
+                        };
+                        7 = {
+                            name = 'keyword.control.flow.block-scalar.folded.distronode';
+                        };
+                        8 = {
+                            name = 'constant.numeric.indentation-indicator.distronode';
+                        };
+                        9 = {
+                            name = 'storage.modifier.chomping-indicator.distronode';
+                        };
+                        10 = {
+                            patterns = (
+                                {
+                                    include = 'source.distronode#comment';
+                                },
+                                {
+                                    match = '.+';
+                                    name = 'invalid.illegal.expected-comment-or-newline.distronode';
+                                }
+                            );
+                        };
+                    };
+                    end = '(?x)
+                        ^(?!\1\3\3\s+) # if the indentation is too small; HACK: \3 is used twice to match at least 2 spaces if group 2 matches
+                    ';
+                    patterns = (
+                        { include = '#yaml-scalar-block'; },
+                    );
+                },
+                {
+                    name = 'meta.block.distronode.condition';
+                    begin = '(?x)
+                        ^(\s*) # 1
+                        (?:(-)(\s+))? # 2, 3; in case it is first key of a list item
+                        \b( # 4
+                            changed_when
+                            | failed_when
+                            | when
+                            | check_mode
+                        )\b
+                        \s* (:) # 5
+                        (.*$) # comment or illegal
+                    ';
+                    beginCaptures = {
+                        2 = {
+                            name = 'punctuation.definition.block.sequence.item.distronode';
+                        };
+                        4 = {
+                            name = 'keyword.other.special-method.distronode';
+                        };
+                        5 = {
+                            name = 'punctuation.separator.key-value.mapping.distronode';
+                        };
+                        6 = {
+                            patterns = (
+                                {
+                                    include = 'source.distronode#comment';
+                                },
+                                {
+                                    match = '.+';
+                                    name = 'invalid.illegal.expected-comment-or-newline.distronode';
+                                }
+                            );
+                        };
+                    };
+                    end = '(?x)
+                        ^(?!\1\3\3\s+) # if the indentation is too small; HACK: \3 is used twice to match at least 2 spaces if group 2 matches
+                    ';
+                    patterns = (
+                        { include = '#yaml-block'; },
+                    );
+                }
+            );
+        };
+        yaml-block = {
+            patterns = (
+                {
+                    name = 'meta.yaml-block.distronode.condition';
+                    comment = (
+                        'Well-indented block'
+                    );
+                    begin = '(?x)
+                        ^(?=(\s+)) # 1
+                    ';
+                    end = '(?x)
+                        (?!\G) # otherwise match is found immediately
+                        ^(?!\1\s+) # if the indentation is too small
+                    ';
+                    patterns = (
+                        { include = 'source.distronode#comment'; },
+                        { include = '#yaml-block-list-item'; },
+                        { include = '#yaml-double-quoted-string'; },
+                        { include = '#yaml-single-quoted-string'; },
+                        { include = '#yaml-unquoted-string-block'; },
+                        { include = '#yaml-unquoted-string'; }
+                    );
+                }
+            );
+        };
+        yaml-block-list-item = {
+            patterns = (
+                {
+                    name = 'meta.yaml-block-list-item.distronode.condition';
+                    comment = (
+                        'Well-indented list item block'
+                    );
+                    begin = '(?x)
+                        ^(\s*) # 1
+                        (-)(\s) # 2, 3
+                    ';
+                    beginCaptures = {
+                        2 = {
+                            name = 'punctuation.definition.block.sequence.item.distronode';
+                        };
+                    };
+                    end = '(?x)
+                        ^(?!\1\3\s+) # if the indentation is too small
+                    ';
+                    patterns = (
+                        { include = 'source.distronode#comment'; },
+                        { include = '#yaml-double-quoted-string'; },
+                        { include = '#yaml-single-quoted-string'; },
+                        { include = '#yaml-unquoted-string'; }
+                    );
+                }
+            );
+        };
+        yaml-scalar-block = {
+            patterns = (
+                {
+                    name = 'meta.yaml-scalar-block.distronode.condition';
+                    comment = (
+                        'Well-indented scalar block (for `>` and `|`)'
+                    );
+                    begin = '(?x)
+                        ^(\s*) # 1
+                    ';
+                    end = '(?x)
+                        ^(?!\1\s+) # if the indentation is too small
+                    ';
+                    contentName = 'keyword.operator.distronode meta.embedded.inline.jinja';
+                    patterns = (
+                        { include = '#yaml-unquoted-string'; },
+                    );
+                }
+            );
+        };
+        yaml-single-quoted-string = {
+            patterns = (
+                {
+                    name = 'string.quoted.single.distronode.meta';
+                    begin = '(?<=:\s|-\s|^)\s*''';
+                    beginCaptures = {
+                        0 = {
+                            name = 'punctuation.definition.string.begin.distronode';
+                        };
+                    };
+                    end = '(?x)
+                        (''(?!'')) # 1; match the starting quote
+                        (?: (?=\s+\#) | (.*$) ) # 2; unless it is a comment anything trailing here is illegal
+                    ';
+                    endCaptures = {
+                        1 = {
+                            name = 'punctuation.definition.string.end.distronode';
+                        };
+                        2 = {
+                            name = 'invalid.illegal.expected-comment-or-newline.distronode';
+                        };
+                    };
+                    contentName = 'keyword.operator.distronode meta.embedded.inline.jinja';
+                    patterns = (
+                        {
+                            begin = "''";
+                            beginCaptures = {
+                                0 = {
+                                    name = 'constant.character.escape.single-quoted.distronode';
+                                };
+                            };
+                            end = "''";
+                            endCaptures = {
+                                0 = {
+                                    name = 'constant.character.escape.single-quoted.distronode';
+                                };
+                            };
+                            contentName = 'string.quoted.single.jinja';
+                            patterns = (
+                                { include = 'source.distronode-jinja#string'; }
+                            );
+                        },
+                        { include = 'source.distronode-jinja#expression'; },
+                    );
+                }
+            );
+        };
+        yaml-double-quoted-string = {
+            patterns = (
+                {
+                    name = 'string.quoted.double.distronode.meta';
+                    begin = '(?<=:\s|-\s|^)\s*"';
+                    beginCaptures = {
+                        0 = {
+                            name = 'punctuation.definition.string.begin.distronode';
+                        };
+                    };
+                    end = '(?x)
+                        (") # 1; match the starting quote
+                        (?: (?=\s+\#) | (.*$) ) # 2; unless it is a comment anything trailing here is illegal
+                    ';
+                    endCaptures = {
+                        1 = {
+                            name = 'punctuation.definition.string.end.distronode';
+                        };
+                        2 = {
+                            name = 'invalid.illegal.expected-comment-or-newline.distronode';
+                        };
+                    };
+                    contentName = 'keyword.operator.distronode meta.embedded.inline.jinja';
+                    patterns = (
+                        {
+                            begin = '\\"';
+                            beginCaptures = {
+                                0 = {
+                                    name = 'constant.character.escape.double-quoted.distronode';
+                                };
+                            };
+                            end = '\\"';
+                            endCaptures = {
+                                0 = {
+                                    name = 'constant.character.escape.double-quoted.distronode';
+                                };
+                            };
+                            contentName = 'string.quoted.double.jinja';
+                            patterns = (
+                                { include = 'source.distronode-jinja#string'; }
+                            );
+                        },
+                        { include = 'source.distronode-jinja#expression'; },
+                    );
+                }
+            );
+        };
+        yaml-unquoted-string = {
+            patterns = (
+                {
+                    comment = 'Capture any non-whitespace and end as fast as possible (when inner pattern ends)';
+                    name = 'string.unquoted.distronode';
+                    begin = '(?=\S)';
+                    end = '(?!\G)';
+                    contentName = 'keyword.operator.distronode meta.embedded.inline.jinja';
+                    patterns = (
+                        { include = 'source.distronode-jinja#expression'; },
+                    );
+                }
+            );
+        };
+
+        yaml-unquoted-string-block = {
+            patterns = (
+                {
+                    comment = 'Capture any non-whitespace at the beginning of a block';
+                    name = 'string.unquoted-block.distronode';
+                    begin = '(?x)
+                        ^(\s*) # 1
+                        (?=\S)';
+                    end = '(?x)
+                        ^(?!\1\s*) # if the indentation is too small';
+                    contentName = 'keyword.operator.distronode meta.embedded.inline.jinja';
+                    patterns = (
+                        { include = 'source.distronode-jinja#expression'; },
+                    );
+                }
+            );
+        };
+    };
+}

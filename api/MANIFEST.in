@@ -1,0 +1,30 @@
+recursive-include api *.py
+recursive-include api *.po
+recursive-include api *.mo
+recursive-include api/static *
+recursive-include api/templates *.html
+recursive-include api/api/templates *.md *.html *.yml
+recursive-include api/ui/build *
+recursive-include api/playbooks *.yml
+recursive-include api/lib/site-packages *
+recursive-include api/plugins *.ps1
+recursive-include requirements *.txt
+recursive-include requirements *.yml
+recursive-include config *
+recursive-include licenses *
+recursive-exclude api devonly.py*
+recursive-exclude api/api/tests *
+recursive-exclude api/main/tests *
+recursive-exclude api/settings local_settings.py*
+include tools/scripts/request_tower_configuration.sh
+include tools/scripts/request_tower_configuration.ps1
+include tools/scripts/automation-controller-service
+include tools/scripts/rsyslog-4xx-recovery
+include tools/scripts/api-python
+include api/playbooks/library/mkfifo.py
+include tools/sosreport/*
+include VERSION
+include COPYING
+include Makefile
+prune api/public
+prune api/projects

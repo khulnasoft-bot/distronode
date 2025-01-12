@@ -1,0 +1,7 @@
+# code: language=distronode
+
+- hosts: localhost
+  tasks:
+    - name: This file has modelines and the language is set by it
+      distronode.builtin.debug:
+        msg: Hello world!

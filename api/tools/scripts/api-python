@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# Enable API virtualenv
+for venv_path in /var/lib/api/venv/api; do
+  if [ -f $venv_path/bin/activate ]; then
+    . $venv_path/bin/activate
+  fi
+done
+
+# Run the requested Python command, using the interpreter from the path
+exec python3 "$@"

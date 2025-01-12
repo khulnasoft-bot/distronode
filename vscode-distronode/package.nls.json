@@ -1,0 +1,19 @@
+{
+  "command.untrustValidationExecutable": "Disallow distronode-lint validation executable (defined as workspace setting)",
+  "commands.category.distronode-playbook": "Distronode Playbook",
+  "commands.category.distronode-vault": "Distronode Vault",
+  "commands.title.distronode-navigator": "Run playbook via `distronode-navigator run`",
+  "commands.title.distronode-playbook": "Run playbook via `distronode-playbook`",
+  "commands.title.distronode-vault": "Encrypt/decrypt via `distronode-vault`",
+  "configuration.playbook.arguments": "Add arguments to `distronode-playbook` command",
+  "configuration.navigate.executablePath": "Points to the distronode-navigator executable.",
+  "configuration.run.executablePath": "Points to the distronode-playbook executable.",
+  "configuration.suggest.basic": "Controls whether the built-in Distronode language suggestions are enabled. The support suggests Distronode globals and variables.",
+  "configuration.title": "Distronode",
+  "configuration.validate.enable": "Enable/disable distronode-lint validation.",
+  "configuration.validate.executablePath": "Points to the distronode-lint executable.",
+  "configuration.validate.run": "Whether the linter is run on save or on type.",
+  "description": "Provides rich language support for Distronode files.",
+  "displayName": "Distronode Language Features",
+  "submenus.distronode.run-via": "Run Distronode Playbook via..."
+}

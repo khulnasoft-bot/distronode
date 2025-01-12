@@ -1,0 +1,168 @@
+---
+name: Stage Release
+
+env:
+  LC_ALL: "C.UTF-8" # prevent ERROR: Distronode could not initialize the preferred locale: unsupported locale setting
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'API version.'
+        required: true
+        default: ''
+      operator_version:
+        description: 'Operator version. Leave blank to skip staging api-operator.'
+        default: ''
+      confirm:
+        description: 'Are you sure? Set this to yes.'
+        required: true
+        default: 'no'
+
+jobs:
+  stage:
+    if: endsWith(github.repository, '/api')
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    permissions:
+      packages: write
+      contents: write
+    steps:
+      - name: Verify inputs
+        run: |
+          set -e
+
+          if [[ ${{ github.event.inputs.confirm }} != "yes" ]]; then
+            >&2 echo "Confirm must be 'yes'"
+            exit 1
+          fi
+
+          if [[ ${{ github.event.inputs.version }} == "" ]]; then
+            >&2 echo "Set version to continue."
+            exit 1
+          fi
+
+          exit 0
+
+      - name: Checkout api
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          path: api
+
+      - name: Checkout api-operator
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          repository: ${{ github.repository_owner }}/api-operator
+          path: api-operator
+
+      - name: Checkout api-logos
+        uses: actions/checkout@v4
+        with:
+          show-progress: false
+          repository: distronode/distronode/tree/devel/api-logos
+          path: api-logos
+
+      - name: Get python version from Makefile
+        working-directory: api
+        run: echo py_version=`make PYTHON_VERSION` >> $GITHUB_ENV
+
+      - name: Install python ${{ env.py_version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.py_version }}
+
+      - name: Install playbook dependencies
+        run: |
+          python3 -m pip install docker
+
+      - name: Log into registry ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Copy logos for inclusion in sdist for official build
+        working-directory: api
+        run: |
+          cp ../api-logos/api/ui/client/assets/* api/ui/public/static/media/
+
+      - name: Setup node and npm for new UI build
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Prebuild new UI for api image (to speed up build process)
+        working-directory: api
+        run: make ui
+
+      - name: Set build env variables
+        run: |
+          echo "DEV_DOCKER_TAG_BASE=ghcr.io/${OWNER,,}" >> $GITHUB_ENV
+          echo "COMPOSE_TAG=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          echo "API_TEST_VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          echo "API_TEST_IMAGE=ghcr.io/${OWNER,,}/api" >> $GITHUB_ENV
+          echo "API_EE_TEST_IMAGE=ghcr.io/${OWNER,,}/api-ee:${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          echo "API_OPERATOR_TEST_IMAGE=ghcr.io/${OWNER,,}/api-operator:${{ github.event.inputs.operator_version }}" >> $GITHUB_ENV
+        env:
+          OWNER: ${{ github.repository_owner }}
+
+      - name: Build and stage API
+        working-directory: api
+        env:
+          DOCKER_BUILDX_PUSH: true
+          HEADLESS: false
+          PLATFORMS: linux/amd64,linux/arm64
+        run: |
+          make api-kube-buildx
+
+      - name: tag api-ee:latest with version input
+        run: |
+          docker buildx imagetools create \
+            quay.io/distronode/distronode/tree/devel/api-ee:latest \
+            --tag ${API_EE_TEST_IMAGE}
+
+      - name: Stage api-operator image
+        working-directory: api-operator
+        run: |
+          BUILD_ARGS="--build-arg DEFAULT_API_VERSION=${{ github.event.inputs.version}} \
+              --build-arg OPERATOR_VERSION=${{ github.event.inputs.operator_version }}" \
+          IMG=${API_OPERATOR_TEST_IMAGE} \
+          make docker-buildx
+
+      - name: Pulling images for test deployment with api-operator
+        # api operator molecue test expect to kind load image and buildx exports image to registry and not local
+        run: |
+          docker pull -q ${API_OPERATOR_TEST_IMAGE}
+          docker pull -q ${API_EE_TEST_IMAGE}
+          docker pull -q ${API_TEST_IMAGE}:${API_TEST_VERSION}
+
+      - name: Run test deployment with api-operator
+        working-directory: api-operator
+        run: |
+          python3 -m pip install -r molecule/requirements.txt
+          distronode-galaxy collection install -r molecule/requirements.yml
+          sudo rm -f $(which kustomize)
+          make kustomize
+          KUSTOMIZE_PATH=$(readlink -f bin/kustomize) molecule test -s kind
+
+      - name: Create draft release for API
+        working-directory: api
+        run: |
+          distronode-playbook -v tools/distronode/stage.yml \
+            -e repo=${{ github.repository }} \
+            -e api_image=ghcr.io/${{ github.repository }} \
+            -e version=${{ github.event.inputs.version }} \
+            -e github_token=${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create draft release for api-operator
+        if: ${{ github.event.inputs.operator_version != '' }}
+        working-directory: api
+        run: |
+          distronode-playbook tools/distronode/stage.yml \
+            -e version=${{ github.event.inputs.operator_version }} \
+            -e repo=${{ github.repository_owner }}/api-operator \
+            -e github_token=${{ secrets.API_OPERATOR_RELEASE_TOKEN }}

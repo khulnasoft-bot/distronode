@@ -1,0 +1,57 @@
+---
+name: django-distronode-base requirements update
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *' # once an day @ 6 AM
+permissions:
+  pull-requests: write
+  contents: write
+jobs:
+  dab-pin-newest:
+    if: (github.repository_owner == 'distronode' && endsWith(github.repository, 'api')) || github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - id: dab-release
+        name: Get current django-distronode-base release version
+        uses: pozetroninc/github-action-get-latest-release@2a61c339ea7ef0a336d1daa35ef0cb1418e7676c # v0.8.0
+        with:
+          owner: distronode
+          repo: django-distronode-base
+          excludes: prerelease, draft
+
+      - name: Check out respository code
+        uses: actions/checkout@v4
+
+      - id: dab-pinned
+        name: Get current django-distronode-base pinned version
+        run:
+          echo "version=$(requirements/django-distronode-base-pinned-version.sh)" >> "$GITHUB_OUTPUT"
+
+      - name: Update django-distronode-base pinned version to upstream release
+        run:
+          requirements/django-distronode-base-pinned-version.sh -s ${{ steps.dab-release.outputs.release }}
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c # v6
+        with:
+          base: devel
+          branch: bump-django-distronode-base
+          title: Bump django-distronode-base to ${{ steps.dab-release.outputs.release }}
+          body: |
+            ##### SUMMARY
+            Automated .github/workflows/dab-release.yml
+
+            django-distronode-base upstream released version == ${{ steps.dab-release.outputs.release }}
+            requirements_git.txt django-distronode-base pinned version ==  ${{ steps.dab-pinned.outputs.version }}
+
+            ##### ISSUE TYPE
+            - Bug, Docs Fix or other nominal change
+
+            ##### COMPONENT NAME
+            - API
+
+          commit-message: |
+            Update django-distronode-base version to ${{ steps.dab-pinned.outputs.version }}
+          add-paths:
+            requirements/requirements_git.txt

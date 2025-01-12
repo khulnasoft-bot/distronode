@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: automation-hub-frontend
+objects:
+  - apiVersion: cloud.redhat.com/v1alpha1
+    kind: Frontend
+    metadata:
+      name: automation-hub
+    spec:
+      envName: ${ENV_NAME}
+      title: automation-hub
+      deploymentRepo: https://github.com/distronode/distronode/tree/deve/ui
+      API:
+        versions:
+          - v1
+      frontend:
+        paths:
+          - /apps/automation-hub
+      image: ${IMAGE}:${IMAGE_TAG}
+      navItems:
+        - id: "collections"
+          appId: "automationHub"
+          title: "Collections"
+          href: "/distronode/automation-hub/"
+          icon: "DistronodeIcon"
+          product: "Distronode Automation Hub"
+          description: "Find and download Distronode Content Collections from Red Hat and partners."
+        - id: "partners"
+          appId: "automationHub"
+          title: "Partners"
+          href: "/distronode/automation-hub/partners"
+          product: "Distronode Automation Hub"
+        - id: "taskManagement"
+          appId: "automationHub"
+          title: "Task Management"
+          href: "/distronode/automation-hub/tasks"
+          product: "Distronode Automation Hub"
+        - id: "connectToHub"
+          appId: "automationHub"
+          title: "Connect to Hub"
+          href: "/distronode/automation-hub/token"
+          product: "Distronode Automation Hub"
+      module:
+        manifestLocation: "/apps/automation-hub/fed-mods.json"
+        modules:
+          - id: "distronode-automation-hub"
+            module: "./RootApp"
+            routes:
+              - pathname: /distronode/automation-hub
+
+parameters:
+  - name: ENV_NAME
+    required: true
+  - name: IMAGE_TAG
+    required: true
+  - name: IMAGE
+    value: quay.io/cloudservices/distronode-hub-ui

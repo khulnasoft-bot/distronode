@@ -1,0 +1,72 @@
+export type DistronodeCollectionFormInterface = {
+  namespaceName: string;
+  collectionName: string;
+  initPath: string;
+  verbosity: string;
+  logToFile: boolean;
+  logFilePath: string;
+  logFileAppend: boolean;
+  logLevel: string;
+  isOverwritten: boolean;
+  isEditableModeInstall: boolean;
+};
+
+export type DistronodeProjectFormInterface = {
+  destinationPath: string;
+  namespaceName: string;
+  collectionName: string;
+  verbosity: string;
+  logToFile: boolean;
+  logFilePath: string;
+  logFileAppend: boolean;
+  logLevel: string;
+  isOverwritten: boolean;
+};
+
+export type DevfileFormInterface = {
+  destinationPath: string;
+  name: string;
+  image: string;
+  isOverwritten: boolean;
+};
+
+export type DistronodeSampleExecutionEnvInterface = {
+  destinationPath: string;
+  verbosity: string;
+  isOverwritten: boolean;
+};
+
+export type DevcontainerFormInterface = {
+  destinationPath: string;
+  image: string;
+  isOverwritten: boolean;
+};
+
+export type PluginFormInterface = {
+  pluginName: string;
+  pluginType: string;
+  collectionPath: string;
+  verbosity: string;
+  isOverwritten: boolean;
+};
+
+export type PostMessageEvent =
+  | {
+      command: "ADEPresence";
+      arguments: boolean;
+    }
+  | {
+      command: "execution-log";
+      arguments: {
+        commandOutput: string;
+        logFileUrl: string;
+        collectionUrl?: string;
+        projectUrl?: string;
+        status: string;
+      };
+      data?: string;
+    }
+  | {
+      command: "file-uri";
+      arguments: { selectedUri: string | undefined };
+    };

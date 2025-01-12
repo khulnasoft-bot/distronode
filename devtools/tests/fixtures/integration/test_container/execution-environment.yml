@@ -1,0 +1,20 @@
+---
+version: 3
+
+images:
+  base_image:
+    name: quay.io/fedora/fedora-minimal:40
+
+dependencies:
+  distronode_runner:
+    package_pip: distronode-runner
+
+  distronode_core:
+    package_pip: distronode-core
+
+options:
+  package_manager_path: /usr/bin/dnf5
+
+additional_build_steps:
+  prepend_base:
+    - RUN $PKGMGR -y -q install python3-devel

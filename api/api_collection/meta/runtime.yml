@@ -1,0 +1,265 @@
+---
+requires_distronode: '>=2.9.10'
+action_groups:
+  controller:
+    - ad_hoc_command
+    - ad_hoc_command_cancel
+    - ad_hoc_command_wait
+    - bulk_job_launch
+    - bulk_host_create
+    - bulk_host_delete
+    - controller_meta
+    - credential_input_source
+    - credential
+    - credential_type
+    - execution_environment
+    - export
+    - group
+    - host
+    - import
+    - instance
+    - instance_group
+    - inventory
+    - inventory_source
+    - inventory_source_update
+    - job_cancel
+    - job_launch
+    - job_list
+    - job_template
+    - job_wait
+    - label
+    - license
+    - notification_template
+    - organization
+    - project
+    - project_update
+    - role
+    - role_definition
+    - role_team_assignment
+    - role_user_assignment
+    - schedule
+    - settings
+    - subscriptions
+    - team
+    - user
+    - workflow_approval
+    - workflow_job_template_node
+    - workflow_job_template
+    - workflow_launch
+    - workflow_node_wait
+plugin_routing:
+  inventory:
+    tower:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* plugins have been deprecated, use api.api.controller instead.
+      redirect: api.api.controller
+  lookup:
+    tower_api:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* plugins have been deprecated, use api.api.controller_api instead.
+      redirect: api.api.controller_api
+    tower_schedule_rrule:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* plugins have been deprecated, use api.api.schedule_rrule instead.
+      redirect: api.api.schedule_rrule
+  modules:
+    tower_ad_hoc_command_cancel:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.ad_hoc_command_cancel instead.
+      redirect: api.api.ad_hoc_command_cancel
+    tower_ad_hoc_command_wait:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.ad_hoc_command_wait instead.
+      redirect: api.api.ad_hoc_command_wait
+    tower_ad_hoc_command:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.ad_hoc_command instead.
+      redirect: api.api.ad_hoc_command
+    tower_application:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.application instead.
+      redirect: api.api.application
+    tower_meta:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.controller_meta instead.
+      redirect: api.api.controller_meta
+    tower_credential_input_source:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.credential_input_source instead.
+      redirect: api.api.credential_input_source
+    tower_credential_type:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.credential_type instead.
+      redirect: api.api.credential_type
+    tower_credential:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.credential instead.
+      redirect: api.api.credential
+    tower_execution_environment:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.execution_environment instead.
+      redirect: api.api.execution_environment
+    tower_export:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.export instead.
+      redirect: api.api.export
+    tower_group:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.group instead.
+      redirect: api.api.group
+    tower_host:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.host instead.
+      redirect: api.api.host
+    tower_import:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.import instead.
+      redirect: api.api.import
+    tower_instance_group:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.instance_group instead.
+      redirect: api.api.instance_group
+    tower_inventory_source_update:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.inventory_source_update instead.
+      redirect: api.api.inventory_source_update
+    tower_inventory_source:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.inventory_source instead.
+      redirect: api.api.inventory_source
+    tower_inventory:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.inventory instead.
+      redirect: api.api.inventory
+    tower_job_cancel:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.job_cancel instead.
+      redirect: api.api.job_cancel
+    tower_job_launch:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.job_launch instead.
+      redirect: api.api.job_launch
+    tower_job_list:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.job_list instead.
+      redirect: api.api.job_list
+    tower_job_template:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.job_template instead.
+      redirect: api.api.job_template
+    tower_job_wait:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.job_wait instead.
+      redirect: api.api.job_wait
+    tower_label:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.label instead.
+      redirect: api.api.label
+    tower_license:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.license instead.
+      redirect: api.api.license
+    tower_notification_template:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.notification_template instead.
+      redirect: api.api.notification_template
+    tower_notification:
+      redirect: api.api.notification_template
+    tower_organization:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.organization instead.
+      redirect: api.api.organization
+    tower_project_update:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.project_update instead.
+      redirect: api.api.project_update
+    tower_project:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.project instead.
+      redirect: api.api.project
+    tower_role:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.role instead.
+      redirect: api.api.role
+    tower_schedule:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.schedule instead.
+      redirect: api.api.schedule
+    tower_settings:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.settings instead.
+      redirect: api.api.settings
+    tower_team:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.team instead.
+      redirect: api.api.team
+    tower_token:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.token instead.
+      redirect: api.api.token
+    tower_user:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.user instead.
+      redirect: api.api.user
+    tower_workflow_approval:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.workflow_approval instead.
+      redirect: api.api.workflow_approval
+    tower_workflow_job_template_node:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.workflow_job_template_node instead.
+      redirect: api.api.workflow_job_template_node
+    tower_workflow_job_template:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.workflow_job_template instead.
+      redirect: api.api.workflow_job_template
+    tower_workflow_launch:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.workflow_launch instead.
+      redirect: api.api.workflow_launch
+    tower_workflow_node_wait:
+      deprecation:
+        removal_date: '2022-01-23'
+        warning_text: The tower_* modules have been deprecated, use api.api.workflow_node_wait instead.
+      redirect: api.api.workflow_node_wait

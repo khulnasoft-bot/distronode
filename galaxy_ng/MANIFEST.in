@@ -1,0 +1,29 @@
+include CHANGES.md
+include COMMITMENT
+include LICENSE
+include integration_requirements.txt
+include unittest_requirements.txt
+include pyproject.toml
+include requirements/requirements.common.txt
+include Dockerfile.sync_tests_stage
+recursive-include galaxy_ng *.md
+graft galaxy_ng/app/webserver_snippets
+graft galaxy_ng/app/static
+graft galaxy_ng/locale
+exclude mkdocs.yml
+exclude netlify.toml
+exclude docs
+exclude doc_requirements.txt
+exclude .readthedocs.yaml
+include django-automated-logging-LICENSE.txt
+include galaxy_ng/automated_logging/templates/dal/admin/view.html
+include galaxy_ng/tests/integration/load_data.yaml
+recursive-include galaxy_ng *.py
+include galaxy_ng/tests/integration/utils/gpg/collection_sign.sh
+include galaxy_ng/tests/integration/utils/gpg/qe-sign-priv.gpg
+include galaxy-operator/bin/readyz.py
+exclude .coveragerc
+exclude sonar-project.properties
+exclude aap_compose_dev.yaml
+exclude tox.ini
+prune .tekton

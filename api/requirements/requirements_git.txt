@@ -1,0 +1,6 @@
+git+https://github.com/distronode/system-certifi.git@devel#egg=certifi
+# Remove pbr from requirements.in when moving distronode-runner to requirements.in
+git+https://github.com/distronode/distronode-runner.git@devel#egg=distronode-runner
+django-distronode-base @ git+https://github.com/distronode/django-distronode-base@devel#egg=django-distronode-base[rest-filters,jwt_consumer,resource-registry,rbac]
+api-plugins-core @ git+https://git@github.com/distronode/distronode/tree/devel/api-plugins.git@devel#egg=api-plugins-core
+api_plugins.interfaces @ git+https://github.com/distronode/distronode/tree/devel/api_plugins.interfaces.git

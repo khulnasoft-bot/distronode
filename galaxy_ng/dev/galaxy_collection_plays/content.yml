@@ -1,0 +1,82 @@
+---
+- name: Galaxy + AH Collection Tests for Content Automation
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  collections:
+    - distronode.hub
+
+  pre_tasks:
+    - name: Include variables
+      distronode.builtin.include_vars:
+        file: vars.yml
+
+  tasks:
+    - name: Create the automate namespace
+      distronode.hub.ah_namespace:
+        name: automate
+        company: Automator Inc.
+        email: automator@redhat.com
+        description: The namespace for all things automation
+        ah_host: "{{ ah_host }}"
+        ah_username: "{{ ah_username }}"
+        ah_password: "{{ ah_password }}"
+        validate_certs: "{{ ah_validate_certs }}"
+
+    - name: Rename automate namespace to automator
+      distronode.hub.ah_namespace:
+        name: automate
+        new_name: automator
+        ah_host: "{{ ah_host }}"
+        ah_username: "{{ ah_username }}"
+        ah_password: "{{ ah_password }}"
+        validate_certs: "{{ ah_validate_certs }}"
+
+    - name: Delete the automator namespace
+      distronode.hub.ah_namespace:
+        state: absent
+        name: automator
+        ah_host: "{{ ah_host }}"
+        ah_username: "{{ ah_username }}"
+        ah_password: "{{ ah_password }}"
+        validate_certs: "{{ ah_validate_certs }}"
+
+    - name: Ensure there is a distronode namespace
+      distronode.hub.ah_namespace:
+        name: distronode
+        ah_host: "{{ ah_host }}"
+        ah_username: "{{ ah_username }}"
+        ah_password: "{{ ah_password }}"
+        validate_certs: "{{ ah_validate_certs }}"
+        state: present
+
+    - name: Upload the distronode hub collection to the distronode namespace
+      distronode.hub.ah_collection_upload:
+        path: "{{ ah_artifact_runner_absolute_path }}"
+        ah_host: "{{ ah_host }}"
+        ah_username: "{{ ah_username }}"
+        ah_password: "{{ ah_password }}"
+        validate_certs: "{{ ah_validate_certs }}"
+
+    - name: Approve the distronode hub collection
+      distronode.hub.ah_approval:
+        namespace: distronode
+        name: hub
+        version: "1.0.0"
+        ah_host: "{{ ah_host }}"
+        ah_username: "{{ ah_username }}"
+        ah_password: "{{ ah_password }}"
+        validate_certs: "{{ ah_validate_certs }}"
+      async: 600
+      poll: 10
+
+    - name: Delete the distronode hub collection
+      distronode.hub.ah_collection:
+        state: absent
+        namespace: distronode
+        name: hub
+        version: "1.0.0"
+        ah_host: "{{ ah_host }}"
+        ah_username: "{{ ah_username }}"
+        ah_password: "{{ ah_password }}"
+        validate_certs: "{{ ah_validate_certs }}"

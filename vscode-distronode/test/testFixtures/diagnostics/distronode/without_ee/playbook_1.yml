@@ -1,0 +1,4 @@
+- name: Play name
+  hosts: localhost
+  tasks:
+    - distronode.builtin.debug:

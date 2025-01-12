@@ -1,0 +1,818 @@
+{
+    comment = (
+        'Imported from:',
+        'https://github.com/textmate/yaml.tmbundle/blob/e54ceae3b719506dba7e481a77cea4a8b576ae46/Syntaxes/YAML.tmLanguage',
+        'Applied fix for entity.name.tag, which was split on the first letter',
+        'Replaced all `.yaml` scopes with `.distronode` to avoid replacing syntax for regular YAML files.',
+        'Injected `jinja-conditionals`'
+    );
+    fileTypes = (
+        yaml,
+        yml,
+        rviz,
+        reek,
+        clang-format,
+        yaml-tmlanguage,
+        syntax,
+        sublime-syntax
+    );
+    firstLineMatch = '^%YAML( ?1.\d+)?';
+    keyEquivalent = '^~Y';
+    name = YAML;
+    patterns = (
+        {
+            include = 'injection.distronode.jinja-conditionals';
+        },
+        {
+            include = '#comment';
+        },
+        {
+            include = '#property';
+        },
+        {
+            include = '#directive';
+        },
+        {
+            match = '^---';
+            name = 'entity.other.document.begin.distronode';
+        },
+        {
+            match = '^\.{3}';
+            name = 'entity.other.document.end.distronode';
+        },
+        {
+            include = '#node';
+        }
+    );
+    repository = {
+        block-collection = {
+            patterns = (
+                {
+                    include = '#block-sequence';
+                },
+                {
+                    include = '#block-mapping';
+                }
+            );
+        };
+        block-mapping = {
+            patterns = (
+                {
+                    include = '#block-pair';
+                }
+            );
+        };
+        block-node = {
+            patterns = (
+                {
+                    include = '#prototype';
+                },
+                {
+                    include = '#block-scalar';
+                },
+                {
+                    include = '#block-collection';
+                },
+                {
+                    include = '#flow-scalar-plain-out';
+                },
+                {
+                    include = '#flow-node';
+                }
+            );
+        };
+        block-pair = {
+            patterns = (
+                {
+                    begin = '\?';
+                    beginCaptures = {
+                        1 = {
+                            name = 'punctuation.definition.key-value.begin.distronode';
+                        };
+                    };
+                    end = '(?=\?)|^ *(:)|(:)';
+                    endCaptures = {
+                        1 = {
+                            name = 'punctuation.separator.key-value.mapping.distronode';
+                        };
+                        2 = {
+                            name = 'invalid.illegal.expected-newline.distronode';
+                        };
+                    };
+                    name = 'meta.block-mapping.distronode';
+                    patterns = (
+                        {
+                            include = '#block-node';
+                        }
+                    );
+                },
+                {
+                    begin = '(?x) (?=
+                        (?x:
+                              [^\s[-?:,\[\]{}#&*!|>''"%@`]]
+                            | [?:-] \S
+                        )
+                        (
+                              [^\s:]
+                            | : \S
+                            | \s+ (?![#\s])
+                        )*
+                        \s*
+                        :
+                        (\s|$)
+                    )
+                    ';
+                    end = '(?x) (?=
+                          \s* $
+                        | \s+ \#
+                        | \s* : (\s|$)
+                    )
+                    ';
+                    patterns = (
+                        {
+                            include = '#flow-scalar-plain-out-implicit-type';
+                        },
+                        {
+                            begin = '(?x) (?=
+                                  [^\s[-?:,\[\]{}#&*!|>''"%@`]]
+                                | [?:-] \S
+                            )
+                            ';
+                            contentName = 'entity.name.tag.distronode';
+                            end = '(?x) (?=
+                                  \s* $
+                                | \s+ \#
+                                | \s* : (\s|$)
+                            )
+                            ';
+                            name = 'string.unquoted.plain.out.distronode';
+                        }
+                    );
+                },
+                {
+                    match = ':(?=\s|$)';
+                    name = 'punctuation.separator.key-value.mapping.distronode';
+                }
+            );
+        };
+        block-scalar = {
+            begin = '(?:(\|)|(>))([1-9])?([-+])?(.*\n?)';
+            beginCaptures = {
+                1 = {
+                    name = 'keyword.control.flow.block-scalar.literal.distronode';
+                };
+                2 = {
+                    name = 'keyword.control.flow.block-scalar.folded.distronode';
+                };
+                3 = {
+                    name = 'constant.numeric.indentation-indicator.distronode';
+                };
+                4 = {
+                    name = 'storage.modifier.chomping-indicator.distronode';
+                };
+                5 = {
+                    patterns = (
+                        {
+                            include = '#comment';
+                        },
+                        {
+                            match = '.+';
+                            name = 'invalid.illegal.expected-comment-or-newline.distronode';
+                        }
+                    );
+                };
+            };
+            end = '^(?=\S)|(?!\G)';
+            patterns = (
+                {
+                    begin = '^([ ]+)(?! )';
+                    end = '^(?!\1|\s*$)';
+                    name = 'string.unquoted.block.distronode';
+                }
+            );
+        };
+        block-sequence = {
+            match = '(-)(?!\S)';
+            name = 'punctuation.definition.block.sequence.item.distronode';
+        };
+        comment = {
+            begin = '(?:(^[ \t]*)|[ \t]+)(?=#\p{Print}*$)';
+            beginCaptures = {
+                1 = {
+                    name = 'punctuation.whitespace.comment.leading.distronode';
+                };
+            };
+            end = '(?!\G)';
+            patterns = (
+                {
+                    begin = '#';
+                    beginCaptures = {
+                        0 = {
+                            name = 'punctuation.definition.comment.distronode';
+                        };
+                    };
+                    end = '\n';
+                    name = 'comment.line.number-sign.distronode';
+                }
+            );
+        };
+        directive = {
+            begin = '^%';
+            beginCaptures = {
+                0 = {
+                    name = 'punctuation.definition.directive.begin.distronode';
+                };
+            };
+            end = '(?=$|[ \t]+($|#))';
+            name = 'meta.directive.distronode';
+            patterns = (
+                {
+                    captures = {
+                        1 = {
+                            name = 'keyword.other.directive.yaml.distronode';
+                        };
+                        2 = {
+                            name = 'constant.numeric.yaml-version.distronode';
+                        };
+                    };
+                    match = '\G(YAML)[ \t]+(\d+\.\d+)';
+                },
+                {
+                    captures = {
+                        1 = {
+                            name = 'keyword.other.directive.tag.distronode';
+                        };
+                        2 = {
+                            name = 'storage.type.tag-handle.distronode';
+                        };
+                        3 = {
+                            name = 'support.type.tag-prefix.distronode';
+                        };
+                    };
+                    match = '(?x)
+                    \G
+                    (TAG)
+                    (?:[ \t]+
+                        ((?:!(?:[0-9A-Za-z\-]*!)?))
+                        (?:[ \t]+ (
+                              !              (?x: %[0-9A-Fa-f]{2} | [0-9A-Za-z\-#;/?:@&=+$,_.!~*''()\[\]] )*
+                            | (?![,!\[\]{}]) (?x: %[0-9A-Fa-f]{2} | [0-9A-Za-z\-#;/?:@&=+$,_.!~*''()\[\]] )+
+                            )
+                        )?
+                    )?
+                    ';
+                },
+                {
+                    captures = {
+                        1 = {
+                            name = 'support.other.directive.reserved.distronode';
+                        };
+                        2 = {
+                            name = 'string.unquoted.directive-name.distronode';
+                        };
+                        3 = {
+                            name = 'string.unquoted.directive-parameter.distronode';
+                        };
+                    };
+                    match = '(?x) \G (\w+) (?:[ \t]+ (\w+) (?:[ \t]+ (\w+))? )?';
+                },
+                {
+                    match = '\S+';
+                    name = 'invalid.illegal.unrecognized.distronode';
+                }
+            );
+        };
+        flow-alias = {
+            captures = {
+                1 = {
+                    name = 'keyword.control.flow.alias.distronode';
+                };
+                2 = {
+                    name = 'punctuation.definition.alias.distronode';
+                };
+                3 = {
+                    name = 'variable.other.alias.distronode';
+                };
+                4 = {
+                    name = 'invalid.illegal.character.anchor.distronode';
+                };
+            };
+            match = '((\*))([^\s\[\]/{/},]+)([^\s\]},]\S*)?';
+        };
+        flow-collection = {
+            patterns = (
+                {
+                    include = '#flow-sequence';
+                },
+                {
+                    include = '#flow-mapping';
+                }
+            );
+        };
+        flow-mapping = {
+            begin = '\{';
+            beginCaptures = {
+                0 = {
+                    name = 'punctuation.definition.mapping.begin.distronode';
+                };
+            };
+            end = '\}';
+            endCaptures = {
+                0 = {
+                    name = 'punctuation.definition.mapping.end.distronode';
+                };
+            };
+            name = 'meta.flow-mapping.distronode';
+            patterns = (
+                {
+                    include = '#prototype';
+                },
+                {
+                    match = ',';
+                    name = 'punctuation.separator.mapping.distronode';
+                },
+                {
+                    include = '#flow-pair';
+                }
+            );
+        };
+        flow-node = {
+            patterns = (
+                {
+                    include = '#prototype';
+                },
+                {
+                    include = '#flow-alias';
+                },
+                {
+                    include = '#flow-collection';
+                },
+                {
+                    include = '#flow-scalar';
+                }
+            );
+        };
+        flow-pair = {
+            patterns = (
+                {
+                    begin = '\?';
+                    beginCaptures = {
+                        0 = {
+                            name = 'punctuation.definition.key-value.begin.distronode';
+                        };
+                    };
+                    end = '(?=[},\]])';
+                    name = 'meta.flow-pair.explicit.distronode';
+                    patterns = (
+                        {
+                            include = '#prototype';
+                        },
+                        {
+                            include = '#flow-pair';
+                        },
+                        {
+                            include = '#flow-node';
+                        },
+                        {
+                            begin = ':(?=\s|$|[\[\]{},])';
+                            beginCaptures = {
+                                0 = {
+                                    name = 'punctuation.separator.key-value.mapping.distronode';
+                                };
+                            };
+                            end = '(?=[},\]])';
+                            patterns = (
+                                {
+                                    include = '#flow-value';
+                                }
+                            );
+                        }
+                    );
+                },
+                {
+                    begin = '(?x) (?=
+                        (?:
+                            [^\s[-?:,\[\]{}#&*!|>''"%@`]]
+                          | [?:-] [^\s[\[\]{},]]
+                        )
+                        (
+                              [^\s:[\[\]{},]]
+                            | : [^\s[\[\]{},]]
+                            | \s+ (?![#\s])
+                        )*
+                        \s*
+                        :
+                        (\s|$)
+                    )
+                    ';
+                    end = '(?x) (?=
+                          \s* $
+                        | \s+ \#
+                        | \s* : (\s|$)
+                        | \s* : [\[\]{},]
+                        | \s* [\[\]{},]
+                    )
+                    ';
+                    name = 'meta.flow-pair.key.distronode';
+                    patterns = (
+                        {
+                            include = '#flow-scalar-plain-in-implicit-type';
+                        },
+                        {
+                            begin = '(?x) (?=
+                                  [^\s[-?:,\[\]{}#&*!|>''"%@`]]
+                                | [?:-] [^\s[\[\]{},]]
+                            )
+                            ';
+                            contentName = 'entity.name.tag.distronode';
+                            end = '(?x) (?=
+                                  \s* $
+                                | \s+ \#
+                                | \s* : (\s|$)
+                                | \s* : [\[\]{},]
+                                | \s* [\[\]{},]
+                            )
+                            ';
+                            name = 'string.unquoted.plain.in.distronode';
+                        }
+                    );
+                },
+                {
+                    include = '#flow-node';
+                },
+                {
+                    begin = ':(?=\s|$|[\[\]{},])';
+                    captures = {
+                        0 = {
+                            name = 'punctuation.separator.key-value.mapping.distronode';
+                        };
+                    };
+                    end = '(?=[},\]])';
+                    name = 'meta.flow-pair.distronode';
+                    patterns = (
+                        {
+                            include = '#flow-value';
+                        }
+                    );
+                }
+            );
+        };
+        flow-scalar = {
+            patterns = (
+                {
+                    include = '#flow-scalar-double-quoted';
+                },
+                {
+                    include = '#flow-scalar-single-quoted';
+                },
+                {
+                    include = '#flow-scalar-plain-in';
+                }
+            );
+        };
+        flow-scalar-double-quoted = {
+            begin = '"';
+            beginCaptures = {
+                0 = {
+                    name = 'punctuation.definition.string.begin.distronode';
+                };
+            };
+            end = '"';
+            endCaptures = {
+                0 = {
+                    name = 'punctuation.definition.string.end.distronode';
+                };
+            };
+            name = 'string.quoted.double.distronode';
+            patterns = (
+                {
+                    match = '\\([0abtnvfre "/\\N_Lp]|x\d\d|u\d{4}|U\d{8})';
+                    name = 'constant.character.escape.distronode';
+                },
+                {
+                    match = '\\\n';
+                    name = 'constant.character.escape.double-quoted.newline.distronode';
+                }
+            );
+        };
+        flow-scalar-plain-in = {
+            patterns = (
+                {
+                    include = '#flow-scalar-plain-in-implicit-type';
+                },
+                {
+                    begin = '(?x)
+                      [^\s[-?:,\[\]{}#&*!|>''"%@`]]
+                    | [?:-] [^\s[\[\]{},]]
+                    ';
+                    end = '(?x) (?=
+                          \s* $
+                        | \s+ \#
+                        | \s* : (\s|$)
+                        | \s* : [\[\]{},]
+                        | \s* [\[\]{},]
+                    )
+                    ';
+                    name = 'string.unquoted.plain.in.distronode';
+                }
+            );
+        };
+        flow-scalar-plain-in-implicit-type = {
+            patterns = (
+                {
+                    captures = {
+                        1 = {
+                            name = 'constant.language.null.distronode';
+                        };
+                        2 = {
+                            name = 'constant.language.boolean.distronode';
+                        };
+                        3 = {
+                            name = 'constant.numeric.integer.distronode';
+                        };
+                        4 = {
+                            name = 'constant.numeric.float.distronode';
+                        };
+                        5 = {
+                            name = 'constant.other.timestamp.distronode';
+                        };
+                        6 = {
+                            name = 'constant.language.value.distronode';
+                        };
+                        7 = {
+                            name = 'constant.language.merge.distronode';
+                        };
+                    };
+                    match = '(?x)
+                    (?x:
+                          (null|Null|NULL|~)
+                        | (y|Y|yes|Yes|YES|n|N|no|No|NO|true|True|TRUE|false|False|FALSE|on|On|ON|off|Off|OFF)
+                        | (
+                            (?:
+                                  [-+]? 0b [0-1_]+ # (base 2)
+                                | [-+]? 0  [0-7_]+ # (base 8)
+                                | [-+]? (?: 0|[1-9][0-9_]*) # (base 10)
+                                | [-+]? 0x [0-9a-fA-F_]+ # (base 16)
+                                | [-+]? [1-9] [0-9_]* (?: :[0-5]?[0-9])+ # (base 60)
+                            )
+                          )
+                        | (
+                            (?x:
+                                  [-+]? (?: [0-9] [0-9_]*)? \. [0-9.]* (?: [eE] [-+] [0-9]+)? # (base 10)
+                                | [-+]? [0-9] [0-9_]* (?: :[0-5]?[0-9])+ \. [0-9_]* # (base 60)
+                                | [-+]? \. (?: inf|Inf|INF) # (infinity)
+                                |       \. (?: nan|NaN|NAN) # (not a number)
+                            )
+                          )
+                        | (
+                            (?x:
+                                \d{4} - \d{2} - \d{2}           # (y-m-d)
+                              | \d{4}                           # (year)
+                                - \d{1,2}                       # (month)
+                                - \d{1,2}                       # (day)
+                                (?: [Tt] | [ \t]+) \d{1,2}      # (hour)
+                                : \d{2}                         # (minute)
+                                : \d{2}                         # (second)
+                                (?: \.\d*)?                     # (fraction)
+                                (?:
+                                      (?:[ \t]*) Z
+                                    | [-+] \d{1,2} (?: :\d{1,2})?
+                                )?                              # (time zone)
+                            )
+                          )
+                        | (=)
+                        | (<<)
+                    )
+                    (?: (?=
+                              \s* $
+                            | \s+ \#
+                            | \s* : (\s|$)
+                            | \s* : [\[\]{},]
+                            | \s* [\[\]{},]
+                        )
+                    )
+                    ';
+                }
+            );
+        };
+        flow-scalar-plain-out = {
+            patterns = (
+                {
+                    include = '#flow-scalar-plain-out-implicit-type';
+                },
+                {
+                    begin = '(?x)
+                      [^\s[-?:,\[\]{}#&*!|>''"%@`]]
+                    | [?:-] \S
+                    ';
+                    end = '(?x) (?=
+                          \s* $
+                        | \s+ \#
+                        | \s* : (\s|$)
+                    )
+                    ';
+                    name = 'string.unquoted.plain.out.distronode';
+                }
+            );
+        };
+        flow-scalar-plain-out-implicit-type = {
+            patterns = (
+                {
+                    captures = {
+                        1 = {
+                            name = 'constant.language.null.distronode';
+                        };
+                        2 = {
+                            name = 'constant.language.boolean.distronode';
+                        };
+                        3 = {
+                            name = 'constant.numeric.integer.distronode';
+                        };
+                        4 = {
+                            name = 'constant.numeric.float.distronode';
+                        };
+                        5 = {
+                            name = 'constant.other.timestamp.distronode';
+                        };
+                        6 = {
+                            name = 'constant.language.value.distronode';
+                        };
+                        7 = {
+                            name = 'constant.language.merge.distronode';
+                        };
+                    };
+                    match = '(?x)
+                    (?x:
+                          (null|Null|NULL|~)
+                        | (y|Y|yes|Yes|YES|n|N|no|No|NO|true|True|TRUE|false|False|FALSE|on|On|ON|off|Off|OFF)
+                        | (
+                            (?:
+                                  [-+]? 0b [0-1_]+ # (base 2)
+                                | [-+]? 0  [0-7_]+ # (base 8)
+                                | [-+]? (?: 0|[1-9][0-9_]*) # (base 10)
+                                | [-+]? 0x [0-9a-fA-F_]+ # (base 16)
+                                | [-+]? [1-9] [0-9_]* (?: :[0-5]?[0-9])+ # (base 60)
+                            )
+                          )
+                        | (
+                            (?x:
+                                  [-+]? (?: [0-9] [0-9_]*)? \. [0-9.]* (?: [eE] [-+] [0-9]+)? # (base 10)
+                                | [-+]? [0-9] [0-9_]* (?: :[0-5]?[0-9])+ \. [0-9_]* # (base 60)
+                                | [-+]? \. (?: inf|Inf|INF) # (infinity)
+                                |       \. (?: nan|NaN|NAN) # (not a number)
+                            )
+                          )
+                        | (
+                            (?x:
+                                \d{4} - \d{2} - \d{2}           # (y-m-d)
+                              | \d{4}                           # (year)
+                                - \d{1,2}                       # (month)
+                                - \d{1,2}                       # (day)
+                                (?: [Tt] | [ \t]+) \d{1,2}      # (hour)
+                                : \d{2}                         # (minute)
+                                : \d{2}                         # (second)
+                                (?: \.\d*)?                     # (fraction)
+                                (?:
+                                      (?:[ \t]*) Z
+                                    | [-+] \d{1,2} (?: :\d{1,2})?
+                                )?                              # (time zone)
+                            )
+                          )
+                        | (=)
+                        | (<<)
+                    )
+                    (?x: (?=
+                              \s* $
+                            | \s+ \#
+                            | \s* : (\s|$)
+                        )
+                    )
+                    ';
+                }
+            );
+        };
+        flow-scalar-single-quoted = {
+            begin = '''';
+            beginCaptures = {
+                0 = {
+                    name = 'punctuation.definition.string.begin.distronode';
+                };
+            };
+            end = '''(?!'')';
+            endCaptures = {
+                0 = {
+                    name = 'punctuation.definition.string.end.distronode';
+                };
+            };
+            name = 'string.quoted.single.distronode';
+            patterns = (
+                {
+                    match = '''''';
+                    name = 'constant.character.escape.single-quoted.distronode';
+                }
+            );
+        };
+        flow-sequence = {
+            begin = '\[';
+            beginCaptures = {
+                0 = {
+                    name = 'punctuation.definition.sequence.begin.distronode';
+                };
+            };
+            end = '\]';
+            endCaptures = {
+                0 = {
+                    name = 'punctuation.definition.sequence.end.distronode';
+                };
+            };
+            name = 'meta.flow-sequence.distronode';
+            patterns = (
+                {
+                    include = '#prototype';
+                },
+                {
+                    match = ',';
+                    name = 'punctuation.separator.sequence.distronode';
+                },
+                {
+                    include = '#flow-pair';
+                },
+                {
+                    include = '#flow-node';
+                }
+            );
+        };
+        flow-value = {
+            patterns = (
+                {
+                    begin = '\G(?![},\]])';
+                    end = '(?=[},\]])';
+                    name = 'meta.flow-pair.value.distronode';
+                    patterns = (
+                        {
+                            include = '#flow-node';
+                        }
+                    );
+                }
+            );
+        };
+        node = {
+            patterns = (
+                {
+                    include = '#block-node';
+                }
+            );
+        };
+        property = {
+            begin = '(?=!|&)';
+            end = '(?!\G)';
+            name = 'meta.property.distronode';
+            patterns = (
+                {
+                    captures = {
+                        1 = {
+                            name = 'keyword.control.property.anchor.distronode';
+                        };
+                        2 = {
+                            name = 'punctuation.definition.anchor.distronode';
+                        };
+                        3 = {
+                            name = 'entity.name.type.anchor.distronode';
+                        };
+                        4 = {
+                            name = 'invalid.illegal.character.anchor.distronode';
+                        };
+                    };
+                    match = '\G((&))([^\s\[\]/{/},]+)(\S+)?';
+                },
+                {
+                    match = '(?x)
+                    \G
+                    (?:
+                        ! < (?: %[0-9A-Fa-f]{2} | [0-9A-Za-z\-#;/?:@&=+$,_.!~*''()\[\]] )+ >
+                      | (?:!(?:[0-9A-Za-z\-]*!)?) (?: %[0-9A-Fa-f]{2} | [0-9A-Za-z\-#;/?:@&=+$_.~*''()] )+
+                      | !
+                    ) (?=\ |\t|$)
+                    ';
+                    name = 'storage.type.tag-handle.distronode';
+                },
+                {
+                    match = '\S+';
+                    name = 'invalid.illegal.tag-handle.distronode';
+                }
+            );
+        };
+        prototype = {
+            patterns = (
+                {
+                    include = '#comment';
+                },
+                {
+                    include = '#property';
+                }
+            );
+        };
+    };
+    scopeName = 'source.distronode';
+    uuid = 686AD6AE-33F3-4493-9512-9E9FC1D5417F;
+}

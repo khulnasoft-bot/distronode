@@ -1,0 +1,100 @@
+import os
+import logging
+
+from importlib.metadata import version, PackageNotFoundError
+
+from django.apps import apps
+from django.conf import settings
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.core.cache import cache
+from pulp_distronode.app.models import DistronodeDistribution
+
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+
+from galaxy_ng.app.access_control import access_policy
+from galaxy_ng.app.api import base as api_base
+from galaxy_ng.app.api.utils import get_aap_version
+
+logger = logging.getLogger(__name__)
+
+
+def get_version_from_metadata(package_name):
+    """Uses importlib.metadata.version to retrieve package version"""
+    try:
+        return version(package_name)
+    except PackageNotFoundError as exc:
+        logger.error("cannot retrieve %s version: %s", package_name, str(exc))
+        return ""
+
+
+# define the version matrix at the module level to avoid the redefinition on every API call.
+VERSIONS = {
+    "available_versions": {
+        "v3": "v3/",
+        "pulp-v3": "pulp/api/v3/"
+    },
+    "server_version": apps.get_app_config("galaxy").version,
+    "galaxy_ng_version": apps.get_app_config("galaxy").version,
+    "galaxy_ng_commit": os.environ.get("GIT_COMMIT", ""),
+    "galaxy_importer_version": get_version_from_metadata("galaxy-importer"),
+    "pulp_core_version": apps.get_app_config('core').version,
+    "pulp_distronode_version": apps.get_app_config('distronode').version,
+    "pulp_container_version": apps.get_app_config('container').version,
+    "distronode_base_version": get_version_from_metadata("django-distronode-base"),
+}
+
+# Add in v1 support if configured
+if settings.GALAXY_ENABLE_LEGACY_ROLES:
+    VERSIONS["available_versions"]["v1"] = "v1/"
+
+
+class ApiRootView(api_base.APIView):
+    permission_classes = [access_policy.AppRootAccessPolicy]
+    action = "retrieve"
+
+    def get(self, request, *args, **kwargs):
+        """
+        Returns the version matrix for the API + the current distro.
+        """
+        cached_aap_version = cache.get('aap_version')
+        if cached_aap_version is None:
+            aap_version = get_aap_version()
+            if aap_version:
+                cached_aap_version = aap_version
+                cache.set('aap_version', aap_version)
+
+        if cached_aap_version:
+            VERSIONS.update({"aap_version": cached_aap_version})
+
+        data = {**VERSIONS}
+
+        if kwargs.get("path"):
+            distro = get_object_or_404(
+                DistronodeDistribution,
+                base_path=self.kwargs["path"]
+            )
+            data["distro_base_path"] = distro.base_path
+
+        return Response(data)
+
+
+class ApiRedirectView(api_base.APIView):
+    permission_classes = [access_policy.AppRootAccessPolicy]
+    action = "retrieve"
+
+    """Redirect requests to /api/automation-hub/api/ to /api/automation-hub/
+
+    This is a workaround for https://github.com/distronode/distronode/issues/62073.
+    This can be removed when distronode-galaxy stops appending '/api' to the url."""
+
+    def get(self, request, *args, **kwargs):
+        reverse_url_name = kwargs.get("reverse_url_name")
+
+        reverse_kwargs = {}
+        if "path" in kwargs:
+            reverse_kwargs["path"] = kwargs["path"]
+
+        return HttpResponseRedirect(reverse(reverse_url_name,
+                                            kwargs=reverse_kwargs), status=307)

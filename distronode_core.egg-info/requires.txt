@@ -1,5 +1,0 @@
-jinja2>=3.0.0
-PyYAML>=5.1
-cryptography
-packaging
-resolvelib<2.0.0,>=0.5.3

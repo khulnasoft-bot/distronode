@@ -1,0 +1,31 @@
+---
+version: "3.7"
+
+services:
+
+  # pre installs all of the python dependencies, including for integration tests
+  _galaxy_base:
+    build:
+      args:
+        DJANGO_DISTRONODE_BASE_BRANCH: "devel"
+    environment:
+      DJANGO_DISTRONODE_BASE_BRANCH: "devel"
+
+  pulp:
+    environment:
+      PULP_WORKERS: "1"
+      DJANGO_DISTRONODE_BASE_BRANCH: "devel"
+
+  jwtproxy:
+    build:
+      context: "{SRC_DIR}/galaxy_ng/profiles/dab_jwt/proxy"
+    ports:
+      - "{JWT_PROXY_PORT}:{JWT_PROXY_PORT}"
+    environment:
+      UPSTREAM_URL: "http://pulp:{API_PORT}"
+      PROXY_PORT: "{JWT_PROXY_PORT}"
+    volumes:
+      - "{SRC_DIR}/galaxy_ng/profiles/dab_jwt/proxy:/app:rw"
+
+volumes:
+  pulp_certs:

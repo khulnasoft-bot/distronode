@@ -1,0 +1,14 @@
+"component:api":
+  - any: ["api/**/*"]
+
+"component:docs":
+  - any: ["docs/**/*"]
+
+"component:cli":
+  - any: ["apikit/**/*"]
+
+"component:api_collection":
+  - any: ["api_collection/**/*"]
+
+"dependencies":
+  - any: ["requirements/*"]

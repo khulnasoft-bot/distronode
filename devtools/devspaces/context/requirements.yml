@@ -1,0 +1,6 @@
+---
+collections:
+  - name: distronode.netcommon
+  - name: distronode.posix
+  - name: distronode.scm
+  - name: distronode.utils

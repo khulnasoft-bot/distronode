@@ -1,0 +1,34 @@
+---
+- name: Galaxy + AH Collection Tests for Repo Automation
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  collections:
+    - distronode.hub
+
+  pre_tasks:
+    - name: Include variables
+      distronode.builtin.include_vars:
+        file: vars.yml
+
+  tasks:
+    - name: Configure community repository
+      distronode.hub.collection_remote:
+        name: community
+        url: https://galaxy.distronode.com/api/
+        requirements:
+          - community.docker
+          - geerlingguy.k8s
+        ah_host: "{{ ah_host }}"
+        ah_username: "{{ ah_username }}"
+        ah_password: "{{ ah_password }}"
+        validate_certs: "{{ ah_validate_certs }}"
+
+    - name: Sync community repository
+      distronode.hub.collection_repository_sync:
+        name: community
+        wait: false
+        ah_host: "{{ ah_host }}"
+        ah_username: "{{ ah_username }}"
+        ah_password: "{{ ah_password }}"
+        validate_certs: "{{ ah_validate_certs }}"

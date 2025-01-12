@@ -1,0 +1,25 @@
+---
+dictionaryDefinitions:
+  - name: words
+    path: .config/dictionary.txt
+    addWords: true
+dictionaries:
+  # Use `cspell-cli trace word` to check where a work is defined
+  - en_US
+  - bash
+  - words
+  - python
+  - "!backwards-compatibility"
+  - "!cryptocurrencies"
+  - "!cpp"
+ignorePaths:
+  - syntaxes/external/*.*
+  - media
+  - package.json
+  - test/testFixtures/lightspeed/*.yml
+  - .yarn/
+  - "**/requirements.in"
+  - syntaxes
+ignoreRegExpList:
+  # ignore github usernames like @foo
+  - "@[\\w]+"

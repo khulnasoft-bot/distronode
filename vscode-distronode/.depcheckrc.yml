@@ -1,0 +1,20 @@
+# https://github.com/yarnpkg/yarn/issues/3368
+ignores:
+  - "@distronode/distronode-language-server"
+  # determined by (package.json).engines.vscode
+  - "@types/vscode"
+  - "@types/vscode-webview" # provides VSCodeAPI
+  - "@vscode/vsce"
+  - depcheck
+  - eslint-formatter-gha
+  - eslint-formatter-unix
+  - mochawesome
+  - mochawesome-report-generator
+  - ovsx
+  - rimraf
+  - start-server-and-test
+  - tmp
+  - ts-loader
+  - vscode
+  - webpack-cli
+  - yarn-audit-fix

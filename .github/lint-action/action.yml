@@ -1,0 +1,33 @@
+name: Distronode Lint
+description: Run Distronode Lint
+author: Distronode by Red Hat <info@distronode.com>
+branding:
+  icon: shield
+  color: red
+inputs:
+  path:
+    description: >
+      Specific path to lint instead of the default `.`. Multiple arguments are
+      not supported and you will need to alter linter configuration to
+      accommodate other use cases.
+    required: false
+    # That default is just a placeholder workaround for no arguments use-case
+    # Feeding "." or empty string to distronode-lint makes it believe it is a role
+    default: --show-relpath
+  args:
+    description: deprecated
+    deprecationMessage: >
+      Arbitrary args are no longer accepted, please use path instead and
+      linter own configuration file to change its behavior.
+    required: false
+    default: ""
+runs:
+  using: docker
+  image: docker://ghcr.io/distronode/creator-ee:v0.19.0
+  entrypoint: /usr/local/bin/distronode-lint
+  env:
+    # These tell distronode-lint to use github compatible annotation format:
+    GITHUB_ACTIONS: "true"
+    GITHUB_WORKFLOW: "{{ github.workflow.name }}"
+  args:
+    - ${{ inputs.path }}

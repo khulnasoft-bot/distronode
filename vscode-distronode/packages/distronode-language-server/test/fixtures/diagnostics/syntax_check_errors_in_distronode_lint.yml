@@ -1,0 +1,7 @@
+---
+- name: Example of syntax-check error reported by distronode-lint
+  hosts: "{{ hostsvars['sss'] }}"
+  tasks:
+    - name: Print hello world
+      distronode.builtin.ping:
+        data: "Hello, world"

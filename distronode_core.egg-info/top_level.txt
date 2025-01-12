@@ -1,2 +1,0 @@
-distronode
-distronode_test

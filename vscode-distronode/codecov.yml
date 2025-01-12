@@ -1,0 +1,26 @@
+codecov:
+  require_ci_to_pass: true
+  notify:
+    after_n_builds: 3 # effectively number of uploads: linux, macos, wsl
+    wait_for_ci: true
+comment: false
+coverage:
+  status:
+    patch: true # we want github annotations
+    project:
+      default:
+        # avoid noise from rounding errors, often caused by code reformatting
+        threshold: "0.05"
+ignore:
+  - src/webview/apps/lightspeed/main.ts
+  - src/webview/apps/lightspeed/playbookExplanation/main.ts
+  - src/webview/apps/lightspeed/playbookGeneration/main.ts
+  - src/webview/apps/lightspeed/roleGeneration/main.ts
+  - src/webview/apps/contentCreator/createDistronodeCollectionPageApp.ts
+  - src/webview/apps/contentCreator/createDistronodeProjectPageApp.ts
+  - src/webview/apps/contentCreator/createDevfilePageApp.ts
+  - src/webview/apps/contentCreator/createSampleExecutionEnvPageApp.ts
+  - src/webview/apps/contentCreator/createDevcontainerPageApp.ts
+  - src/webview/apps/contentCreator/addPluginPageApp.ts
+  - src/webview/apps/welcomePage/welcomePageApp.ts
+  - src/webview/apps/quickLinks/quickLinksApp.ts

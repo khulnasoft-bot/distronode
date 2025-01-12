@@ -1,0 +1,10 @@
+import { msg } from '@lingui/core/macro';
+import { downloadString } from 'src/utilities';
+import { Action } from './action';
+
+export const distronodeRemoteDownloadRequirementsAction = Action({
+  title: msg`Download requirements YAML`,
+  onClick: ({ requirements_file }) =>
+    downloadString(requirements_file, 'requirements.yml'),
+  visible: ({ requirements_file }) => !!requirements_file,
+});

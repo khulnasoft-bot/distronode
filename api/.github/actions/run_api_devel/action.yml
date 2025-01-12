@@ -1,0 +1,64 @@
+name: Run API docker-compose
+description: Runs API with `make docker-compose`
+inputs:
+  github-token:
+    description: GitHub Token to pass to api_devel_image
+    required: true
+  build-ui:
+    description: Should the UI be built?
+    required: false
+    default: false
+    type: boolean
+outputs:
+  ip:
+    description: The IP of the tools_api_1 container
+    value: ${{ steps.data.outputs.ip }}
+runs:
+  using: composite
+  steps:
+    - name: Build api_devel image for running checks
+      uses: ./.github/actions/api_devel_image
+      with:
+        github-token: ${{ inputs.github-token }}
+
+    - name: Upgrade distronode-core
+      shell: bash
+      run: python3 -m pip install --upgrade distronode-core
+
+    - name: Install system deps
+      shell: bash
+      run: sudo apt-get install -y gettext
+
+    - name: Start API
+      shell: bash
+      run: |
+        DEV_DOCKER_OWNER=${{ github.repository_owner }} \
+        COMPOSE_TAG=${{ github.base_ref || github.ref_name }} \
+        DJANGO_COLORS=nocolor \
+        SUPERVISOR_ARGS="-n -t" \
+        COMPOSE_UP_OPTS="-d --no-color" \
+        make docker-compose
+
+    - name: Update default API password
+      shell: bash
+      run: |
+        SECONDS=0
+        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' -k https://localhost:8043/api/v2/ping/)" != "200" ]]; do
+          if [[ $SECONDS -gt 600 ]]; then
+            echo "Timing out, API never came up"
+            exit 1
+          fi
+          echo "Waiting for API..."
+          sleep 5
+        done
+        echo "API is up, updating the password..."
+        docker exec -i tools_api_1 sh <<-EOSH
+          api-manage update_password --username=admin --password=password
+        EOSH
+
+    - name: Get instance data
+      id: data
+      shell: bash
+      run: |
+        API_IP=$(docker inspect -f '{{.NetworkSettings.Networks.api.IPAddress}}' tools_api_1)
+        echo "ip=$API_IP" >> $GITHUB_OUTPUT

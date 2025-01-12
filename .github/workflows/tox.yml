@@ -1,0 +1,290 @@
+---
+name: tox
+
+on:
+  workflow_call:
+    inputs:
+      default_python:
+        default: "3.12"
+        description: Default python version for other jobs
+        required: false
+        type: string
+      environment:
+        default: ""
+        description: Which GHA environment to use
+        required: false
+        type: string
+      jobs_producing_coverage:
+        default: 8
+        description: Number of jobs producing coverage.xml files
+        required: false
+        type: number
+      min_python:
+        default: "3.10"
+        description: Minimum python version for matrix generation
+        required: false
+        type: string
+      max_python:
+        default: "3.13"
+        description: Maximum python version for matrix generation
+        required: false
+        type: string
+      other_names:
+        default: |
+          docs
+          lint
+          pkg
+          py312-milestone
+          py313-milestone
+        description: Implicit names for the matrix
+        required: false
+        type: string
+      other_names_also:
+        default: ""
+        description: Additional names for the matrix
+        required: false
+        type: string
+      run_pre:
+        default: ""
+        description: Preparatory command to run before test commands.
+        required: false
+        type: string
+      run_post:
+        default: ""
+        description: Command to run after test commands.
+        required: false
+        type: string
+      skip_explode:
+        default: "0"
+        description: Set it to "1" to skip creating jobs for each python version.
+        type: string
+      node-version-file:
+        default: ""
+        description: Path to the Node.js version file (e.g., `.tool-versions`)
+        required: false
+        type: string
+# keep permissions at top level because this is a composite workflow
+permissions:
+  checks: read
+  contents: read
+  id-token: write
+  packages: write # some tox environments might produce containers
+  pull-requests: write # allow codenotify to comment on pull-request
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # might be needed by tox commands
+  FORCE_COLOR: 1 # tox, pytest, distronode-lint
+  PY_COLORS: 1
+
+jobs:
+  prepare:
+    name: prepare
+    runs-on: ubuntu-24.04
+    environment: ${{ inputs.environment }}
+    outputs:
+      matrix: ${{ steps.generate_matrix.outputs.matrix }}
+    steps:
+      - name: Determine matrix
+        id: generate_matrix
+        uses: coactions/dynamic-matrix@v4
+        with:
+          min_python: ${{ inputs.min_python }}
+          max_python: ${{ inputs.max_python }}
+          default_python: ${{ inputs.default_python }}
+          other_names: |
+            ${{ inputs.other_names }}
+            ${{ inputs.other_names_also }}
+          skip_explode: ${{ inputs.skip_explode }}
+          platforms: linux,macos
+
+  test:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os || 'ubuntu-24.04' }}
+    environment: ${{ inputs.environment }}
+    needs:
+      - prepare
+    defaults:
+      run:
+        shell: ${{ matrix.shell || 'bash'}}
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # needed by setuptools-scm
+          submodules: true
+
+      - name: Set pre-commit cache
+        uses: actions/cache@v4
+        if: ${{ matrix.name == 'lint' }}
+        with:
+          path: |
+            ~/.cache/pre-commit
+          key: pre-commit-${{ matrix.name }}-${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Set up Python ${{ matrix.python_version || '3.12' }}
+        if: ${{ !contains(matrix.shell, 'wsl') &&  matrix.mise != 'true' }}
+        uses: actions/setup-python@v5
+        with:
+          cache: ${{ hashFiles('requirements.txt', 'pyproject.toml') && 'pip' || '' }}
+          python-version: ${{ matrix.python_version || '3.12' }}
+
+      - name: Set up Node.js
+        if: ${{ inputs.node-version-file != '' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ${{ inputs.node-version-file }}
+
+      - name: Run pre
+        if: ${{ inputs.run_pre }}
+        run: ${{ inputs.run_pre }}
+
+      - name: Prepare path for uv
+        run: |
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      - name: Install mise
+        if: ${{ matrix.mise == 'true' }}
+        run: |
+          set -exuo pipefail
+          type mise >/dev/null || {
+            curl -s https://mise.run | MISE_QUIET=1 sh
+            echo "$HOME/.local/share/mise/bin" >> $GITHUB_PATH
+            echo "$HOME/.local/share/mise/shims" >> $GITHUB_PATH
+          }
+          mise install
+
+      - name: Ensure mise python3 is used by default
+        if: ${{ matrix.mise == 'true' }}
+        run: |
+          set -exuo pipefail
+          if [[ "$(which python3)" != */mise/* ]]; then
+              echo "python3 is not the mise python3"
+              exit 1
+          fi
+
+      - name: Install python build tools
+        run: |
+          set -exuo pipefail
+          echo PATH=$PATH
+          # that depends on python3 blend being used and might not be already in path:
+          SCRIPTS_DIR=$(python3 -c 'import os,sysconfig;print(sysconfig.get_path("scripts",f"{os.name}_user"))')
+          if [[ ":$PATH:" != *":$SCRIPTS_DIR:"* ]]; then
+              export PATH=$SCRIPTS_DIR:$PATH
+              echo "$SCRIPTS_DIR" >> $GITHUB_PATH
+              echo "Added $SCRIPTS_DIR to PATH to avoid further issues."
+          fi
+          python3 -m pip install --disable-pip-version-check --upgrade --user --break-system-packages pip uv 'tox>=4.23.2' 'tox-uv>=1.16.0'
+          which -a uv pip tox
+          echo "uv tool update-shell"
+          tox --version
+          echo "Log installed dists"
+          python3 -m uv pip freeze
+
+      - run: ${{ matrix.command }}
+
+      - run: ${{ matrix.command2 }}
+        if: ${{ matrix.command2 }}
+
+      - run: ${{ matrix.command3 }}
+        if: ${{ matrix.command3 }}
+
+      - run: ${{ matrix.command4 }}
+        if: ${{ matrix.command4 }}
+
+      - run: ${{ matrix.command5 }}
+        if: ${{ matrix.command5 }}
+
+      - name: Run post
+        if: ${{ inputs.run_post }}
+        run: ${{ inputs.run_post }}
+
+      - name: Archive logs and coverage data
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ matrix.name }}.zip
+          include-hidden-files: true
+          path: |
+            .tox/**/log/
+            .tox/**/coverage.xml
+
+      - name: Report failure if git reports dirty status
+        run: |
+          if [[ -n $(git status -s) ]]; then
+            # shellcheck disable=SC2016
+            echo -n '::error file=git-status::'
+            printf '### Failed as git reported modified and/or untracked files\n```\n%s\n```\n' "$(git status -s)" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 99
+          fi
+  # https://github.com/actions/toolkit/issues/193
+  check:
+    if: always()
+    environment: ${{ inputs.environment }}
+    needs:
+      - test
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip3 install 'coverage>=7.5.1'
+
+      - name: Merge logs into a single archive
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: logs.zip
+          pattern: logs-*.zip
+          include-hidden-files: true
+          separate-directories: true
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: logs.zip
+
+      - name: Check for expected number of coverage.xml reports
+        env:
+          JOBS_PRODUCING_COVERAGE: ${{ inputs.jobs_producing_coverage }}
+        run: |
+          FOUND_REPORTS=$(find . -name coverage.xml | wc -l | bc)
+          if [ "${FOUND_REPORTS}" -ne "${JOBS_PRODUCING_COVERAGE}" ]; then
+            echo "::error::Found ${FOUND_REPORTS} coverage.xml files instead of the expected ${JOBS_PRODUCING_COVERAGE}: $(find . -name coverage.xml | xargs echo)"
+            exit 1
+          fi
+
+      - name: Upload coverage data
+        if: ${{ inputs.jobs_producing_coverage }}
+        uses: codecov/codecov-action@v5.1.2
+        with:
+          name: ${{ matrix.name }}
+          fail_ci_if_error: true
+          use_oidc: ${{ !(github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork) }}
+
+      - name: Check codecov.io status
+        if: github.event_name == 'pull_request' && inputs.jobs_producing_coverage
+        uses: coactions/codecov-status@main
+
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
+
+      - name: Delete Merged Artifacts
+        uses: actions/upload-artifact/merge@v4
+        with:
+          delete-merged: true
+        # this allows us to rerun the check job after a merge was already performed
+        continue-on-error: true
+
+      - name: Notify repository owners about changes affecting them
+        uses: sourcegraph/codenotify@v0.6.4
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # https://github.com/sourcegraph/codenotify/issues/19
+        continue-on-error: true

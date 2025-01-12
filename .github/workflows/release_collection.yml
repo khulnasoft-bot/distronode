@@ -1,0 +1,38 @@
+---
+name: Release the distronode collection
+on:
+  workflow_call:
+    inputs:
+      ah_publish:
+        description: Publish the collection on automation hub
+        default: true
+        type: boolean
+      environment:
+        description: The deployment environment
+        required: true
+        type: string
+      galaxy_publish:
+        default: true
+        description: Publish the collection on galaxy
+        type: boolean
+    secrets:
+      ah_token:
+        required: false
+      distronode_galaxy_api_key:
+        required: false
+
+jobs:
+  release_automation_hub:
+    uses: distronode/distronode/.github/workflows/release_ah.yml@devel
+    with:
+      environment: release
+    secrets:
+      ah_token: ${{ secrets.ah_token }}
+
+  release_galaxy:
+    uses: distronode/distronode/.github/workflows/release_galaxy.yml@devel
+    needs: [release_automation_hub]
+    with:
+      environment: release
+    secrets:
+      distronode_galaxy_api_key: ${{ secrets.distronode_galaxy_api_key }}

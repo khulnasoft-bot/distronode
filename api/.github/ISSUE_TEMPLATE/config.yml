@@ -1,0 +1,12 @@
+---
+blank_issues_enabled: true
+contact_links:
+  - name: For debugging help or technical support
+    url: https://github.com/distronode/distronode/tree/devel/api#get-involved
+    about: For general debugging or technical support please see the Get Involved section of our readme.
+  - name: 📝 Distronode Code of Conduct
+    url: https://docs.distronode.com/distronode/latest/community/code_of_conduct.html?utm_medium=github&utm_source=issue_template_chooser
+    about: API uses the Distronode Code of Conduct; ❤ Be nice to other members of the community. ☮ Behave.
+  - name: 💼 For Enterprise
+    url: https://www.distronode.com/products/engine?utm_medium=github&utm_source=issue_template_chooser
+    about: Red Hat offers support for the Distronode Automation Platform

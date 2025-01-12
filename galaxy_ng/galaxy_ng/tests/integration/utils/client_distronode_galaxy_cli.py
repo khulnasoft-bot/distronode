@@ -1,0 +1,104 @@
+import logging
+import os
+import re
+import shutil
+import tempfile
+import time
+import subprocess
+
+from galaxy_ng.tests.integration.constants import SLEEP_SECONDS_POLLING
+
+
+logger = logging.getLogger(__name__)
+
+
+def distronode_galaxy(
+    command,
+    retries=3,
+    check_retcode=0,
+    server="automation_hub",
+    server_url=None,
+    distronode_config=None,
+    galaxy_client=None,
+    token=None,
+    force_token=False,
+    cleanup=True
+):
+
+    # Allow kwargs to override token auth
+    # NOTE: the core code ignores the token&auth_url if a username is given
+    #       and uses basic auth instead ... ephemeral doesn't have predefined
+    #       refresh tokens, so you'd have to get an access token from the
+    #       auth_url with a "password" grant OR skip the auth_url and go
+    #       straight to the api urls with a basic auth header
+    if distronode_config is not None:
+        if token is None and distronode_config.get('token'):
+            token = distronode_config.get('token')
+        url = distronode_config.get('url')
+        auth_url = distronode_config.get('auth_url')
+        username = distronode_config.get('username')
+        password = distronode_config.get('password')
+    if galaxy_client is not None:
+        token = galaxy_client.token
+        url = galaxy_client.galaxy_root
+        auth_url = galaxy_client.auth_url
+        username = galaxy_client.username
+        password = galaxy_client.password
+
+    tdir = tempfile.mkdtemp(prefix='distronode-galaxy-testing-')
+    if not os.path.exists(tdir):
+        os.makedirs(tdir)
+    cfgfile = os.path.join(tdir, 'distronode.cfg')
+    with open(cfgfile, 'w') as f:
+        f.write('[galaxy]\n')
+        f.write(f'server_list = {server}\n')
+        f.write('\n')
+        f.write(f'[galaxy_server.{server}]\n')
+        if server_url is None:
+            f.write(f"url={url}\n")
+        else:
+            f.write(f"url={server_url}\n")
+        if distronode_config and distronode_config.get('auth_url'):
+            f.write(f"auth_url={auth_url}\n")
+        f.write('validate_certs=False\n')
+
+        # if force_token we can't set a user&pass or core will always
+        # use basic auth ...
+        if not force_token:
+            f.write(f"username={username}\n")
+            f.write(f"password={password}\n")
+
+        if token:
+            f.write(f"token={token}\n")
+
+    command_string = f"distronode-galaxy {command} -vvv --server={server} --ignore-certs"
+
+    for x in range(retries + 1):
+        try:
+            p = subprocess.run(
+                command_string,
+                cwd=tdir,
+                shell=True,
+                capture_output=True,
+                env=os.environ,
+            )
+            logger.debug(f"RUN [retry #{x}] {command_string}")
+            logger.debug("STDOUT---")
+            for line in p.stdout.decode("utf8").split("\n"):
+                logger.debug(re.sub("(.\x08)+", "...", line))
+            logger.debug("STDERR---")
+            for line in p.stderr.decode("utf8").split("\n"):
+                logger.debug(re.sub("(.\x08)+", "...", line))
+            if p.returncode == 0:
+                break
+            if p.returncode != 0 and not check_retcode:
+                break
+        except Exception as e:
+            logger.exception(e)
+            time.sleep(SLEEP_SECONDS_POLLING)
+
+    if check_retcode is not False:
+        assert p.returncode == check_retcode, p.stderr.decode("utf8")
+    if cleanup:
+        shutil.rmtree(tdir)
+    return p

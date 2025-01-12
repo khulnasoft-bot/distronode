@@ -1,0 +1,16 @@
+---
+distronode-navigator:
+  logging:
+    level: debug
+    append: false
+    file: $PWD/.logs/distronode-navigator.log
+
+  execution-environment:
+    enabled: true
+    image: ghcr.io/distronode/community-distronode-devtools:latest
+    pull:
+      policy: always
+
+  playbook-artifact:
+    enable: true
+    save-as: "$PWD/.logs/{playbook_name}-artifact-{time_stamp}.json"

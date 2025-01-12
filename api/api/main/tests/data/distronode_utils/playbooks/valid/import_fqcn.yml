@@ -1,0 +1,2 @@
+---
+- distronode.builtin.import_playbook: foo

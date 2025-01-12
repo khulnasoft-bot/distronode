@@ -1,0 +1,20 @@
+- name: Test playbook
+  gather_facts: False
+  hosts: localhost
+  tasks:
+    - name: Builtin module
+      distronode.builtin.debug:
+        msg:
+
+    - name: Collection module present in community-distronode-dev-tools EE
+      distronode.posix.patch:
+        src: /tmp/index.html.patch
+        dest: /var/www/index.html
+
+    - name: Collection module not present in community-distronode-dev-tools EE
+      vyos.vyos.vyos_prefix_lists:
+        config:
+          - prefix_lists:
+              - entries:
+                  - sequence: 12
+                    description: Test

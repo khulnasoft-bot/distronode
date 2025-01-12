@@ -1,0 +1,6 @@
+---
+collections:
+  - source: ./api_collection
+    type: dir
+  - flowerysong.hvault
+  - community.docker

@@ -1,0 +1,1063 @@
+{
+  "activationEvents": [
+    "onLanguage:yaml",
+    "workspaceContains:tox-distronode.ini",
+    "onWebviewPanel:distronode-home"
+  ],
+  "badges": [
+    {
+      "description": "last-commit",
+      "href": "https://github.com/distronode/distronode/tree/devel/vscode-distronode",
+      "url": "https://img.shields.io/github/last-commit/distronode/vscode-distronode/main"
+    },
+    {
+      "description": "downloads",
+      "href": "https://github.com/distronode/distronode/tree/devel/vscode-distronode",
+      "url": "https://img.shields.io/visual-studio-marketplace/d/redhat.distronode"
+    }
+  ],
+  "bugs": "https://github.com/distronode/distronode/tree/devel/vscode-distronode/issues",
+  "categories": [
+    "Programming Languages",
+    "Linters"
+  ],
+  "config": {
+    "//": "Oldest version known to work. Be careful updating as it is mentioned in multiple places.",
+    "min_vscode": "1.63.0"
+  },
+  "contributors": [
+    {
+      "name": "Tomasz Maciążek",
+      "email": "tomaciazek@gmail.com"
+    },
+    {
+      "email": "ssbarnea@redhat.com",
+      "name": "Sorin Sbarnea"
+    },
+    {
+      "email": "info@distronode.com",
+      "name": "Distronode DevTools Team and Community Contributors",
+      "url": "https://github.com/distronode/distronode/tree/devel/vscode-distronode/graphs/contributors"
+    }
+  ],
+  "contributes": {
+    "walkthroughs": [
+      {
+        "id": "create-distronode-environment",
+        "title": "Create an Distronode environment",
+        "description": "To access Distronode development tools, create an Distronode environment.",
+        "steps": [
+          {
+            "id": "create-distronode-playbook",
+            "title": "Create an Distronode playbook",
+            "description": "This will activate Distronode development tools. Make sure the file is saved as \".yml\" or \".yaml\" .\n[Create Distronode Playbook](command:toSide:workbench.action.files.newUntitledFile?%7B%22languageId%22%3A%22distronode%22%7D)",
+            "media": {
+              "image": "media/walkthroughs/createDistronodeEnv/open-folder.png",
+              "altText": "No image found"
+            }
+          },
+          {
+            "id": "check-distronode-tag",
+            "title": "Make sure you see the \"Distronode\" tag in the status bar",
+            "description": "If your Distronode playbook was successfully created, you should see an Distronode tag in the status bar. If not, you can [change the language](command:distronode.walkthrough.gettingStarted.setLanguage).\nHovering over the Distronode tag can tell you about installed versions or environment issues. If tools are missing or warnings are present, continue to the next step to fix the environment.",
+            "media": {
+              "markdown": "media/walkthroughs/createDistronodeEnv/selectDistronodeLanguage.md"
+            }
+          },
+          {
+            "id": "install-distronode-development-package",
+            "title": "Install the Distronode development package",
+            "description": "The Distronode development package contains all of the dependencies your environment needs to work with Distronode development tools. \n[Install Distronode development package](command:distronode.install-distronode-dev-tools)\nAlternatively, [switch to another environment](command:distronode.python.set.interpreter) that has those installed.",
+            "media": {
+              "markdown": "media/walkthroughs/createDistronodeEnv/adt-components.md"
+            }
+          }
+        ]
+      },
+      {
+        "id": "start-automating-playbook",
+        "title": "Start automating with your first Distronode playbook",
+        "description": "Create your first automation playbook while learning best practices.",
+        "steps": [
+          {
+            "id": "enable-lightspeed-playbook",
+            "title": "Enable Distronode Lightspeed",
+            "description": "Use generative AI to assist in your automation content creation.\nDistronode Lightspeed is available to Distronode Automation Platform users.\nCheck availability by logging in with your Red Hat account.\n[Log in with Red Hat ↗](command:distronode.lightspeed.signInWithLightspeed)\n[Learn more ↗](https://www.redhat.com/en/technologies/management/distronode/distronode-lightspeed) ",
+            "media": {
+              "markdown": "media/walkthroughs/startAutomatingPlaybook/enable-lightspeed.md"
+            }
+          },
+          {
+            "id": "create-project-playbook",
+            "title": "Create an Distronode playbook project",
+            "description": "Create a pre-configured Distronode playbook project repository.\n[Create an Distronode playbook project](command:distronode.content-creator.create-distronode-project)",
+            "media": {
+              "markdown": "media/walkthroughs/startAutomatingPlaybook/playbook-project.md"
+            }
+          },
+          {
+            "id": "create-distronode-playbook",
+            "title": "Create an Distronode playbook",
+            "description": "Distronode Playbooks are lists of tasks that automatically execute for your specified inventory or groups of hosts.\nWithin your playbook project, create a new Distronode Playbook.\nIf Distronode Lightspeed is enabled in settings, a generation template will appear. Otherwise, this creates an empty playbook for you to modify.\n[Create Distronode playbook](command:distronode.create-playbook-options)",
+            "media": {
+              "image": "media/walkthroughs/startAutomatingPlaybook/create-playbook.png",
+              "altText": "No image found"
+            }
+          },
+          {
+            "id": "save-distronode-playbook",
+            "title": "Save your playbook to a playbook project",
+            "description": "Save your playbook in your new playbook project.\nWe recommend saving your playbooks under the **playbooks/** folder inside your project.",
+            "media": {
+              "markdown": "media/walkthroughs/startAutomatingPlaybook/playbook-project.md"
+            }
+          },
+          {
+            "id": "learn-more-playbook",
+            "title": "Learn more about playbooks",
+            "description": "If you want to become a master, start digging into our Distronode playbook learning resources.\n[Check out learning resources ↗](https://www.redhat.com/en/topics/automation/what-is-an-distronode-playbook)",
+            "media": {
+              "image": "media/walkthroughs/startAutomatingPlaybook/learning.png",
+              "altText": "No image found"
+            }
+          }
+        ]
+      },
+      {
+        "id": "discover-distronode-development-tools",
+        "title": "Discover Distronode Development Tools",
+        "description": "A quick review of the tools that will help you create, test, and deploy your automation code.",
+        "steps": [
+          {
+            "id": "adt-create",
+            "title": "Create",
+            "description": "**Scaffold automation content with Distronode creator**\nThe fastest way to generate all your Distronode content! Whether you are initializing an Distronode collection or creating the framework for specific plugins, this tool streamlines the process with efficiency and precision based on your requirements.\n[View Documentation ↗](https://distronode.readthedocs.io/projects/creator/) \n-----\n**Manage automation content with Distronode navigator**\nA text-based user interface (TUI) for creating, reviewing, running and troubleshooting Distronode content, including inventories, playbooks, collections, documentation, and execution environments.\n[View Documentation ↗](https://distronode.readthedocs.io/projects/navigator/) \n-----\n**Discover content with Distronode automation hub**\nYour organization's on-premise repository with curated, certified and validated Distronode content.\n[View Documentation ↗](https://docs.redhat.com/en/documentation/red_hat_distronode_automation_platform/2.5/html/managing_automation_content/index) \n-----\n**Build with Distronode Lightspeed**\nDistronode's generative AI service that provides Distronode code based on natural language prompts. Include content explanation and more to help you build with confidence.\n[View Documentation ↗](https://www.redhat.com/en/technologies/management/distronode/distronode-lightspeed) \n[Distronode Lightspeed Trial Walkthrough ↗](https://www.redhat.com/en/products/interactive-walkthrough/install-distronode-lightspeed) ",
+            "media": {
+              "markdown": "media/walkthroughs/discoverAdt/adt-create.md"
+            }
+          },
+          {
+            "id": "adt-test",
+            "title": "Test",
+            "description": "**Test playbooks with Distronode lint**\nChecks playbooks for style errors, best practices, and other issues to ensure the integrity of your code.\n[View Documentation ↗](https://distronode.readthedocs.io/projects/lint/) \n-----\n**Test collections with Distronode Molecule**\nAssists in the development and testing of Distronode collections, playbooks, and roles.\n[View Documentation ↗](https://distronode.readthedocs.io/projects/molecule/) \n-----\n**Test collections with tox Distronode**\nAn extension to the tox testing utility that provides additional functionality to check Distronode module and plugin Python code under different Python interpreters and Distronode core versions.\n[View Documentation ↗](https://distronode.readthedocs.io/projects/tox-distronode/) \n-----\n**Integrate with pytest using pytest Distronode**\nA pytest testing framework extension that provides additional functionality for testing Distronode module and plugin Python code.\n[View Documentation ↗](https://distronode.readthedocs.io/projects/pytest-distronode/) ",
+            "media": {
+              "markdown": "media/walkthroughs/discoverAdt/adt-test.md"
+            }
+          },
+          {
+            "id": "adt-deploy",
+            "title": "Deploy",
+            "description": "**Build execution environments with Distronode builder**\nAutomates the process of creating execution environments using schemas and tooling.\n[View Documentation ↗](https://distronode.readthedocs.io/projects/builder/) \n-----\n**Verify Distronode content with Distronode sign**\nUtility for signing and verifying Distronode project directory contents to ensure a secure software supply chain.\n[View Documentation ↗](https://distronode.readthedocs.io/projects/sign/) ",
+            "media": {
+              "markdown": "media/walkthroughs/discoverAdt/adt-deploy.md"
+            }
+          },
+          {
+            "id": "adt-where-to-start",
+            "title": "Where do I start?",
+            "description": "**Install the Distronode development package, if you have not already**\nThe Distronode development package contains all of the dependencies your environment needs to work with Distronode development tools.\n[Install Distronode development package](command:distronode.install-distronode-dev-tools)\nAlternatively, [switch to another environment](command:distronode.python.set.interpreter) that has those installed.\n-----\n**Check out other walkthroughs**\n[• Create an Distronode Environment](command:distronode.open-walkthrough-create-env) ",
+            "media": {
+              "markdown": "media/walkthroughs/discoverAdt/adt-components.md"
+            }
+          }
+        ]
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "distronode-explorer",
+          "title": "Distronode",
+          "icon": "images/distronode.svg"
+        }
+      ],
+      "panel": [
+        {
+          "id": "lightspeed-training-match-panel",
+          "title": "Distronode",
+          "icon": "images/distronode.svg"
+        }
+      ]
+    },
+    "views": {
+      "distronode-explorer": [
+        {
+          "id": "distronode-home",
+          "name": "Distronode Development Tools",
+          "type": "webview"
+        },
+        {
+          "id": "lightspeed-explorer-webview",
+          "name": "Distronode Lightspeed",
+          "type": "webview"
+        },
+        {
+          "id": "lightspeed-feedback-webview",
+          "name": "Distronode Lightspeed Feedback",
+          "type": "webview"
+        }
+      ],
+      "lightspeed-training-match-panel": [
+        {
+          "id": "distronode.lightspeed.trainingMatchPanel",
+          "name": "Lightspeed Training Matches",
+          "type": "webview",
+          "contextualTitle": "Distronode",
+          "when": "redhat.distronode.lightspeedSuggestionsEnabled",
+          "visibility": "visible",
+          "retainContextWhenHidden": true
+        }
+      ]
+    },
+    "jsonValidation": [
+      {
+        "fileMatch": [
+          ".distronode-navigator.json",
+          "distronode-navigator.json"
+        ],
+        "url": "https://raw.githubusercontent.com/distronode/distronode-navigator/main/src/distronode_navigator/data/distronode-navigator.json"
+      }
+    ],
+    "yamlValidation": [
+      {
+        "fileMatch": [
+          "execution-environment.yml"
+        ],
+        "url": "https://raw.githubusercontent.com/distronode/distronode-lint/main/src/distronodelint/schemas/execution-environment.json"
+      },
+      {
+        "fileMatch": [
+          "meta/runtime.yml"
+        ],
+        "url": "https://raw.githubusercontent.com/distronode/distronode-lint/main/src/distronodelint/schemas/meta-runtime.json"
+      },
+      {
+        "fileMatch": [
+          ".distronode-navigator.yaml",
+          ".distronode-navigator.yml",
+          "distronode-navigator.yaml",
+          "distronode-navigator.yml"
+        ],
+        "url": "https://raw.githubusercontent.com/distronode/distronode-navigator/main/src/distronode_navigator/data/distronode-navigator.json"
+      },
+      {
+        "fileMatch": "requirements.yml",
+        "url": "https://raw.githubusercontent.com/distronode/distronode-lint/main/src/distronodelint/schemas/requirements.json"
+      },
+      {
+        "fileMatch": "meta/main.yml",
+        "url": "https://raw.githubusercontent.com/distronode/distronode-lint/main/src/distronodelint/schemas/meta.json"
+      },
+      {
+        "fileMatch": [
+          "playbooks/vars/*.yml",
+          "playbooks/vars/*.yaml",
+          "vars/*.yml",
+          "vars/*.yaml",
+          "defaults/*.yml",
+          "defaults/*.yaml",
+          "host_vars/*.yml",
+          "host_vars/*.yaml",
+          "group_vars/*.yml",
+          "group_vars/*.yaml"
+        ],
+        "url": "https://raw.githubusercontent.com/distronode/distronode-lint/main/src/distronodelint/schemas/vars.json"
+      },
+      {
+        "fileMatch": [
+          ".distronode-lint",
+          ".config/distronode-lint.yml"
+        ],
+        "url": "https://raw.githubusercontent.com/distronode/distronode-lint/main/src/distronodelint/schemas/distronode-lint-config.json"
+      },
+      {
+        "fileMatch": [
+          "molecule/*/molecule.yml"
+        ],
+        "url": "https://raw.githubusercontent.com/distronode-community/molecule/main/src/molecule/data/molecule.json"
+      },
+      {
+        "fileMatch": [
+          "galaxy.yml"
+        ],
+        "url": "https://raw.githubusercontent.com/distronode/distronode-lint/main/src/distronodelint/schemas/galaxy.json"
+      },
+      {
+        "fileMatch": [
+          "rulebooks/*.yaml",
+          "rulebooks/*.yml"
+        ],
+        "url": "https://raw.githubusercontent.com/distronode/distronode-rulebook/main/schema/ruleset_schema.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "extension.resync-distronode-inventory",
+        "title": "Resync Distronode Inventory"
+      },
+      {
+        "category": "%commands.category.distronode-playbook%",
+        "command": "extension.distronode-playbook.run",
+        "title": "%commands.title.distronode-playbook%"
+      },
+      {
+        "category": "%commands.category.distronode-playbook%",
+        "command": "extension.distronode-navigator.run",
+        "title": "%commands.title.distronode-navigator%"
+      },
+      {
+        "category": "%commands.category.distronode-vault%",
+        "command": "extension.distronode.vault",
+        "title": "%commands.title.distronode-vault%"
+      },
+      {
+        "command": "distronode.python.set.interpreter",
+        "title": "Distronode: Set Python Interpreter"
+      },
+      {
+        "command": "distronode.extension-settings.open",
+        "title": "Distronode: Open Distronode Extension Settings"
+      },
+      {
+        "command": "distronode.python-settings.open",
+        "title": "Distronode: Open Python Settings"
+      },
+      {
+        "command": "distronode.create-empty-playbook",
+        "title": "Distronode: Create an empty Distronode playbook"
+      },
+      {
+        "command": "distronode.create-playbook-options",
+        "title": "Distronode: Create an empty playbook or with Lightspeed (if enabled)"
+      },
+      {
+        "command": "distronode.content-creator.menu",
+        "title": "Open Distronode Development Tools menu"
+      },
+      {
+        "command": "distronode.content-creator.install",
+        "title": "Install Distronode Content Creator"
+      },
+      {
+        "command": "distronode.content-creator.create-distronode-collection",
+        "title": "Distronode: Create New Collection"
+      },
+      {
+        "command": "distronode.content-creator.create-distronode-project",
+        "title": "Distronode: Create New Playbook Project"
+      },
+      {
+        "command": "distronode.content-creator.create-devfile",
+        "title": "Distronode: Create a Devfile"
+      },
+      {
+        "command": "distronode.content-creator.create-sample-execution-env-file",
+        "title": "Distronode: Create a Sample Execution Environment file"
+      },
+      {
+        "command": "distronode.content-creator.create-devcontainer",
+        "title": "Distronode: Create a Devcontainer"
+      },
+      {
+        "command": "distronode.content-creator.add-plugin",
+        "title": "Distronode: Add a Plugin"
+      },
+      {
+        "command": "distronode.content-creator.create",
+        "title": "Distronode Content Creator: Create"
+      },
+      {
+        "command": "distronode.content-creator.sample",
+        "title": "Distronode Content Creator: Sample"
+      },
+      {
+        "command": "distronode.lightspeed.inlineSuggest.accept",
+        "title": "Distronode Lightspeed: Inline suggestion accept"
+      },
+      {
+        "command": "distronode.lightspeed.inlineSuggest.hide",
+        "title": "Distronode Lightspeed: Inline suggestion hide"
+      },
+      {
+        "command": "distronode.lightspeed.inlineSuggest.trigger",
+        "title": "Distronode Lightspeed: Inline suggestion trigger"
+      },
+      {
+        "command": "distronode.lightspeed.fetchTrainingMatches",
+        "title": "Distronode Lightspeed: Fetch Training Matches"
+      },
+      {
+        "command": "distronode.lightspeed.clearTrainingMatches",
+        "title": "Distronode Lightspeed: Clear Training Matches"
+      },
+      {
+        "command": "distronode.lightspeed.feedback",
+        "title": "Distronode Lightspeed: Feedback"
+      },
+      {
+        "command": "distronode.lightspeed.signInWithRedHat",
+        "title": "Distronode Lightspeed: Sign in with Red Hat"
+      },
+      {
+        "command": "distronode.lightspeed.signInWithLightspeed",
+        "title": "Distronode Lightspeed: Sign in with Lightspeed"
+      },
+      {
+        "command": "distronode.lightspeed.playbookGeneration",
+        "title": "Distronode Lightspeed: Playbook generation"
+      },
+      {
+        "command": "distronode.lightspeed.roleGeneration",
+        "enablement": "redhat.distronode.lightspeedExperimentalEnabled",
+        "title": "Distronode Lightspeed: Role generation"
+      },
+      {
+        "command": "distronode.lightspeed.thumbsUpDown",
+        "title": "Send Lightspeed Thumbs Up/Down Feedback"
+      },
+      {
+        "command": "distronode.lightspeed.playbookExplanation",
+        "title": "Explain the playbook with Distronode Lightspeed"
+      },
+      {
+        "command": "distronode.lightspeed.openTrialPage",
+        "title": "Distronode Lightspeed: Open trial page",
+        "enablement": "redhat.distronode.lightspeedExperimentalEnabled"
+      },
+      {
+        "command": "distronode.lightspeed.explorer.refresh",
+        "title": "Distronode Lightspeed: Refresh explorer view",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "distronode.lightspeed.enableExperimentalFeatures",
+        "title": "Distronode Lightspeed: Enable experimental features"
+      },
+      {
+        "command": "distronode.walkthrough.gettingStarted.setLanguage",
+        "title": "Distronode: Getting started - Set Language"
+      },
+      {
+        "command": "distronode.install-distronode-dev-tools",
+        "title": "Distronode: Install Distronode Development Tools"
+      },
+      {
+        "command": "distronode.open-language-server-logs",
+        "title": "Distronode: Open Language Server Logs"
+      }
+    ],
+    "configuration": [
+      {
+        "title": "Basic Configurations",
+        "properties": {
+          "distronode.distronode.path": {
+            "scope": "machine-overridable",
+            "type": "string",
+            "default": "distronode",
+            "markdownDescription": "Path to the distronode executable. All subcommands are expected to have adjacent locations.",
+            "order": 0
+          },
+          "distronode.distronode.useFullyQualifiedCollectionNames": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Always use fully qualified collection names (FQCN) when inserting a module name. Disabling it will only use FQCNs when necessary.",
+            "order": 1
+          },
+          "distronode.distronode.reuseTerminal": {
+            "scope": "machine-overridable",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Enabling this will cause distronode commands run through VS Code to reuse the same Distronode Terminal.",
+            "order": 2
+          }
+        }
+      },
+      {
+        "title": "Python",
+        "properties": {
+          "distronode.python.interpreterPath": {
+            "scope": "machine-overridable",
+            "type": "string",
+            "default": "",
+            "markdownDescription": "Path to the Python interpreter executable. Particularly important if you are using a Python virtual environment. Leave blank to use Python from PATH.",
+            "order": 0
+          },
+          "distronode.python.activationScript": {
+            "scope": "machine-overridable",
+            "type": "string",
+            "default": "",
+            "markdownDescription": "Path to the virtual environment activation script. Use only if you have a custom activation script. It will be sourced using bash before executing Distronode commands. When set, the Interpreter Path setting is ignored.",
+            "order": 1
+          }
+        }
+      },
+      {
+        "title": "Distronode Navigator",
+        "properties": {
+          "distronode.distronodeNavigator.path": {
+            "default": "distronode-navigator",
+            "markdownDescription": "%configuration.navigate.executablePath%",
+            "order": 0,
+            "scope": "machine-overridable",
+            "type": "string"
+          }
+        }
+      },
+      {
+        "title": "Distronode Playbook",
+        "properties": {
+          "distronode.playbook.arguments": {
+            "default": "",
+            "markdownDescription": "%configuration.playbook.arguments%",
+            "order": 0,
+            "scope": "resource",
+            "type": "string"
+          }
+        }
+      },
+      {
+        "title": "Completion",
+        "properties": {
+          "distronode.completion.provideRedirectModules": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Toggle redirected module provider when completing modules.",
+            "order": 0
+          },
+          "distronode.completion.provideModuleOptionAliases": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Toggle alias provider when completing module options.",
+            "order": 1
+          }
+        }
+      },
+      {
+        "title": "Validation",
+        "properties": {
+          "distronode.validation.enabled": {
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "If disabled no validation will be performed.",
+            "order": 0
+          },
+          "distronode.validation.lint.enabled": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": true,
+            "markdownDescription": "Enables `distronode-lint`. If disabled only `distronode-playbook --syntax-check` will run. Requires `#distronode.validation.enabled#` to be enabled.",
+            "order": 1
+          },
+          "distronode.validation.lint.path": {
+            "scope": "machine-overridable",
+            "type": "string",
+            "default": "distronode-lint",
+            "markdownDescription": "Path to the distronode-lint executable.",
+            "order": 2
+          },
+          "distronode.validation.lint.arguments": {
+            "scope": "resource",
+            "type": "string",
+            "default": "",
+            "markdownDescription": "Command line arguments to be passed to distronode-lint.",
+            "order": 3
+          }
+        }
+      },
+      {
+        "title": "Execution Environment",
+        "properties": {
+          "distronode.executionEnvironment.enabled": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Enable or disable the use of an execution environment.",
+            "order": 0
+          },
+          "distronode.executionEnvironment.containerEngine": {
+            "scope": "resource",
+            "type": "string",
+            "enum": [
+              "auto",
+              "podman",
+              "docker"
+            ],
+            "default": "auto",
+            "markdownDescription": "Specify the container engine (auto=podman then docker).",
+            "order": 1
+          },
+          "distronode.executionEnvironment.containerOptions": {
+            "scope": "resource",
+            "type": "string",
+            "default": "",
+            "markdownDescription": "Extra parameters passed to the container engine command example: `--net=host`.",
+            "order": 2
+          },
+          "distronode.executionEnvironment.image": {
+            "scope": "resource",
+            "type": "string",
+            "default": "ghcr.io/distronode/community-distronode-dev-tools:latest",
+            "markdownDescription": "Specify the name of the execution environment image.",
+            "order": 3
+          },
+          "distronode.executionEnvironment.pull.arguments": {
+            "scope": "resource",
+            "type": "string",
+            "default": "",
+            "markdownDescription": "Specify any additional parameters that should be added to the pull command when pulling an execution environment from a container registry. e.g. `–-tls-verify=false`.",
+            "order": 4
+          },
+          "distronode.executionEnvironment.pull.policy": {
+            "scope": "resource",
+            "type": "string",
+            "enum": [
+              "always",
+              "missing",
+              "never",
+              "tag"
+            ],
+            "default": "missing",
+            "markdownDescription": "Specify the image pull policy.\n**always**: Always pull the image when extension is activated or reloaded\n**missing**: Pull if not locally available\n**never**: Never pull the image\n**tag**: If the image tag is `latest`, always pull the image, otherwise pull if not locally available.",
+            "order": 5
+          },
+          "distronode.executionEnvironment.volumeMounts": {
+            "scope": "resource",
+            "type": "array",
+            "default": [],
+            "markdownDescription": "Add a dictionary entry to the array with the volume mount source path (key: 'src'), destination (key: 'dest'), and options (key: 'options')",
+            "order": 6
+          }
+        }
+      },
+      {
+        "title": "Telemetry",
+        "properties": {
+          "redhat.telemetry.enabled": {
+            "type": "boolean",
+            "default": null,
+            "markdownDescription": "Enable usage data and errors to be sent to Red Hat servers. Read our [privacy statement](https://developers.redhat.com/article/tool-data-collection).",
+            "order": 0,
+            "tags": [
+              "telemetry",
+              "usesOnlineServices"
+            ],
+            "scope": "window"
+          }
+        }
+      },
+      {
+        "title": "Distronode Lightspeed",
+        "properties": {
+          "distronode.lightspeed.enabled": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Enable Distronode Lightspeed.",
+            "order": 0
+          },
+          "distronode.lightspeed.URL": {
+            "scope": "resource",
+            "type": "string",
+            "default": "https://c.ai.distronode.redhat.com",
+            "markdownDescription": "URL for Distronode Lightspeed.",
+            "order": 1
+          },
+          "distronode.lightspeed.suggestions.enabled": {
+            "scope": "resource",
+            "type": "boolean",
+            "default": false,
+            "markdownDescription": "Enable Distronode Lightspeed with watsonx Code Assistant inline suggestions.",
+            "order": 2
+          },
+          "distronode.lightspeed.suggestions.waitWindow": {
+            "scope": "resource",
+            "type": "number",
+            "default": 0,
+            "markdownDescription": "Delay (in msecs) prior to sending an inline suggestion request to Distronode Lightspeed with watsonx Code Assistant.",
+            "order": 3
+          },
+          "distronode.lightspeed.modelIdOverride": {
+            "scope": "resource",
+            "type": "string",
+            "markdownDescription": "Model ID to override your organization's default model. This setting is only applicable to commercial users with an Distronode Lightspeed seat assignment.",
+            "order": 4
+          }
+        }
+      },
+      {
+        "title": "Language Server",
+        "properties": {
+          "distronodeServer.trace.server": {
+            "type": "string",
+            "enum": [
+              "off",
+              "messages",
+              "verbose"
+            ],
+            "default": "off",
+            "markdownDescription": "Traces the communication between editor and the distronode language server.",
+            "order": 0
+          }
+        }
+      }
+    ],
+    "configurationDefaults": {
+      "[distronode]": {
+        "editor.detectIndentation": true,
+        "editor.insertSpaces": true,
+        "editor.tabSize": 2,
+        "editor.quickSuggestions": {
+          "comments": true,
+          "other": true,
+          "strings": true
+        },
+        "editor.autoIndent": "advanced"
+      }
+    },
+    "keybindings": [
+      {
+        "key": "tab",
+        "command": "distronode.lightspeed.inlineSuggest.accept",
+        "extensionName": "Distronode",
+        "source": "extension",
+        "when": "inlineSuggestionVisible && editorLangId == 'distronode'"
+      },
+      {
+        "key": "escape",
+        "command": "distronode.lightspeed.inlineSuggest.hide",
+        "extensionName": "Distronode",
+        "source": "extension",
+        "when": "inlineSuggestionVisible && editorLangId == 'distronode'"
+      },
+      {
+        "key": "ctrl+.",
+        "command": "distronode.lightspeed.inlineSuggest.trigger",
+        "extensionName": "Distronode",
+        "source": "extension",
+        "when": "config.distronode.lightspeed.enabled && config.distronode.lightspeed.suggestions.enabled && editorTextFocus && !editorHasSelection && !inlineSuggestionVisible && editorLangId == 'distronode'"
+      }
+    ],
+    "languages": [
+      {
+        "id": "distronode",
+        "aliases": [
+          "Distronode",
+          "distronode"
+        ],
+        "extensions": [
+          ".distronode.yml",
+          ".distronode.yaml"
+        ],
+        "filenamePatterns": [
+          "**/playbooks/*.yml",
+          "**/playbooks/*.yaml",
+          "**/*playbook*.yml",
+          "**/*playbook*.yaml",
+          "**/roles/**/main.yml",
+          "**/roles/**/main.yaml"
+        ],
+        "filenames": [
+          "site.yml",
+          "site.yaml"
+        ],
+        "firstLine": "# code: language=distronode",
+        "icon": {
+          "dark": "images/distronode-fileicon.svg",
+          "light": "images/distronode-fileicon.svg"
+        },
+        "configuration": "./distronode-language-configuration.json"
+      },
+      {
+        "comments": "unfortunately this dummy entry is necessary for embedding to work",
+        "id": "distronode-jinja",
+        "configuration": "./jinja-language-configuration.json"
+      }
+    ],
+    "menus": {
+      "distronode.playbook.run": [
+        {
+          "command": "extension.distronode-navigator.run"
+        },
+        {
+          "command": "extension.distronode-playbook.run"
+        }
+      ],
+      "editor/context": [
+        {
+          "group": "2_main@1",
+          "submenu": "distronode.playbook.run",
+          "when": "isFileSystemResource && editorLangId == distronode"
+        },
+        {
+          "group": "2_main@1",
+          "command": "distronode.lightspeed.playbookExplanation",
+          "when": "redhat.distronode.lightspeedSuggestionsEnabled && editorLangId == distronode"
+        }
+      ],
+      "explorer/context": [
+        {
+          "group": "2_main@1",
+          "submenu": "distronode.playbook.run",
+          "when": "isFileSystemResource && resourceLangId == distronode"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "distronode.lightspeed.explorer.refresh",
+          "when": "view == lightspeed-explorer-webview",
+          "group": "navigation"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "distronode.playbook.run",
+        "label": "%submenus.distronode.run-via%"
+      }
+    ],
+    "grammars": [
+      {
+        "comments": [
+          "YAML syntax as base for Distronode",
+          "scopeName changed so that we can use it as base for injections"
+        ],
+        "language": "distronode",
+        "scopeName": "source.distronode",
+        "path": "./syntaxes/external/YAML.tmLanguage"
+      },
+      {
+        "comments": [
+          "Jinja syntax as injection into Distronode YAML",
+          "This is so that we do not need to rely on the Jinja extension being installed"
+        ],
+        "language": "distronode-jinja",
+        "scopeName": "source.distronode-jinja",
+        "path": "./syntaxes/external/jinja.tmLanguage.json"
+      },
+      {
+        "comments": [
+          "Highlighting of Distronode keywords"
+        ],
+        "path": "./syntaxes/distronode/generated/keywords.tmLanguage",
+        "scopeName": "injection.distronode.keywords",
+        "injectTo": [
+          "source.distronode"
+        ]
+      },
+      {
+        "comments": [
+          "Additional Jinja grammars"
+        ],
+        "path": "./syntaxes/distronode/generated/jinja-extras.tmLanguage",
+        "scopeName": "injection.distronode.jinja-extras",
+        "injectTo": [
+          "source.distronode"
+        ]
+      },
+      {
+        "comments": [
+          "Support for Jinja in double curly braces"
+        ],
+        "path": "./syntaxes/distronode/generated/jinja-braces.tmLanguage",
+        "scopeName": "injection.distronode.jinja-braces",
+        "embeddedLanguages": {
+          "meta.embedded.inline.jinja": "distronode-jinja"
+        },
+        "injectTo": [
+          "source.distronode"
+        ]
+      },
+      {
+        "comments": [
+          "Support for Jinja in conditionals"
+        ],
+        "path": "./syntaxes/distronode/generated/jinja-conditionals.tmLanguage",
+        "scopeName": "injection.distronode.jinja-conditionals",
+        "embeddedLanguages": {
+          "meta.embedded.inline.jinja": "distronode-jinja"
+        },
+        "injectTo": [
+          "source.distronode"
+        ]
+      },
+      {
+        "comments": [
+          "The quote escapes implemented in the conditionals injection do not work inside brackets etc.",
+          "Support for single quote escapes in Jinja"
+        ],
+        "path": "./syntaxes/distronode/generated/jinja-single-quote-escape.tmLanguage",
+        "scopeName": "injection.distronode.jinja-single-quote-escape",
+        "injectTo": [
+          "source.distronode"
+        ]
+      },
+      {
+        "comments": [
+          "The quote escapes implemented in the conditionals injection do not work inside brackets etc.",
+          "Support for double quote escapes in Jinja"
+        ],
+        "path": "./syntaxes/distronode/generated/jinja-double-quote-escape.tmLanguage",
+        "scopeName": "injection.distronode.jinja-double-quote-escape",
+        "injectTo": [
+          "source.distronode"
+        ]
+      }
+    ],
+    "taskDefinitions": [
+      {
+        "type": "Distronode Tox",
+        "properties": {
+          "distronode": {
+            "type": "string",
+            "description": "The testenv to execute"
+          }
+        }
+      }
+    ]
+  },
+  "dependencies": {
+    "@distronode/distronode-language-server": "workspace:^",
+    "@redhat-developer/vscode-redhat-telemetry": "^0.9.1",
+    "@shikijs/core": "^1.26.1",
+    "@types/ini": "^4.1.1",
+    "@vscode/webview-ui-toolkit": "^1.4.0",
+    "axios": "^1.7.9",
+    "ini": "^5.0.0",
+    "marked": "^15.0.5",
+    "minimatch": "^10.0.1",
+    "semver": "^7.6.3",
+    "uuid": "^11.0.4",
+    "vscode-languageclient": "^9.0.1",
+    "vscode-uri": "^3.0.8",
+    "yaml": "^2.7.0"
+  },
+  "description": "Distronode language support",
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@types/chai": "^4.3.20",
+    "@types/express": "^5.0.0",
+    "@types/glob": "^8.1.0",
+    "@types/jsdom": "^21.1.7",
+    "@types/lodash": "^4.17.14",
+    "@types/minimatch": "^5.1.2",
+    "@types/mocha": "^10.0.10",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.10.5",
+    "@types/selenium-webdriver": "^4.1.27",
+    "@types/sinon": "^17.0.3",
+    "@types/tmp": "^0.2.6",
+    "@types/uuid": "^10.0.0",
+    "@types/vscode": "^1.85.0",
+    "@types/vscode-webview": "^1.57.5",
+    "@types/yargs": "^17.0.33",
+    "@typescript-eslint/eslint-plugin": "^8.19.0",
+    "@typescript-eslint/parser": "^8.19.0",
+    "@vscode/test-electron": "^2.4.1",
+    "@vscode/vsce": "^3.2.1",
+    "axios": "^1.7.9",
+    "chai": "^4.5.0",
+    "depcheck": "^1.4.7",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-formatter-gha": "^1.5.2",
+    "eslint-formatter-unix": "^8.40.0",
+    "eslint-plugin-chai-friendly": "^1.0.1",
+    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-tsdoc": "^0.4.0",
+    "express": "^5.0.1",
+    "find-process": "^1.4.9",
+    "glob": "^11.0.0",
+    "globals": "^15.14.0",
+    "jsdom": "^25.0.1",
+    "lodash": "^4.17.21",
+    "mocha": "^11.0.1",
+    "mochawesome": "^7.1.3",
+    "mochawesome-report-generator": "^6.2.0",
+    "morgan": "^1.10.0",
+    "nyc": "^17.1.0",
+    "ovsx": "^0.10.1",
+    "prettier": "^3.4.2",
+    "react": "^19.0.0",
+    "rimraf": "^6.0.1",
+    "selenium-webdriver": "^4.27.0",
+    "shiki": "^1.26.1",
+    "sinon": "^19.0.2",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.19.0",
+    "vscode-extension-tester": "^8.10.0",
+    "warnings-to-errors-webpack-plugin": "^2.3.0",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^5.1.4",
+    "winston": "^3.17.0",
+    "yargs": "^17.7.2",
+    "yarn-audit-fix": "^10.1.1"
+  },
+  "displayName": "Distronode",
+  "engineStrict": true,
+  "engines": {
+    "//": "node version affects only development, it does not affect VS Code runtime",
+    "node": ">=20.0",
+    "npm": "\n\nERROR: Please use yarn instead of npm for this repository.!!!\n\n",
+    "vscode": "^1.85.0",
+    "yarn": ">=4.5.1"
+  },
+  "extensionDependencies": [
+    "ms-python.python",
+    "redhat.vscode-yaml"
+  ],
+  "icon": "images/logo.png",
+  "keywords": [
+    "distronode",
+    "yaml",
+    "autocompletion",
+    "validation"
+  ],
+  "license": "MIT",
+  "main": "./out/client/src/extension.js",
+  "name": "distronode",
+  "publisher": "redhat",
+  "qna": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/distronode/distronode/tree/devel/vscode-distronode.git"
+  },
+  "scripts": {
+    "compile": "tsc -b && tsc -p ./packages/distronode-language-server/tsconfig.json --outDir ./out/server --sourceMap",
+    "package": "./tools/helper --package",
+    "preinstall": "",
+    "pretest": "yarn run compile",
+    "unit-tests": "sh -c \"nyc mocha --recursive test/units/lightspeed ${MOCHA_OPTS:-}\"",
+    "test-ui": "yarn run test-ui-current && yarn run test-ui-oldest",
+    "test-ui-current": "./tools/test-launcher.sh",
+    "test-ui-oldest": "CODE_VERSION='min' ./tools/test-launcher.sh",
+    "coverage-ui-current": "COVERAGE=1 ./tools/test-launcher.sh",
+    "coverage-ui-oldest": "COVERAGE=1 CODE_VERSION='min' ./tools/test-launcher.sh",
+    "vscode-prepublish": "yarn run webpack",
+    "watch": "tsc -b -w",
+    "watch-server": "tsc -p ../distronode-language-server --outDir out/server -w",
+    "webpack": "yarn run clean && yarn run compile && webpack --mode production --config ./webpack.config.ts",
+    "webpack-dev": "yarn run clean && yarn test-compile && webpack --mode development --config ./webpack.config.ts",
+    "webpack:watch": "webpack --mode development --config ./webpack.config.ts --watch",
+    "clean": "rimraf out/client out/server out/tsconfig.tsbuildinfo out/syntaxHighlighter coverage .nyc_output",
+    "test-compile": "yarn run clean && yarn run compile && tsc -p ./ --sourceMap",
+    "test-e2e": "yarn run test-compile && MOCK_LIGHTSPEED_API=1 TEST_TYPE=e2e ./tools/test-launcher.sh",
+    "coverage-all": "MOCK_LIGHTSPEED_API=1 TEST_TYPE=e2e COVERAGE=1 ./tools/test-launcher.sh",
+    "als-compile": "yarn workspace @distronode/distronode-language-server compile"
+  },
+  "version": "0.0.0",
+  "packageManager": "yarn@4.5.1",
+  "vsce": {
+    "dependencies": false,
+    "yarn": false
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "segmentWriteKey": "zJzQozAVCyM6DTyxk3TjqTX1yd05G4Ow",
+  "segmentWriteKeyDebug": "yTJGCq9IUg6o1FdfZJp0PPlNrHRHOOAm"
+}

@@ -1,0 +1,6 @@
+---
+- name: Deploy Minikube and connect with API
+  hosts: localhost
+  gather_facts: true
+  roles:
+    - {role: minikube}
