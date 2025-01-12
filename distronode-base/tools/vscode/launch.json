@@ -1,0 +1,30 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Test App Server",
+            "consoleTitle": "Test App Server",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "preLaunchTask": "Run vscodebootstrap.sh",
+            "args": [
+                "runserver"
+            ],
+            "django": true,
+            "autoStartBrowser": false
+        },
+        {
+            "name": "Test App Shell Plus",
+            "consoleTitle": "Test App Shell Plus",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "shell_plus"
+            ],
+            "django": true,
+            "autoStartBrowser": false
+        },
+    ]
+}

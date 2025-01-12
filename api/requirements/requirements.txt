@@ -131,7 +131,7 @@ django==4.2.16
     #   django-polymorphic
     #   django-solo
     #   djangorestframework
-# django-distronode-base @ git+https://github.com/distronode/django-distronode-base@devel  # git requirements installed separately
+# django-distronode-base @ git+https://github.com/distronode/distronode/tree/devel/distronode-base@devel  # git requirements installed separately
     # via -r /api_devel/requirements/requirements_git.txt
 django-cors-headers==4.6.0
     # via -r /api_devel/requirements/requirements.in

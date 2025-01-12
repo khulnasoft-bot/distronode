@@ -2,7 +2,7 @@
 set +x
 
 # CONSTANTS
-export REGEX_LEFT='https://github.com/distronode/django-distronode-base@'
+export REGEX_LEFT='https://github.com/distronode/distronode/tree/devel/distronode-base@'
 export REGEX_RIGHT='#egg=django-distronode-base'
 
 # GLOBALS

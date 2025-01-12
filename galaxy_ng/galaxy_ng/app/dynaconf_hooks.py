@@ -587,7 +587,7 @@ def configure_authentication_backends(settings: Dynaconf, data: dict[str, Any]) 
         2) any backends added to data['AUTHENTICATION_BACKENDS'] by previous hooks
         3) user AUTHENTICATION_BACKEND_PRESET to add additional backends
            from the 'presets' defined in settings.py for ldap & keycloak
-        4) The backend required by https://github.com/distronode/django-distronode-base/pull/611
+        4) The backend required by https://github.com/distronode/distronode/tree/devel/distronode-base/pull/611
     """
 
     # start with the default pulp settings

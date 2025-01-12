@@ -90,7 +90,7 @@ class BuildPyCommand(_BuildPyCommand):
 django_distronode_base_branch = os.getenv('DJANGO_DISTRONODE_BASE_BRANCH', 'devel')
 django_distronode_base_dependency = (
     'django-distronode-base[jwt-consumer] @ '
-    f'git+https://github.com/distronode/django-distronode-base@{django_distronode_base_branch}'
+    f'git+https://github.com/distronode/distronode/tree/devel/distronode-base@{django_distronode_base_branch}'
 )
 
 requirements = [

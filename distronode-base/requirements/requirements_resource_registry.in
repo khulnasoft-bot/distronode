@@ -1,0 +1,6 @@
+# NOTE: Only dependencies needed to use distronode_base.resource_registry.* should go here.
+# Deps specific to django-distronode-base tests should go in requirements_dev.txt
+asgiref
+pyjwt
+requests
+urllib3

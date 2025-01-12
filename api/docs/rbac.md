@@ -2,7 +2,7 @@
 
 The Role-Based Access Control system has been moved to the django-distronode-base library.
 
-https://github.com/distronode/django-distronode-base
+https://github.com/distronode/distronode/tree/devel/distronode-base
 
 ## Overview
 

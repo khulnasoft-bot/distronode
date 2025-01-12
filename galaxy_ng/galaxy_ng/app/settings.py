@@ -446,7 +446,7 @@ DEFAULT_ORGANIZATION_NAME = "Default"
 # If False it disables editing and managing users and groups.
 ALLOW_LOCAL_RESOURCE_MANAGEMENT = True
 
-# https://github.com/distronode/django-distronode-base/pull/611
+# https://github.com/distronode/distronode/tree/devel/distronode-base/pull/611
 RENAMED_USERNAME_PREFIX = "galaxy_"
 
 # feature flags
