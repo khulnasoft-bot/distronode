@@ -92,6 +92,8 @@ Vagrantfile
 /lib/distronode_base.egg-info/
 # First used in the `devel` branch during Distronode 2.11 development.
 /lib/distronode_core.egg-info/
+# First used in the `devel` branch during Distronode 2.18 development.
+/distronode_core.egg-info/
 # vendored lib dir
 lib/distronode/_vendor/*
 !lib/distronode/_vendor/__init__.py
